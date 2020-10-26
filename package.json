@@ -1,0 +1,28 @@
+{
+  "name": "transaction-search-tool",
+  "version": "1.0.0",
+  "description": "Administration tool for Front End Scanned (FES) documents to enable users to monitor, audit and investigate the routing, status and journey of Front End Scanned document submissions",
+  "main": "src/app.ts",
+  "scripts": {
+    "start": "NODE_ENV=development ts-node ./src/app.ts",
+    "start:watch": "NODE_ENV=development nodemon",
+    "build": "NODE_ENV=production tsc",
+    "postbuild": "copyfiles -f -V src/views/* dist/app/views",
+    "lint": "tslint -p .",
+    "test": "jest -c src/test/jest.config.js"
+  },
+  "author": "companieshouse",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^14.14.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "govuk-frontend": "^3.9.1",
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.1.0",
+    "nunjucks": "^3.2.2",
+    "oracledb": "^5.0.0",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}
