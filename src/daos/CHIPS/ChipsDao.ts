@@ -11,7 +11,7 @@ class ChipsDao extends ParentDao {
 
     public async makeQuery(query: string, bindValues: Array<string>) {
         await this.setupConnection();
-        var result;
+        var result: any;
         try {
             result = await this.connection.execute(query, bindValues);
         } catch (err: any) {

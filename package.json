@@ -1,7 +1,7 @@
 {
   "name": "transaction-search-tool",
   "version": "1.0.0",
-  "description": "todo",
+  "description": "Administration tool for Front End Scanned (FES) documents to enable users to monitor, audit and investigate the routing, status and journey of Front End Scanned document submissions",
   "main": "src/app.ts",
   "scripts": {
     "start": "NODE_ENV=development ts-node ./src/app.ts",
@@ -12,7 +12,7 @@
     "test": "jest -c src/test/jest.config.js"
   },
   "author": "companieshouse",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@types/node": "^14.14.2",
     "dotenv": "^8.2.0",
