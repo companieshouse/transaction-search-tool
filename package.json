@@ -20,9 +20,17 @@
     "govuk-frontend": "^3.9.1",
     "gulp": "^4.0.2",
     "gulp-sass": "^4.1.0",
+    "nodemon": "^2.0.6",
     "nunjucks": "^3.2.2",
     "oracledb": "^5.0.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "./src"
+    ],
+    "ext": "ts",
+    "exec": "ts-node ./src/app.ts"
   }
 }
