@@ -1,18 +1,13 @@
-.PHONY: build
-build: clean build-app build-static
-	npm run build
+artifact_name := transaction-search-tool
 
-.PHONY: build-app
-build-app:
+.PHONY: build
+build: clean
+	npm run build-scss
 	npm run build
 
 .PHONY: clean
 clean:
 	rm -rf dist/app dist/static
-
-.PHONY: build-static
-build-static:
-	gulp static
 
 .PHONY: npm-install
 npm-install:

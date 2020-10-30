@@ -1,12 +1,13 @@
 import ParentDao from "../ParentDao";
+import config from "../../config";
 
 class ChipsDao extends ParentDao {
 
     constructor() {
         super();
-        this.user = process.env.CHIPS_DB_USER;
-        this.password = process.env.CHIPS_DB_PASSWORD;
-        this.connectionString = process.env.CHIPS_DB_CONNECTIONSTRING;
+        this.user = config.chipsDatabase.username;
+        this.password = config.chipsDatabase.password;
+        this.connectionString = config.chipsDatabase.connectionString;
     }
 
     public async makeQuery(query: string, bindValues: Array<string>) {
