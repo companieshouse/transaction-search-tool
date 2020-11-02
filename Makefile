@@ -1,7 +1,7 @@
 artifact_name := transaction-search-tool
 
 .PHONY: build
-build: clean
+build: clean init
 	npm run build-scss
 	npm run build
 
@@ -12,10 +12,6 @@ clean:
 .PHONY: npm-install
 npm-install:
 	npm i
-
-.PHONY: gulp-install
-gulp-install:
-	npm install gulp-cli -g
 
 .PHONY: test-unit
 test-unit:
@@ -41,4 +37,4 @@ endif
 	rm -rf $(tmpdir)
 
 .PHONY: init
-init: npm-install gulp-install build-static
+init: npm-install
