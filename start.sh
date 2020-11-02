@@ -10,6 +10,8 @@ if [[ -z "${MESOS_SLAVE_PID}" ]]; then
     source ~/.chs_env/global_env
     source ~/.chs_env/transaction-search-tool/env
 
+    npm start
+
 else
 
     export TRANSACTION_SEARCH_TOOL_PORT="$1"
@@ -26,6 +28,6 @@ else
     source "${APP_DIR}/private_env"
     source "${APP_DIR}/global_env"
     source "${APP_DIR}/app_env"
-fi
 
-npm start
+    NODE_ENV=production node ${APP_DIR}/dist/app/app.js -- $TRANSACTION_SEARCH_TOOL_PORT
+fi
