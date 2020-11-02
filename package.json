@@ -9,7 +9,7 @@
     "build": "tsc",
     "build-scss": "gulp static",
     "lint": "tslint -p .",
-    "test": "jest -c src/test/jest.config.js"
+    "test": ""
   },
   "author": "companieshouse",
   "license": "MIT",
