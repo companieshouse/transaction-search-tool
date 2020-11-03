@@ -1,5 +1,8 @@
 import ParentDao from "../ParentDao";
 import config from "../../config";
+import { createLogger } from "ch-structured-logging";
+
+const logger = createLogger(config.applicationNamespace);
 
 class ChipsDao extends ParentDao {
 
@@ -16,7 +19,7 @@ class ChipsDao extends ParentDao {
         try {
             result = await this.connection.execute(query, bindValues);
         } catch (err: any) {
-            console.log("Error in make query: " + err);
+            logger.error("Error in make query: " + err);
             result = null;
         } finally {
             await this.connection.close();

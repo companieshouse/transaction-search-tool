@@ -1,6 +1,10 @@
 import * as oracledb from "oracledb";
+import config from "../config";
+import { createLogger } from "ch-structured-logging";
 
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
+
+const logger = createLogger(config.applicationNamespace);
 
 class ParentDao {
 
@@ -17,7 +21,7 @@ class ParentDao {
                 connectString : this.connectionString
             });
         } catch (err: any) {
-            console.log("Error setting up connection: " + err);
+            logger.error("Error setting up connection: " + err);
         }
         return
     }
