@@ -11,7 +11,7 @@ class BarcodeSearchController {
     public static searchBarcode(req: Request, res: Response) {
         var barcode = req.query.search;
         var chipsDao = new ChipsDao();
-        chipsDao.makeQuery(SqlData.transactionSQL, [barcode])
+        return chipsDao.makeQuery(SqlData.transactionSQL, [barcode])
             .then(result => {
             res.render("barcodeSearch", {
                 barcode: barcode,
