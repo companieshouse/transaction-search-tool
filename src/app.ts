@@ -1,7 +1,6 @@
 import * as express from "express";
 import * as nunjucks from "nunjucks";
-import * as dotenv from 'dotenv';
-dotenv.config();
+import config from "./config";
 
 import BarcodeSearchRouter from "./routes/BarcodeSearchRouter";
 
@@ -24,8 +23,8 @@ app.set("view engine", "html");
 app.use("/static", express.static("dist/static"));
 env.addGlobal("CSS_URL", "/static/app.css");
 
-app.use('/barcodeSearch', BarcodeSearchRouter.create())
+app.use(`/${config.urlPrefix}/`, BarcodeSearchRouter.create())
 
-app.listen(process.env.APP_PORT, function () {
-    console.log(`Server started on port ${process.env.APP_PORT}`);
+app.listen(config.port, function () {
+    console.log(`Server started on port ${config.port}`);
 });
