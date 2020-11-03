@@ -9,7 +9,7 @@
     "build": "NODE_ENV=production tsc",
     "postbuild": "copyfiles -f -V src/views/* dist/app/views",
     "lint": "tslint -p .",
-    "test": "jest -c src/test/jest.config.js"
+    "test": "mocha -r ts-mocha src/**/*.test.ts"
   },
   "author": "companieshouse",
   "license": "MIT",
@@ -32,5 +32,15 @@
     ],
     "ext": "ts",
     "exec": "ts-node ./src/app.ts"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.14",
+    "@types/mocha": "^8.0.3",
+    "@types/sinon": "^9.0.8",
+    "chai": "^4.2.0",
+    "mocha": "^8.2.0",
+    "sinon": "^9.2.1",
+    "sinon-chai": "^3.5.0",
+    "ts-mocha": "^8.0.0"
   }
 }
