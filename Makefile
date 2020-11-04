@@ -30,7 +30,6 @@ endif
 	$(info Packaging version: $(version))
 	$(eval tmpdir := $(shell mktemp -d build-XXXXXXXXXX))
 	cp -r ./dist $(tmpdir)
-	cp -r ./src/views $(tmpdir)
 	cp -r ./package.json $(tmpdir)
 	cp -r ./package-lock.json $(tmpdir)
 	cp ./start.sh $(tmpdir)

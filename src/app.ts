@@ -2,15 +2,18 @@ import express from "express";
 import { createLogger, createLoggerMiddleware } from "ch-structured-logging";
 import * as nunjucks from "nunjucks";
 import config from "./config";
+import path from "path";
 
 import BarcodeSearchRouter from "./routes/BarcodeSearchRouter";
 
 const app = express();
 const logger = createLogger(config.applicationNamespace);
 
+const viewPath = path.join(__dirname, "views");
+
 var env = nunjucks
     .configure([
-        "src/views",  
+        viewPath,  
         "node_modules/govuk-frontend/",
         "node_modules/govuk-frontend/components",
     ], {
@@ -19,7 +22,7 @@ var env = nunjucks
         express: app
     });
 
-app.set("views", "src/views");
+app.set("views", viewPath);
 app.set("view engine", "html");
 
 app.use("/static", express.static("dist/static"));
