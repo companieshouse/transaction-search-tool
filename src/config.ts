@@ -1,7 +1,7 @@
 import ApplicationConfiguration from "./ApplicationConfiguration";
 
 const config: ApplicationConfiguration = {
-    port: parseInt(process.env.TRANSACTION_SEARCH_TOOL_PORT as string),
+    port: parseInt(process.env.PORT as string),
     urlPrefix: "transactionsearch",
     applicationNamespace: "transaction-search-tool",
     chipsDatabase: {

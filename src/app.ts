@@ -1,4 +1,4 @@
-import * as express from "express";
+import express from "express";
 import { createLogger, createLoggerMiddleware } from "ch-structured-logging";
 import * as nunjucks from "nunjucks";
 import config from "./config";

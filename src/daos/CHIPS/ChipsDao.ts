@@ -13,7 +13,7 @@ class ChipsDao extends ParentDao {
         this.connectionString = config.chipsDatabase.connectionString;
     }
 
-    public async makeQuery(query: string, bindValues: Array<string>) {
+    public async makeQuery(query: string, bindValues: Array<any>) {
         await this.setupConnection();
         var result: any;
         try {

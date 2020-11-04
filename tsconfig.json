@@ -11,7 +11,8 @@
       "experimentalDecorators": true,
       "strictNullChecks": true,
       "typeRoots": [ "../node_modules/@types" ],
-      "types" : [ "node" ]
+      "types" : [ "node" ],
+      "esModuleInterop": true
     },
     "include": [
       "src/**/*"
