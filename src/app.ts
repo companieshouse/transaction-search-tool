@@ -26,7 +26,7 @@ app.set("views", viewPath);
 app.set("view engine", "html");
 
 app.use(`/${config.urlPrefix}/static`, express.static("dist/static"));
-env.addGlobal("CSS_URL", "/static/app.css");
+env.addGlobal("CSS_URL", `/${config.urlPrefix}/static/app.css`);
 
 app.use(`/${config.urlPrefix}`, BarcodeSearchRouter.create());
 app.use(createLoggerMiddleware(config.applicationNamespace));
