@@ -25,10 +25,10 @@ var env = nunjucks
 app.set("views", viewPath);
 app.set("view engine", "html");
 
-app.use("/static", express.static("dist/static"));
+app.use(`/${config.urlPrefix}/static`, express.static("dist/static"));
 env.addGlobal("CSS_URL", "/static/app.css");
 
-app.use(`/${config.urlPrefix}/`, BarcodeSearchRouter.create());
+app.use(`/${config.urlPrefix}`, BarcodeSearchRouter.create());
 app.use(createLoggerMiddleware(config.applicationNamespace));
 
 app.listen(config.port, function () {
