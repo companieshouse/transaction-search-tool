@@ -1,4 +1,4 @@
-import * as oracledb from "oracledb";
+import oracledb from "oracledb";
 import config from "../config";
 import { createLogger } from "ch-structured-logging";
 

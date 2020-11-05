@@ -1,7 +1,6 @@
-import * as chai from 'chai';
-import * as sinon from 'sinon';
-import * as express from "express";
-import BarcodeSearchController from '../controllers/BarcodeSearchController';
+import chai from 'chai';
+import sinon from 'sinon';
+import express from "express";
 import BarcodeSearchRouter from '../routes/BarcodeSearchRouter';
 chai.use(require('sinon-chai'));
 

@@ -1,5 +1,5 @@
-import * as chai from 'chai';
-import * as sinon from 'sinon';
+import chai from 'chai';
+import sinon from 'sinon';
 import BarcodeSearchController from '../controllers/BarcodeSearchController';
 import ChipsDao from '../daos/CHIPS/ChipsDao';
 chai.use(require('sinon-chai'));
