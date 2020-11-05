@@ -23,10 +23,12 @@ describe('barcode search controller', ()=>{
         sinon.stub(chipsDao, 'makeQuery').resolves({rows: ['data'] });
         Object.setPrototypeOf(ChipsDao, daoStub);
     })
+
     it('test getSearchPage calls response render', ()=>{
         BarcodeSearchController.getSearchPage(req, res);
         chai.expect(res.render.calledOnce).to.be.true;
     })
+
     it('test barcodeSearch calls response render method with barcode when called', ()=>{
 
         const expectedRender = {

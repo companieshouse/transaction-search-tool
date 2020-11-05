@@ -34,19 +34,17 @@ describe('Chips database call', () => {
     after(()=> {
         oracledb.getConnection.restore();
     })
-    it('test makeQuery is successfully called', ()=>{
-        const callback = sinon.spy(chipsDao,'makeQuery');
-        chipsDao.makeQuery("my query", ["bind value 1"]);
-        expect(callback.calledOnce).to.be.true;
-    })
+
     it('test makeQuery returns data when correct barcode is provided', async () => {
         let result = await chipsDao.makeQuery(CORRECT_BARCODE, ["bind value 1"]);
         expect(result.rows[CORRECT_BARCODE]).to.deep.equal(DATA[CORRECT_BARCODE]);
     })
+
     it('test makeQuery returns empty when incorrect barcode is provided', async () => {
         let result = await chipsDao.makeQuery(INCORRECT_BARCODE, ["bind value 1"]);
         expect(result).to.equal(undefined);
     })
+
     it('test execute throws an error, result is set to null and error is logged', async () => {
         const consoleStub = sinon.stub(console, 'log');
         let connection = await oracledb.getConnection(config);

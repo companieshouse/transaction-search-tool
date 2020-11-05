@@ -11,6 +11,7 @@ describe('barcode search router', ()=>{
             get: sinon.spy()
         })
     });
+
     it('test that search is called', ()=>{
         const router = express.Router();
         BarcodeSearchRouter.create();
