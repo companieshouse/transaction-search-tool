@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import * as sinon from 'sinon';
-import * as oracledb from 'oracledb';
+import sinon from 'sinon';
+import oracledb from 'oracledb';
 import ChipsDao from '../daos/CHIPS/ChipsDao';
+
 
 const config = {
     user: "USER",
@@ -45,14 +46,13 @@ describe('Chips database call', () => {
         expect(result).to.equal(undefined);
     })
 
-    it('test execute throws an error, result is set to null and error is logged', async () => {
-        const consoleStub = sinon.stub(console, 'log');
+    it('test execute throws an error, result is set to null', async () => {
+
         let connection = await oracledb.getConnection(config);
         connection.execute.throws(error);
         let result = await chipsDao.makeQuery(INCORRECT_BARCODE, ["bind value 1"]);
         expect(connection.execute).to.have.throw(error);
         expect(result).to.not.equal(undefined);
         expect(result).to.equal(null);
-        expect(consoleStub.calledOnce).to.be.true;
     })
 });
