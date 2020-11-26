@@ -4,12 +4,18 @@ import ChipsService from "./ChipsService";
 
 class StaffwareService {
 
+    chipsService: ChipsService;
+    dao: StaffwareDao;
+
+    constructor() {
+        this.chipsService = new ChipsService();
+        this.dao = new StaffwareDao();
+    }
+
     public async getOrgUnit(documentId: number): Promise<string> {
-        var staffwareDao = new StaffwareDao();
-        var swResult = await staffwareDao.makeQuery(SqlData.getQueueFromDocumentSQL(documentId));
+        var swResult = await this.dao.makeQuery(SqlData.getQueueFromDocumentSQL(documentId));
         var orgUnitId: number = swResult.rows[0]['USER_NAME'].substring(1).split('@')[0];
-        var chipsService = new ChipsService();
-        return await chipsService.getOrgUnitFromId(orgUnitId);
+        return await this.chipsService.getOrgUnitFromId(orgUnitId);
     }
 }
 

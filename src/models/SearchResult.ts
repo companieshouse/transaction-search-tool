@@ -6,6 +6,7 @@ class SearchResult {
     chipsStatus: string;
     orgUnit: string;
     user: string;
+    userAccessId: number;
 
     public toString(): string {
         return `SearchResult: ${JSON.stringify(this.getResult())}`;
