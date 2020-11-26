@@ -10,11 +10,11 @@ const logger = createLogger(config.applicationNamespace);
 
 class BarcodeSearchController {
 
-    public static getSearchPage(req: Request, res: Response) {
+    public static getSearchPage(req: any, res: any) {
         res.render("barcodeSearch");
     }
 
-    public static async searchBarcode(req: Request, res: Response) {
+    public static async searchBarcode(req: any, res: any) {
         var barcode = req.query.search;
         var searchResult = new SearchResult();
         var chipsDao = new ChipsDao();

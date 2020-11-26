@@ -36,7 +36,7 @@ describe('barcode search controller', ()=>{
             result: 'data'
         }
         return BarcodeSearchController.searchBarcode(req, res).then( ()=> {
-            chai.expect(res.render).to.have.been.calledWithExactly("barcodeSearch", expectedRender);
+            chai.expect(res.render.calledWithMatch("barcodeSearch", expectedRender)).to.be.true;
         });
     })
 })
