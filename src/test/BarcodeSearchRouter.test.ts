@@ -1,19 +1,23 @@
 import chai from 'chai';
-import sinon from 'sinon';
-import express from "express";
+import sinon, { SinonSpy } from 'sinon';
+import express, { Router } from "express";
 import BarcodeSearchRouter from '../routes/BarcodeSearchRouter';
+import BarcodeSearchController from "../controllers/BarcodeSearchController";
 chai.use(require('sinon-chai'));
 
 describe('barcode search router', ()=>{
+    let router: Router;
+    let spy: SinonSpy;
     before(()=>{
-        sinon.stub(express, 'Router').returns({
-            get: sinon.spy()
-        })
+        spy = sinon.spy();
+        router = express.Router();
+        router.get = spy;
+        express.Router = () => router;
     });
 
     it('test that search is called', ()=>{
-        const router = express.Router();
         BarcodeSearchRouter.create();
-        chai.expect(router.get).to.have.been.calledWith('/search');
+        chai.expect(spy.getCall(0).calledWithMatch('/')).to.be.true;
+        chai.expect(spy.getCall(1).calledWithMatch('/search')).to.be.true;
     })
 })
