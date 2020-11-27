@@ -1,7 +1,7 @@
 import chai from 'chai';
 import ChipsService from '../../service/ChipsService';
 import sinon, { SinonStub } from 'sinon';
-import ChipsDao from '../../daos/chips/ChipsDao';
+import ChipsDao from '../../daos/CHIPS/ChipsDao';
 import ChipsResult from '../../data/ChipsResult';
 chai.use(require('sinon-chai'));
 
