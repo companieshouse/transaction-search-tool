@@ -37,12 +37,12 @@ describe('Staffware database call', () => {
     })
 
     it('test makeQuery returns data when correct barcode is provided', async () => {
-        let result = await swDao.makeQuery(CORRECT_DOC_ID);
+        let result = await swDao.makeQuery(CORRECT_DOC_ID, ['docu']);
         expect(result.rows[CORRECT_DOC_ID]).to.deep.equal(DATA[CORRECT_DOC_ID]);
     })
 
     it('test makeQuery returns empty when incorrect barcode is provided', async () => {
-        let result = await swDao.makeQuery(INCORRECT_DOC_ID);
+        let result = await swDao.makeQuery(INCORRECT_DOC_ID, ['docu']);
         expect(result).to.equal(undefined);
     })
 
@@ -50,7 +50,7 @@ describe('Staffware database call', () => {
 
         let connection = await oracledb.getConnection(config);
         connection.execute.throws(error);
-        let result = await swDao.makeQuery(INCORRECT_DOC_ID);
+        let result = await swDao.makeQuery(INCORRECT_DOC_ID, ['docu']);
         expect(connection.execute).to.have.throw(error);
         expect(result).to.not.equal(undefined);
         expect(result).to.equal(null);

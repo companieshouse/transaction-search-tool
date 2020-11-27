@@ -30,15 +30,16 @@ describe('barcode search controller', ()=>{
         searchResult.transactionId = 1;
         searchResult.incorporationNumber = 'inco';
         searchResult.documentId = 1;
-        searchResult.userAccessId = 1;
         searchResult.chipsStatus = 'Pending';
         searchResult.formBarcode = 'barcode';
+        searchResult.orgUnit = 'My Org Unit';
+        searchResult.user = 'Test User';
 
         sinon.stub(chipsService, 'getTransactionDetailsFromBarcode').resolves(searchResult);
         sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
         barcodeSearchController.chipsService = chipsService;
 
-        sinon.stub(swService, 'getOrgUnit').resolves("My Org Unit");
+        sinon.stub(swService, 'addStaffwareData').resolves(searchResult);
         barcodeSearchController.swService = swService;
 
     })
