@@ -1,15 +1,12 @@
 import StaffwareDao from "../daos/staffware/StaffwareDao";
 import SqlData from "../sql/SqlData";
-import ChipsService from "./ChipsService";
 import StaffwareResult from "../data/StaffwareResult";
 
 class StaffwareService {
 
-    chipsService: ChipsService;
     dao: StaffwareDao;
 
     constructor() {
-        this.chipsService = new ChipsService();
         this.dao = new StaffwareDao();
     }
 
