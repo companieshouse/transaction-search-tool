@@ -6,8 +6,10 @@ class BarcodeSearchRouter {
     public static create() {
         const router = express.Router();
 
-        router.get("/", BarcodeSearchController.getSearchPage);
-        router.get("/search", BarcodeSearchController.searchBarcode);
+        var barcodeSearchController = new BarcodeSearchController();
+
+        router.get("/", (req, res) => barcodeSearchController.getSearchPage(req, res));
+        router.get("/search", (req, res) => barcodeSearchController.searchBarcode(req, res));
 
         return router;
     }

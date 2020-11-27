@@ -2,8 +2,7 @@ import { expect } from 'chai';
 import { describe } from 'mocha';
 import sinon from 'sinon';
 import oracledb from 'oracledb';
-import ChipsDao from '../daos/CHIPS/ChipsDao';
-
+import StaffwareDao from '../../daos/staffware/StaffwareDao';
 
 const config = {
     user: "USER",
@@ -12,16 +11,16 @@ const config = {
 };
 
 const DATA = {
-    "XXXX1234": { transaction_id: "123456789", orgunit_desc: "ORG UNIT DESC" }
+    "2011111": { orgunit_desc: "ORG UNIT DESC" }
 }
 
-const CORRECT_BARCODE = "XXXX1234";
-const INCORRECT_BARCODE = "YYYY1234";
+const CORRECT_DOC_ID = "2011111";
+const INCORRECT_DOC_ID = "12345";
 
-const chipsDao = new ChipsDao();
+const swDao = new StaffwareDao();
 const error = new Error('test error');
   
-describe('Chips database call', () => {
+describe('Staffware database call', () => {
     before( async ()=> {
         sinon.stub(oracledb, 'getConnection').resolves({
             execute: function() {},
@@ -29,8 +28,8 @@ describe('Chips database call', () => {
         });
         let connection = await oracledb.getConnection(config);
         connection.execute = sinon.stub();
-        connection.execute.withArgs(CORRECT_BARCODE, sinon.match.any).resolves({
-            rows: {"XXXX1234": { transaction_id: "123456789", orgunit_desc: "ORG UNIT DESC" }}
+        connection.execute.withArgs(CORRECT_DOC_ID).resolves({
+            rows: {"2011111": { orgunit_desc: "ORG UNIT DESC" }}
         });
     })
     after(()=> {
@@ -38,12 +37,12 @@ describe('Chips database call', () => {
     })
 
     it('test makeQuery returns data when correct barcode is provided', async () => {
-        let result = await chipsDao.makeQuery(CORRECT_BARCODE, ["bind value 1"]);
-        expect(result.rows[CORRECT_BARCODE]).to.deep.equal(DATA[CORRECT_BARCODE]);
+        let result = await swDao.makeQuery(CORRECT_DOC_ID, ['docu']);
+        expect(result.rows[CORRECT_DOC_ID]).to.deep.equal(DATA[CORRECT_DOC_ID]);
     })
 
     it('test makeQuery returns empty when incorrect barcode is provided', async () => {
-        let result = await chipsDao.makeQuery(INCORRECT_BARCODE, ["bind value 1"]);
+        let result = await swDao.makeQuery(INCORRECT_DOC_ID, ['docu']);
         expect(result).to.equal(undefined);
     })
 
@@ -51,7 +50,7 @@ describe('Chips database call', () => {
 
         let connection = await oracledb.getConnection(config);
         connection.execute.throws(error);
-        let result = await chipsDao.makeQuery(INCORRECT_BARCODE, ["bind value 1"]);
+        let result = await swDao.makeQuery(INCORRECT_DOC_ID, ['docu']);
         expect(connection.execute).to.have.throw(error);
         expect(result).to.not.equal(undefined);
         expect(result).to.equal(null);

@@ -6,6 +6,28 @@ class SqlData {
     WHERE t.CORPORATE_BODY_ID = cb.CORPORATE_BODY_ID AND t.TRANSACTION_ID = tdx.TRANSACTION_ID AND t.TRANSACTION_STATUS_TYPE_ID = tst.TRANSACTION_STATUS_TYPE_ID
     AND t.FORM_BARCODE = :barcode AND ROWNUM = 1`
     
+    public static getQueueAndUserFromDocumentSQL: string =
+    `SELECT O_QUEUENAME, O_QPARAM1
+    FROM STAFFO
+    WHERE O_CASENUM = (
+        SELECT CASENUM 
+        FROM CASE_DATA 
+        WHERE FIELD_NAME = 'X_QHADOCID' 
+        AND PROC_ID = 26
+        AND FIELD_VALUE = :documentId
+        AND ROWNUM = 1
+    )
+    AND ROWNUM = 1`
+
+    public static orgUnitSql: string = 
+    `SELECT ORGANISATIONAL_UNIT_DESC
+    FROM ORGANISATIONAL_UNIT
+    WHERE ORGANISATIONAL_UNIT_ID = :org_unit_id`;
+
+    public static userSql: string =
+    `SELECT LOGIN_ID
+    FROM USER_ACCESS
+    WHERE USER_ACCESS_ID = :user_id`
 }
 
 export default SqlData;

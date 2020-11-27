@@ -8,6 +8,11 @@ const config: ApplicationConfiguration = {
         username: process.env.CHIPS_DB_USER as string,
         password: process.env.CHIPS_DB_PASSWORD as string,
         connectionString: process.env.CHIPS_DB_CONNECTIONSTRING as string
+    },
+    staffwareDatabase: {
+        username: process.env.STAFFWARE_DB_USER as string,
+        password: process.env.STAFFWARE_DB_PASSWORD as string,
+        connectionString: process.env.STAFFWARE_DB_CONNECTIONSTRING as string
     }
 };
 

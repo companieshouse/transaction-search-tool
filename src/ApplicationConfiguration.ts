@@ -7,6 +7,11 @@ interface ApplicationConfiguration {
         password: string;
         connectionString: string;
     };
+    staffwareDatabase : {
+        username: string;
+        password: string;
+        connectionString: string;
+    };
 }
 
 export default ApplicationConfiguration;
