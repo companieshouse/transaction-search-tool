@@ -3,8 +3,7 @@ import config from "../config";
 import { createLogger } from "ch-structured-logging";
 import ChipsService from "../service/ChipsService";
 import BarcodeSearchModel from "../models/BarcodeSearchModel";
-import ChipsResult from "data/ChipsResult";
-import StaffwareResult from "data/StaffwareResult";
+import ChipsResult from "../data/ChipsResult";
 
 const logger = createLogger(config.applicationNamespace);
 
