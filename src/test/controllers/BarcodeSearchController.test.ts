@@ -1,9 +1,10 @@
 import chai from 'chai';
 import ChipsService from '../../service/ChipsService';
-import sinon from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import BarcodeSearchController from '../../controllers/BarcodeSearchController';
-import SearchResult from '../../models/SearchResult';
 import StaffwareService from '../../service/StaffwareService';
+import ChipsResult from '../../data/ChipsResult';
+import StaffwareResult from '../../data/StaffwareResult';
 chai.use(require('sinon-chai'));
 
 describe('barcode search controller', ()=>{
@@ -18,6 +19,8 @@ describe('barcode search controller', ()=>{
     };
 
     var barcodeSearchController: BarcodeSearchController;
+    var orgUnitStub: SinonStub;
+    var userStub: SinonStub;
 
     before(()=>{
 
@@ -26,20 +29,21 @@ describe('barcode search controller', ()=>{
         let chipsService = new ChipsService();
         let swService = new StaffwareService();
 
-        let searchResult = new SearchResult();
-        searchResult.transactionId = 1;
-        searchResult.incorporationNumber = 'inco';
-        searchResult.documentId = 1;
-        searchResult.chipsStatus = 'Pending';
-        searchResult.formBarcode = 'barcode';
-        searchResult.orgUnit = 'My Org Unit';
-        searchResult.user = 'Test User';
+        let chipsResult = new ChipsResult();
+        chipsResult.transactionId = 1;
+        chipsResult.incorporationNumber = 'inco';
+        chipsResult.documentId = 1;
+        chipsResult.chipsStatus = 'Pending';
+        let staffwareResult = new StaffwareResult();
+        staffwareResult.orgUnitId = 1234;
+        staffwareResult.userId = 1;
 
-        sinon.stub(chipsService, 'getTransactionDetailsFromBarcode').resolves(searchResult);
-        sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
+        sinon.stub(chipsService, 'getTransactionDetailsFromBarcode').resolves(chipsResult);
+        orgUnitStub = sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
+        userStub = sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
         barcodeSearchController.chipsService = chipsService;
 
-        sinon.stub(swService, 'addStaffwareData').resolves(searchResult);
+        sinon.stub(swService, 'addStaffwareData').resolves(staffwareResult);
         barcodeSearchController.swService = swService;
 
     })
@@ -64,6 +68,8 @@ describe('barcode search controller', ()=>{
             }
         }
         await barcodeSearchController.searchBarcode(req, res);
+        chai.expect(orgUnitStub.calledWithMatch(1234)).to.be.true;
+        chai.expect(userStub.calledWithMatch(1)).to.be.true;
         chai.expect(res.render.calledWithMatch("barcodeSearch", expectedRender)).to.be.true;
     }).timeout(5000)
 })

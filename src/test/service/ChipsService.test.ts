@@ -1,8 +1,8 @@
 import chai from 'chai';
 import ChipsService from '../../service/ChipsService';
-import sinon, { SinonMock, SinonSpy, SinonStub } from 'sinon';
+import sinon, { SinonStub } from 'sinon';
 import ChipsDao from '../../daos/chips/ChipsDao';
-import SearchResult from '../../models/SearchResult';
+import ChipsResult from '../../data/ChipsResult';
 chai.use(require('sinon-chai'));
 
 describe('chips service test', ()=>{
@@ -25,19 +25,17 @@ describe('chips service test', ()=>{
             TRANSACTION_STATUS_DESC : 'Pending',
             INPUT_DOCUMENT_ID : 1
         }
+        var expectedResult = new ChipsResult();
+        expectedResult.transactionId = 1;
+        expectedResult.chipsStatus = 'Pending';
+        expectedResult.documentId = 1;
+        expectedResult.incorporationNumber = 'inco';
+
         stub = sinon.stub(dao, 'makeQuery').resolves({rows: [queryResult]});
         chipsService.dao = dao;
 
         var returnedSearchResult = await chipsService.getTransactionDetailsFromBarcode("barcode");
-        chai.expect(returnedSearchResult.getResult()).to.be.deep.equal({
-            "Barcode" : "barcode",
-            "Transaction Id" : 1,
-            "Document Id" : 1,
-            "Incorp No." : 'inco',
-            "Chips Status" : 'Pending',
-            "Org Unit" : undefined,
-            "User" : undefined
-        });
+        chai.expect(returnedSearchResult).to.be.deep.equal(expectedResult);
     });
 
     it('test getOrgUnitFromId returns orgUnit', async ()=>{

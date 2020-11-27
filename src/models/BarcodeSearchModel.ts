@@ -1,4 +1,4 @@
-class SearchResult {
+class BarcodeSearchModel {
     formBarcode: string;
     transactionId: number;
     documentId: number;
@@ -8,10 +8,10 @@ class SearchResult {
     user: string;
 
     public toString(): string {
-        return `SearchResult: ${JSON.stringify(this.getResult())}`;
+        return `BarcodeSearchModel: ${JSON.stringify(this.getModel())}`;
     }
 
-    public getResult(): Object {
+    public getModel(): Object {
         return {
             "Barcode" : this.formBarcode,
             "Transaction Id" : this.transactionId,
@@ -24,4 +24,4 @@ class SearchResult {
     }
 }
 
-export default SearchResult;
+export default BarcodeSearchModel;

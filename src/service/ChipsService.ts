@@ -1,6 +1,6 @@
-import SearchResult from "../models/SearchResult";
 import ChipsDao from "../daos/CHIPS/ChipsDao";
 import SqlData from "../sql/SqlData"
+import ChipsResult from "../data/ChipsResult";
 
 class ChipsService {
     dao: ChipsDao;
@@ -9,15 +9,14 @@ class ChipsService {
         this.dao = new ChipsDao();
     }
 
-    public async getTransactionDetailsFromBarcode(barcode: string): Promise<SearchResult> {
-        var searchResult = new SearchResult();
+    public async getTransactionDetailsFromBarcode(barcode: string): Promise<ChipsResult> {
+        var result = new ChipsResult();
         var chipsSearch = await this.dao.makeQuery(SqlData.transactionSQL, [barcode]);
-        searchResult.transactionId = chipsSearch.rows[0]['TRANSACTION_ID'];
-        searchResult.formBarcode = barcode;
-        searchResult.incorporationNumber = chipsSearch.rows[0]['INCORPORATION_NUMBER'];
-        searchResult.chipsStatus = chipsSearch.rows[0]['TRANSACTION_STATUS_DESC'];
-        searchResult.documentId = chipsSearch.rows[0]['INPUT_DOCUMENT_ID'];
-        return searchResult;
+        result.transactionId = chipsSearch.rows[0]['TRANSACTION_ID'];
+        result.incorporationNumber = chipsSearch.rows[0]['INCORPORATION_NUMBER'];
+        result.chipsStatus = chipsSearch.rows[0]['TRANSACTION_STATUS_DESC'];
+        result.documentId = chipsSearch.rows[0]['INPUT_DOCUMENT_ID'];
+        return result;
     }
 
     public async getOrgUnitFromId(orgUnitId: number): Promise<string> {
