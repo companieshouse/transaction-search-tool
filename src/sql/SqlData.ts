@@ -6,19 +6,18 @@ class SqlData {
     WHERE t.CORPORATE_BODY_ID = cb.CORPORATE_BODY_ID AND t.TRANSACTION_ID = tdx.TRANSACTION_ID AND t.TRANSACTION_STATUS_TYPE_ID = tst.TRANSACTION_STATUS_TYPE_ID
     AND t.FORM_BARCODE = :barcode AND ROWNUM = 1`
     
-    public static getQueueFromDocumentSQL(documentId: number) {
-        return `SELECT at.USER_NAME 
-        FROM audit_trail at
-        WHERE at.casenum = (
-            SELECT casenum 
-            FROM case_data 
-            WHERE field_name = 'X_QHADOCID' 
-            AND proc_id = 26
-            AND field_value = '${documentId}'
-            AND ROWNUM = 1
-        )
-        and at.type_id = 1 AND ROWNUM = 1`;
-    }
+    public static getQueueAndUserFromDocumentSQL: string =
+    `SELECT O_QUEUENAME, O_QPARAM1
+    FROM STAFFO
+    WHERE O_CASENUM = (
+        SELECT CASENUM 
+        FROM CASE_DATA 
+        WHERE FIELD_NAME = 'X_QHADOCID' 
+        AND PROC_ID = 26
+        AND FIELD_VALUE = :documentId
+        AND ROWNUM = 1
+    )
+    AND ROWNUM = 1`
 
     public static orgUnitSql: string = 
     `SELECT ORGANISATIONAL_UNIT_DESC

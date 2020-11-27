@@ -22,8 +22,7 @@ class BarcodeSearchController {
     public async searchBarcode(req: any, res: any) {
         var barcode = req.query.search;
         var searchResult = await this.chipsService.getTransactionDetailsFromBarcode(barcode);
-        searchResult.orgUnit = await this.swService.getOrgUnit(searchResult.documentId);
-        searchResult.user = await this.chipsService.getUserFromId(searchResult.userAccessId);
+        searchResult = await this.swService.addStaffwareData(searchResult);
         logger.info(`Barcode searched: ${barcode}, result: ${searchResult.toString()}`);
         res.render("barcodeSearch", {
             barcode: barcode,

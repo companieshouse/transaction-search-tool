@@ -17,7 +17,6 @@ class ChipsService {
         searchResult.incorporationNumber = chipsSearch.rows[0]['INCORPORATION_NUMBER'];
         searchResult.chipsStatus = chipsSearch.rows[0]['TRANSACTION_STATUS_DESC'];
         searchResult.documentId = chipsSearch.rows[0]['INPUT_DOCUMENT_ID'];
-        searchResult.userAccessId = chipsSearch.rows[0]['USER_ACCESS_ID'];
         return searchResult;
     }
 

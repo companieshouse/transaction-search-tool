@@ -13,11 +13,11 @@ class StaffwareDao extends ParentDao {
         this.connectionString = config.staffwareDatabase.connectionString;
     }
 
-    public async makeQuery(query: string) {
+    public async makeQuery(query: string, bindParams: Array<string>) {
         await this.setupConnection();
         var result: any;
         try {
-            result = await this.connection.execute(query);
+            result = await this.connection.execute(query, bindParams);
         } catch (err: any) {
             logger.error("Error in make query: " + err);
             result = null;

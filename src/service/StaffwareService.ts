@@ -1,3 +1,4 @@
+import SearchResult from "../models/SearchResult";
 import StaffwareDao from "../daos/staffware/StaffwareDao";
 import SqlData from "../sql/SqlData";
 import ChipsService from "./ChipsService";
@@ -12,10 +13,13 @@ class StaffwareService {
         this.dao = new StaffwareDao();
     }
 
-    public async getOrgUnit(documentId: number): Promise<string> {
-        var swResult = await this.dao.makeQuery(SqlData.getQueueFromDocumentSQL(documentId));
-        var orgUnitId: number = swResult.rows[0]['USER_NAME'].substring(1).split('@')[0];
-        return await this.chipsService.getOrgUnitFromId(orgUnitId);
+    public async addStaffwareData(searchResult: SearchResult): Promise<SearchResult> {
+        var swResult = await this.dao.makeQuery(SqlData.getQueueAndUserFromDocumentSQL, [searchResult.documentId.toString()]);
+        var orgUnitId: number = swResult.rows[0]['O_QUEUENAME'].substring(1);
+        var userId = swResult.rows[0]['O_QPARAM1'];
+        searchResult.orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);
+        searchResult.user = await this.chipsService.getUserFromId(userId);
+        return searchResult;
     }
 }
 
