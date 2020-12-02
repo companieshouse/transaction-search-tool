@@ -5,7 +5,7 @@ import ChipsService from "../service/ChipsService";
 import BarcodeSearchModel from "../models/BarcodeSearchModel";
 import ChipsResult from "../data/ChipsResult";
 import FesService from "../service/FesService";
-import FesResult from "data/FesResult";
+import FesResult from "../data/FesResult";
 
 const logger = createLogger(config.applicationNamespace);
 
