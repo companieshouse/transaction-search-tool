@@ -4,6 +4,8 @@ import { createLogger } from "ch-structured-logging";
 import ChipsService from "../service/ChipsService";
 import BarcodeSearchModel from "../models/BarcodeSearchModel";
 import ChipsResult from "../data/ChipsResult";
+import FesService from "../service/FesService";
+import FesResult from "../data/FesResult";
 
 const logger = createLogger(config.applicationNamespace);
 
@@ -11,10 +13,12 @@ class BarcodeSearchController {
 
     chipsService: ChipsService;
     swService: StaffwareService;
+    fesService: FesService;
 
     constructor() {
         this.chipsService = new ChipsService();
         this.swService = new StaffwareService();
+        this.fesService = new FesService();
     }
 
     public getSearchPage(req: any, res: any) {
@@ -24,10 +28,18 @@ class BarcodeSearchController {
     public async searchBarcode(req: any, res: any) {
         var barcode = req.query.search;
         var chipsResult = await this.chipsService.getTransactionDetailsFromBarcode(barcode);
+        if (chipsResult.documentId == undefined) {
+            res.render("barcodeSearch", {
+                barcode: barcode,
+                result: {"No transaction found" : "No transaction found in CHIPS database"}
+            });
+            return;
+        }
         var staffwareResult = await this.swService.addStaffwareData(chipsResult.documentId);
+        var fesResult = await this.fesService.getTransactionDetailsFromBarcode(barcode);
         var orgUnit = await this.chipsService.getOrgUnitFromId(staffwareResult.orgUnitId);
         var userLogin = await this.chipsService.getUserFromId(staffwareResult.userId);
-        var model = this.createModel(barcode, chipsResult, orgUnit, userLogin);
+        var model = this.createModel(barcode, chipsResult, fesResult, orgUnit, userLogin);
         logger.info(`Barcode searched: ${barcode}, result: ${model.toString()}`);
         res.render("barcodeSearch", {
             barcode: barcode,
@@ -35,7 +47,7 @@ class BarcodeSearchController {
         });
     }
 
-    private createModel(barcode: string, chipsResult: ChipsResult, orgUnit: string, userLogin: string): BarcodeSearchModel {
+    private createModel(barcode: string, chipsResult: ChipsResult, fesResult: FesResult, orgUnit: string, userLogin: string): BarcodeSearchModel {
         var model = new BarcodeSearchModel();
         model.formBarcode = barcode;
         model.documentId = chipsResult.documentId;
@@ -44,6 +56,12 @@ class BarcodeSearchController {
         model.incorporationNumber = chipsResult.incorporationNumber;
         model.orgUnit = orgUnit;
         model.user = userLogin;
+        model.envNo = fesResult.envNo;
+        model.scanTime = fesResult.scanTime;
+        model.formIdentification = fesResult.formIdentification;
+        model.fesStatus = fesResult.fesStatus;
+        model.icoReturnedReason = fesResult.icoReturnedReason;
+        model.icoAction = fesResult.icoAction;
         return model;
     }
 

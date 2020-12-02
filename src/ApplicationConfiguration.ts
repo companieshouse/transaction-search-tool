@@ -12,6 +12,11 @@ interface ApplicationConfiguration {
         password: string;
         connectionString: string;
     };
+    fesDatabase : {
+        username: string;
+        password: string;
+        connectionString: string;
+    };
 }
 
 export default ApplicationConfiguration;

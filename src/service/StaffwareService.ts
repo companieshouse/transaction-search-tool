@@ -13,8 +13,10 @@ class StaffwareService {
     public async addStaffwareData(documentId: number): Promise<StaffwareResult> {
         var swResult = await this.dao.makeQuery(SqlData.getQueueAndUserFromDocumentSQL, [documentId.toString()]);
         var result = new StaffwareResult();
-        result.orgUnitId = +swResult.rows[0]['O_QUEUENAME'].substring(1);
-        result.userId = +swResult.rows[0]['O_QPARAM1'];
+        if (swResult.rows[0] != undefined) {
+            result.orgUnitId = +swResult.rows[0]['O_QUEUENAME'].substring(1);
+            result.userId = +swResult.rows[0]['O_QPARAM1'];
+        }
         return result;
     }
 }
