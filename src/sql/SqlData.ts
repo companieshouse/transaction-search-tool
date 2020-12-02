@@ -27,7 +27,13 @@ class SqlData {
     public static userSql: string =
     `SELECT LOGIN_ID
     FROM USER_ACCESS
-    WHERE USER_ACCESS_ID = :user_id`
+    WHERE USER_ACCESS_ID = :user_id`;
+
+    public static fesTransactionSql: string =
+    `SELECT f.FORM_ENVELOPE_ID, TO_CHAR(f.FORM_BARCODE_DATE, 'DD-MM-YYYY') as "FORM_BARCODE_DATE", f.FORM_ID, f.FORM_STATUS, ie.IMAGE_EXCEPTION_REASON, ie.IMAGE_EXCEPTION_FREE_TEXT
+    FROM FORM f LEFT OUTER JOIN IMAGE_EXCEPTION ie
+    on f.FORM_IMAGE_ID = ie.IMAGE_EXCEPTION_IMAGE_ID
+    WHERE FORM_BARCODE = :barcode`
 }
 
 export default SqlData;

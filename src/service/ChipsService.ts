@@ -12,21 +12,23 @@ class ChipsService {
     public async getTransactionDetailsFromBarcode(barcode: string): Promise<ChipsResult> {
         var result = new ChipsResult();
         var chipsSearch = await this.dao.makeQuery(SqlData.transactionSQL, [barcode]);
-        result.transactionId = chipsSearch.rows[0]['TRANSACTION_ID'];
-        result.incorporationNumber = chipsSearch.rows[0]['INCORPORATION_NUMBER'];
-        result.chipsStatus = chipsSearch.rows[0]['TRANSACTION_STATUS_DESC'];
-        result.documentId = chipsSearch.rows[0]['INPUT_DOCUMENT_ID'];
+        if (chipsSearch.rows[0]) {
+            result.transactionId = chipsSearch.rows[0]['TRANSACTION_ID'];
+            result.incorporationNumber = chipsSearch.rows[0]['INCORPORATION_NUMBER'];
+            result.chipsStatus = chipsSearch.rows[0]['TRANSACTION_STATUS_DESC'];
+            result.documentId = chipsSearch.rows[0]['INPUT_DOCUMENT_ID'];
+        }
         return result;
     }
 
     public async getOrgUnitFromId(orgUnitId: number): Promise<string> {
         var result = await this.dao.makeQuery(SqlData.orgUnitSql, [orgUnitId]);
-        return result.rows[0]['ORGANISATIONAL_UNIT_DESC'];
+        return result.rows[0] ? result.rows[0]['ORGANISATIONAL_UNIT_DESC'] : "No org unit assigned";
     }
 
     public async getUserFromId(userId: number): Promise<string> {
         var result = await this.dao.makeQuery(SqlData.userSql, [userId]);
-        return result.rows[0]['LOGIN_ID'];
+        return result.rows[0]? result.rows[0]['LOGIN_ID'] : "No user assigned";
     }
 }
 
