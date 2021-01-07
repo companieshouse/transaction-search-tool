@@ -1,0 +1,7 @@
+*
+
+!src
+!gulpfile.js
+!package.json
+!package-lock.json
+!tsconfig.json
