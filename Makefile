@@ -2,7 +2,6 @@ artifact_name := transaction-search-tool
 
 .PHONY: build
 build: clean init submodules
-	npm run build-scss
 	npm run build
 
 .PHONY: submodules
