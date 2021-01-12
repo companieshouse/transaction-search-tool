@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=development ts-node ./src/app.ts",
     "start:watch": "NODE_ENV=development nodemon",
-    "build": "tsc && cp -r src/views dist/app/ && gulp static",
+    "build": "gulp static && tsc && cp -r src/views dist/app/",
     "lint": "tslint -p .",
     "test": "mocha -r ts-mocha src/**/*.test.ts"
   },
