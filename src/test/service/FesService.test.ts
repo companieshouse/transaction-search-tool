@@ -5,7 +5,7 @@ import FesDao from '../../daos/FES/FesDao';
 import FesResult from '../../data/FesResult';
 chai.use(require('sinon-chai'));
 
-describe('chips service test', ()=>{
+describe('FES service test', ()=>{
 
     var fesService: FesService;
     var dao: FesDao;
@@ -22,18 +22,22 @@ describe('chips service test', ()=>{
         var queryResult = {
             FORM_ENVELOPE_ID : 1,
             FORM_BARCODE_DATE : '01/12/2020',
-            FORM_ID : 1,
-            FORM_STATUS : 6,
+            FORM_TYPE : "IN01",
+            FORM_STATUS_TYPE_NAME : "Sent to CHIPS",
             IMAGE_EXCEPTION_REASON : 'Not Returned',
-            IMAGE_EXCEPTION_FREE_TEXT : 'No Action Required'
+            IMAGE_EXCEPTION_FREE_TEXT : 'No Action Required',
+            IMAGE_EXCEPTION_ID : 1
         }
         var expectedResult = new FesResult();
         expectedResult.envNo = 1;
+        expectedResult.eventOccurredTime = "No event yet";
+        expectedResult.eventText = "No event yet";
         expectedResult.scanTime = '01/12/2020';
-        expectedResult.formIdentification = 1;
-        expectedResult.fesStatus = 6;
+        expectedResult.formType = "IN01";
+        expectedResult.fesStatus = "Sent to CHIPS";
         expectedResult.icoReturnedReason = 'Not Returned';
-        expectedResult.icoAction = 'No Action Required'
+        expectedResult.icoAction = 'No Action Required';
+        expectedResult.exceptionId = 1;
 
         stub = sinon.stub(dao, 'makeQuery').resolves({rows: [queryResult]});
         fesService.dao = dao;
