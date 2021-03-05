@@ -63,7 +63,6 @@ class BarcodeSearchController {
         model.fesStatus = fesResult.fesStatus;
         model.icoReturnedReason = fesResult.icoReturnedReason;
         model.icoAction = fesResult.icoAction;
-        model.fesStatus = fesResult.fesStatus;
         model.eventOccurredTime = fesResult.eventOccurredTime;
         model.eventText = fesResult.eventText;
         return model;
