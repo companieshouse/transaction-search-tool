@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<a class="govuk-back-link" href="javascript:history.back()">Back</a>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half">
+          <span class="govuk-caption-xl">Document type - {{ result.Type }}</span>
+          <h1 class="govuk-heading-l">
+            Barcode - {{ barcode }}</h1>
+        </div>
+        <div class="govuk-grid-column-one-half no-print">
+          <p class="float-right">Current status:<br>
+            <strong>
+              {{ result.ChipsStatus }}</strong><br>
+            at {{ result.TransactionDate }}</p>
+        </div>
+      </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half">
+          <h2 class="govuk-heading-l">Document overview</h2>
+        </div>
+        <div class="govuk-grid-column-one-half"></div>
+      </div>
+      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            CHIPS status
+          </dt>
+          <dd class="govuk-summary-list__value">{{ result.ChipsStatus }}</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            FES status
+          </dt>
+          <dd class="govuk-summary-list__value">{{ result.FESStatus }}</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Location
+          </dt>
+          <dd class="govuk-summary-list__value">{{ result.Location }}</dd>
+        </div>
+      </dl>
+      <h2 class="govuk-heading-m">Document details</h2>
+      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Form Identification
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ result.Type }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Envelope number
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ result.EnvNo }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Document ID
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ result.DocumentId }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Company number (if known)
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ result.CoNumb }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Scan time
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ result.ScanTime }}
+          </dd></div>
+        </dl>
+        <h2 class="govuk-heading-m">ICO information</h2>
+        <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Returned to ICO (include reason)
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ result.ICOReturnedReason }}
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                ICO Action
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ result.ICOAction }}
+              </dd>
+            </div>
+          </dl>
+          <h2 class="govuk-heading-m">Additional information</h2>
+          <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Form re-identification
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ result.eventOccurredTime }}
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Action taken
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ result.eventText }}
+              </dd>
+            </div>
+          </dl>
+    </div>
+{% endblock %}

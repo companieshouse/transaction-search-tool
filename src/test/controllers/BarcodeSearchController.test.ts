@@ -94,6 +94,6 @@ describe('barcode search controller', ()=>{
         await barcodeSearchController.searchBarcode(req, res);
         chai.expect(orgUnitStub.calledWithMatch(1234)).to.be.true;
         chai.expect(userStub.calledWithMatch(1)).to.be.true;
-        chai.expect(res.render.calledWithMatch("barcodeSearch", expectedRender)).to.be.true;
+        chai.expect(res.render.calledWithMatch("documentOverview", expectedRender)).to.be.true;
     }).timeout(5000)
 })

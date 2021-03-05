@@ -41,7 +41,7 @@ class BarcodeSearchController {
         var userLogin = await this.chipsService.getUserFromId(staffwareResult.userId);
         var model = this.createModel(barcode, chipsResult, fesResult, orgUnit, userLogin);
         logger.info(`Barcode searched: ${barcode}, result: ${model.toString()}`);
-        res.render("barcodeSearch", {
+        res.render("documentOverview", {
             barcode: barcode,
             result: model.getModel()
         });
