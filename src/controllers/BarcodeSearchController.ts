@@ -2,10 +2,10 @@ import StaffwareService from "../service/StaffwareService";
 import config from "../config";
 import { createLogger } from "ch-structured-logging";
 import ChipsService from "../service/ChipsService";
-import BarcodeSearchModel from "../models/BarcodeSearchModel";
 import ChipsResult from "../data/ChipsResult";
 import FesService from "../service/FesService";
 import FesResult from "../data/FesResult";
+import DocumentOverviewModel from "../models/DocumentOverviewModel";
 
 const logger = createLogger(config.applicationNamespace);
 
@@ -47,21 +47,25 @@ class BarcodeSearchController {
         });
     }
 
-    private createModel(barcode: string, chipsResult: ChipsResult, fesResult: FesResult, orgUnit: string, userLogin: string): BarcodeSearchModel {
-        var model = new BarcodeSearchModel();
+    private createModel(barcode: string, chipsResult: ChipsResult, fesResult: FesResult, orgUnit: string, userLogin: string): DocumentOverviewModel {
+        var model = new DocumentOverviewModel();
         model.formBarcode = barcode;
         model.documentId = chipsResult.documentId;
         model.chipsStatus = chipsResult.chipsStatus;
         model.transactionId = chipsResult.transactionId;
         model.incorporationNumber = chipsResult.incorporationNumber;
+        model.transactionDate = chipsResult.transactionDate;
+        model.formType = fesResult.formType;
         model.orgUnit = orgUnit;
         model.user = userLogin;
         model.envNo = fesResult.envNo;
         model.scanTime = fesResult.scanTime;
-        model.formIdentification = fesResult.formIdentification;
         model.fesStatus = fesResult.fesStatus;
         model.icoReturnedReason = fesResult.icoReturnedReason;
         model.icoAction = fesResult.icoAction;
+        model.fesStatus = fesResult.fesStatus;
+        model.eventOccurredTime = fesResult.eventOccurredTime;
+        model.eventText = fesResult.eventText;
         return model;
     }
 

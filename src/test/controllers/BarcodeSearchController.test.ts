@@ -37,6 +37,7 @@ describe('barcode search controller', ()=>{
         chipsResult.incorporationNumber = 'inco';
         chipsResult.documentId = 1;
         chipsResult.chipsStatus = 'Pending';
+        chipsResult.transactionDate = '01/12/2020';
 
         let staffwareResult = new StaffwareResult();
         staffwareResult.orgUnitId = 1234;
@@ -45,10 +46,12 @@ describe('barcode search controller', ()=>{
         let fesResult = new FesResult();
         fesResult.envNo = 1;
         fesResult.scanTime = "01/12/2020";
-        fesResult.formIdentification = 1;
-        fesResult.fesStatus = 6;
+        fesResult.formType = "IN01";
+        fesResult.fesStatus = "Sent to CHIPS";
         fesResult.icoReturnedReason = "Not Returned";
         fesResult.icoAction = "No Action Required";
+        fesResult.icoReturnedReason = "No exception occurred";
+        fesResult.icoAction = "No exception occurred";
 
         sinon.stub(chipsService, 'getTransactionDetailsFromBarcode').resolves(chipsResult);
         orgUnitStub = sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
@@ -73,18 +76,19 @@ describe('barcode search controller', ()=>{
             barcode: 'barcode',
             result: {
                 "Barcode" : "barcode",
-                "Transaction Id" : 1,
-                "Document Id" : 1,
-                "Incorp No." : "inco",
-                "Chips Status" : "Pending",
-                "Org Unit" : "My Org Unit",
                 "User" : "Test User",
-                "Env No" : 1,
-                "Scan Time" : "01/12/2020",
-                "Form Id" : 1,
-                "FES Status" : 6,
-                "ICO Returned Reason" : "Not Returned",
-                "ICO Action" : "No Action Required"
+                "CoNumb" : "inco",
+                "Type" : "IN01",
+                "ChipsStatus" : "Pending",
+                "TransactionDate": "01/12/2020",
+                "FESStatus" : "Sent to CHIPS",
+                "Location" : "My Org Unit",
+                "TransactionId" : 1,
+                "DocumentId" : 1,
+                "EnvNo" : 1,
+                "ScanTime": "01/12/2020",
+                "ICOReturnedReason" : "No exception occurred",
+                "ICOAction" : "No exception occurred",
             }
         }
         await barcodeSearchController.searchBarcode(req, res);

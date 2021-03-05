@@ -14,9 +14,10 @@ class ChipsService {
         var chipsSearch = await this.dao.makeQuery(SqlData.transactionSQL, [barcode]);
         if (chipsSearch.rows[0]) {
             result.transactionId = chipsSearch.rows[0]['TRANSACTION_ID'];
-            result.incorporationNumber = chipsSearch.rows[0]['INCORPORATION_NUMBER'];
+            result.incorporationNumber = chipsSearch.rows[0]['INCORPORATION_NUMBER'] || "No Company Number";
             result.chipsStatus = chipsSearch.rows[0]['TRANSACTION_STATUS_DESC'];
             result.documentId = chipsSearch.rows[0]['INPUT_DOCUMENT_ID'];
+            result.transactionDate = chipsSearch.rows[0]['TRANSACTION_STATUS_DATE'];
         }
         return result;
     }
