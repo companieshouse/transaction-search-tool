@@ -8,6 +8,10 @@ class FesResult {
     exceptionId: number;
     eventOccurredTime: string;
     eventText: string;
+
+    public isEmpty() {
+        return Object.keys(this).length === 0;
+    }
 }
 
 export default FesResult;

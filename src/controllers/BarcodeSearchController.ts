@@ -41,7 +41,7 @@ class BarcodeSearchController {
             userLogin = await this.chipsService.getUserFromId(staffwareResult.userId);
         }
 
-        if (chipsResult.transactionId == undefined && fesResult.envNo == undefined) {
+        if (chipsResult.isEmpty() && fesResult.isEmpty()) {
             res.render("barcodeSearch", {
                 barcode: barcode,
                 error: true

@@ -13,7 +13,6 @@ class FesService {
         var result = new FesResult();
         var fesSearch = await this.dao.makeQuery(SqlData.fesTransactionSql, [barcode]);
         if (fesSearch.rows[0]) {
-            console.log(fesSearch.rows[0]);
             result.envNo = fesSearch.rows[0]['FORM_ENVELOPE_ID'];
             result.scanTime = fesSearch.rows[0]['FORM_BARCODE_DATE'];
             result.formType = fesSearch.rows[0]['FORM_TYPE'];
