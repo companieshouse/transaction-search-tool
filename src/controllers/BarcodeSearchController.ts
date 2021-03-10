@@ -1,3 +1,4 @@
+import StaffwareResult from "../data/StaffwareResult";
 import StaffwareService from "../service/StaffwareService";
 import config from "../config";
 import { createLogger } from "ch-structured-logging";
@@ -28,23 +29,32 @@ class BarcodeSearchController {
     public async searchBarcode(req: any, res: any) {
         var barcode = req.query.search;
         var chipsResult = await this.chipsService.getTransactionDetailsFromBarcode(barcode);
-        if (chipsResult.documentId == undefined) {
+        var fesResult = await this.fesService.getTransactionDetailsFromBarcode(barcode);
+
+        var staffwareResult: StaffwareResult;
+        var orgUnit = '';
+        var userLogin= '';
+
+        if (chipsResult.documentId != undefined ) {
+            staffwareResult = await this.swService.addStaffwareData(chipsResult.documentId);
+            orgUnit = await this.chipsService.getOrgUnitFromId(staffwareResult.orgUnitId);
+            userLogin = await this.chipsService.getUserFromId(staffwareResult.userId);
+        }
+
+        if (chipsResult.transactionId == undefined && fesResult.envNo == undefined) {
             res.render("barcodeSearch", {
                 barcode: barcode,
-                result: {"No transaction found" : "No transaction found in CHIPS database"}
+                error: true
             });
-            return;
+        } else {
+            var model = this.createModel(barcode, chipsResult, fesResult, orgUnit, userLogin);
+            logger.info(`Barcode searched: ${barcode}, result: ${model.toString()}`);
+
+            res.render("documentOverview", {
+                barcode: barcode,
+                result: model.getModel()
+            });
         }
-        var staffwareResult = await this.swService.addStaffwareData(chipsResult.documentId);
-        var fesResult = await this.fesService.getTransactionDetailsFromBarcode(barcode);
-        var orgUnit = await this.chipsService.getOrgUnitFromId(staffwareResult.orgUnitId);
-        var userLogin = await this.chipsService.getUserFromId(staffwareResult.userId);
-        var model = this.createModel(barcode, chipsResult, fesResult, orgUnit, userLogin);
-        logger.info(`Barcode searched: ${barcode}, result: ${model.toString()}`);
-        res.render("documentOverview", {
-            barcode: barcode,
-            result: model.getModel()
-        });
     }
 
     private createModel(barcode: string, chipsResult: ChipsResult, fesResult: FesResult, orgUnit: string, userLogin: string): DocumentOverviewModel {

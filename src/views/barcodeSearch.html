@@ -6,6 +6,9 @@
         <div class="govuk-form-group">
             <input type="search" name="search" id="search" class="govuk-input">
             <input type="submit" class="govuk-button">
+            {% if error %}
+                <span id="barcode-error" class="govuk-error-message">No results found.</span>
+            {% endif %}
         </div>
     </form>
 {% endblock %}
