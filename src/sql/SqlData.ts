@@ -39,7 +39,7 @@ class SqlData {
     AND fst.FORM_STATUS_TYPE_ID = f.FORM_STATUS`
 
     public static fesRescannedSql: string =
-    `SELECT FORM_EVENT_OCCURED, FORM_EVENT_TEXT
+    `SELECT FORM_EVENT_OCCURRED, FORM_EVENT_TEXT
     FROM FORM_EVENT
     WHERE FORM_EVENT_IMAGE_EXCEPTION_ID = :exceptionId`
 }
