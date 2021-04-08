@@ -40,7 +40,7 @@ app.use(session({
     secret: config.session.cookieSecret,
     genid: function(req) { return genuuid(); },
     cookie: { 
-        secure: false,
+        secure: true,
         expires: new Date(Date.now() + 3600000),
         httpOnly: true,
         domain: config.session.cookieDomain
