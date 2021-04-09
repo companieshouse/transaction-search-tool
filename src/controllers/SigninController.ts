@@ -2,6 +2,8 @@ import SigninDao from "../daos/Mongo/SigninDao";
 import { SessionKey } from "ch-node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
 
+// For node environments only, not to be used in live. Live will
+// use the CHS login and read the login data from the session.
 class SigninController {
 
     signinDao:SigninDao;

@@ -23,10 +23,8 @@ class SigninDao {
         finally {
             await client.close();
         }
-    return result;
+        return result;
     }
-
-
 }
 
 export default SigninDao;
