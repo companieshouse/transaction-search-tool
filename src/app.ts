@@ -49,7 +49,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
 }));
-app.use(`/${config.urlPrefix}`, SigninRouter.create());
+// app.use(`/${config.urlPrefix}`, SigninRouter.create());
 
 app.use(authenticationMiddleware());
 app.use(`/${config.urlPrefix}`, BarcodeSearchRouter.create());
