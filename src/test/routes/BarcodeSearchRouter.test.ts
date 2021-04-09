@@ -17,6 +17,7 @@ describe('barcode search router', ()=>{
     it('test that search is called', ()=>{
         BarcodeSearchRouter.create();
         chai.expect(spy.getCall(0).calledWithMatch('/')).to.be.true;
-        chai.expect(spy.getCall(1).calledWithMatch('/search')).to.be.true;
+        chai.expect(spy.getCall(1).calledWithMatch('/barcodeSearch')).to.be.true;
+        chai.expect(spy.getCall(2).calledWithMatch('/search')).to.be.true;
     })
 })
