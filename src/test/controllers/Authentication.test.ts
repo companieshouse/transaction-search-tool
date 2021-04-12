@@ -66,7 +66,7 @@ describe("authenticationMiddleware", function () {
 
         middleware(mockRequest, mockResponse, next);
 
-        chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}`)).to.be.true;
+        chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}/`)).to.be.true;
     });
 
     it("calls next if signed in and user profile exists", function () {
@@ -95,6 +95,6 @@ describe("authenticationMiddleware", function () {
 
         middleware(mockRequest, mockResponse, next);
 
-        chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}`)).to.be.true;
+        chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}/`)).to.be.true;
     });
 });

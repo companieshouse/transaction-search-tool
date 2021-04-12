@@ -23,6 +23,8 @@ interface ApplicationConfiguration {
         cookieSecret: string;
         cookieDomain: string;
         cacheServer: string;
+        cookieSecure: string;
+        timeOut: number;
     };
 }
 

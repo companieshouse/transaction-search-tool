@@ -38,12 +38,13 @@ app.use(cookieParser());
 app.use(session({
     name: config.session.cookieName,
     secret: config.session.cookieSecret,
-    genid: function(req) { return genuuid(); },
+    genid: function() { return genuuid(); },
     cookie: { 
-        secure: true,
-        expires: new Date(Date.now() + 3600000),
+        secure: config.session.cookieSecure === "1",
+        maxAge: config.session.timeOut * 1000,
         httpOnly: true,
-        domain: config.session.cookieDomain
+        domain: config.session.cookieDomain,
+        path: "/"
     },
     store: new Redis(`redis://${config.session.cacheServer}`),
     resave: false,
