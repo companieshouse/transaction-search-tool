@@ -25,7 +25,9 @@ const config: ApplicationConfiguration = {
         cookieName: process.env.COOKIE_NAME as string,
         cookieSecret: process.env.COOKIE_SECRET as string,
         cookieDomain: process.env.COOKIE_DOMAIN as string,
-        cacheServer: process.env.CACHE_SERVER as string
+        cacheServer: process.env.CACHE_SERVER as string,
+        cookieSecure: process.env.COOKIE_SECURE_ONLY as string,
+        timeOut: parseInt(process.env.DEFAULT_SESSION_EXPIRATION as string)
     },
 };
 

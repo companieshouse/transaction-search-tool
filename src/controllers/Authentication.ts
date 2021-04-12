@@ -28,7 +28,7 @@ const createAuthenticationMiddleware = function (): RequestHandler {
             }
         }
 
-        return res.redirect(`/signin?return_to=/${config.urlPrefix}`);
+        return res.redirect(`/signin?return_to=/${config.urlPrefix}/`);
     };
 };
 
