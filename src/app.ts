@@ -1,16 +1,14 @@
 import express from "express";
-import session from "express-session";
-import genuuid from "uuid/v4";
 import { createLogger, createLoggerMiddleware } from "ch-structured-logging";
 import * as nunjucks from "nunjucks";
 import config from "./config";
 import path from "path";
-import Redis from "ioredis";
 
 import BarcodeSearchRouter from "./routes/BarcodeSearchRouter";
 import authenticationMiddleware from "./controllers/Authentication";
 import SigninRouter from "./routes/SigninRouter";
 import cookieParser from "cookie-parser";
+import getSessionMiddleware from "./utils/SessionHelper";
 
 const app = express();
 const logger = createLogger(config.applicationNamespace);
@@ -35,22 +33,8 @@ env.addGlobal("CSS_URL", `/${config.urlPrefix}/static/app.css`);
 
 app.use(cookieParser());
 
-app.use(session({
-    name: config.session.cookieName,
-    secret: config.session.cookieSecret,
-    genid: function() { return genuuid(); },
-    cookie: { 
-        secure: config.session.cookieSecure === "1",
-        maxAge: config.session.timeOut * 1000,
-        httpOnly: true,
-        domain: config.session.cookieDomain,
-        path: "/"
-    },
-    store: new Redis(`redis://${config.session.cacheServer}`),
-    resave: false,
-    saveUninitialized: true,
-}));
-// app.use(`/${config.urlPrefix}`, SigninRouter.create());
+app.use(getSessionMiddleware());
+app.use(`/${config.urlPrefix}`, SigninRouter.create());
 
 app.use(authenticationMiddleware());
 app.use(`/${config.urlPrefix}`, BarcodeSearchRouter.create());

@@ -15,7 +15,9 @@ describe("authenticationMiddleware", function () {
     const createMockRequest = function (signInInfo?: ISignInInfo) {
         return {
             session: {
-                [SessionKey.SignInInfo]: signInInfo
+                data: {
+                    [SessionKey.SignInInfo]: signInInfo
+                }
             },
         };
     };

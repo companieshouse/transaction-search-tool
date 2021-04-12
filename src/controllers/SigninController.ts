@@ -32,7 +32,8 @@ class SigninController {
     }
 
     private populateSession(req, result) {
-        req.session[SessionKey.SignInInfo] = { 
+        req.session.data = { };
+        req.session.data[SessionKey.SignInInfo] = { 
             [SignInInfoKeys.SignedIn]: 1,
             [SignInInfoKeys.UserProfile]: result
         };
