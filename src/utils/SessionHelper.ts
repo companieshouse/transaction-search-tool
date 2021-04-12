@@ -5,7 +5,6 @@ import { SessionMiddleware, SessionStore } from "ch-node-session-handler";
 import Redis from "ioredis";
 import { RequestHandler } from "express";
 
-
 // Get stubbed cookie and session middleware for node environments
 // or use CH session middleware for production
 const getSessionMiddleware = function(): RequestHandler {
