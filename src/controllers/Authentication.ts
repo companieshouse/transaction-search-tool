@@ -11,14 +11,19 @@ const createAuthenticationMiddleware = function (): RequestHandler {
 
     return (req, res, next) => {
 
+        logger.info(`Request is currently: ${req}`)
         logger.info(`Session is currently: ${req.session}`);
         const sessionData = req.session['data'];
+        logger.info(`Data is currently: ${sessionData}`);
         const signInInfo = (sessionData !== undefined)? sessionData[SessionKey.SignInInfo] : undefined;
 
         if (signInInfo !== undefined) {
+            logger.info(`signInInfo is currently: ${signInInfo}`);
 
             const signedIn = signInInfo[SignInInfoKeys.SignedIn] === 1;
             const userInfo = signInInfo[SignInInfoKeys.UserProfile];
+            logger.info(`user info is currently: ${userInfo}`);
+
             if (signedIn && userInfo !== undefined) {
                 if (req.body === undefined) {
                     req.body = {};
