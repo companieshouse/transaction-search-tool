@@ -12,8 +12,6 @@ const createAuthenticationMiddleware = function (): RequestHandler {
     return (req, res, next) => {
 
         logger.info(`Session is currently: ${req.session}`);
-        logger.info(`Cookies is currently: ${req.cookies}`);
-
         const sessionData = req.session['data'];
         logger.info(`signed in info is currently: ${req.session[SessionKey.SignInInfo]}`);
 
