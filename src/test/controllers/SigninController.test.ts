@@ -8,7 +8,9 @@ chai.use(require('sinon-chai'));
 describe('sign in controller', ()=>{
 
     const req = {
-        session: {},
+        session: {
+            data: {}
+        },
         body: {
             username: 'name',
             password: 'password'
