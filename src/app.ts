@@ -33,6 +33,7 @@ env.addGlobal("CSS_URL", `/${config.urlPrefix}/static/app.css`);
 
 app.use(cookieParser());
 
+// app.use(`/${config.urlPrefix}`, SigninRouter.create());
 app.use(getSessionMiddleware());
 app.use(`/${config.urlPrefix}`, SigninRouter.create());
 
