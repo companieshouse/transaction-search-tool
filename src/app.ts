@@ -9,6 +9,7 @@ import authenticationMiddleware from "./controllers/Authentication";
 import SigninRouter from "./routes/SigninRouter";
 import cookieParser from "cookie-parser";
 import getSessionMiddleware from "./utils/SessionHelper";
+import helmet from "helmet";
 
 const app = express();
 const logger = createLogger(config.applicationNamespace);
@@ -32,8 +33,10 @@ app.use(`/${config.urlPrefix}/static`, express.static("dist/static"));
 env.addGlobal("CSS_URL", `/${config.urlPrefix}/static/app.css`);
 
 app.use(cookieParser());
-
 app.use(getSessionMiddleware());
+app.use(helmet());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(`/${config.urlPrefix}`, SigninRouter.create());
 
 app.use(authenticationMiddleware());
