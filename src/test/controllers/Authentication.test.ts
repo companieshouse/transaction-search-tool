@@ -5,6 +5,7 @@ import { RequestHandler } from "express";
 import { SignInInfoKeys } from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
 import { SessionKey } from "ch-node-session-handler/lib/session/keys/SessionKey";
 import { UserProfileKeys } from "ch-node-session-handler/lib/session/keys/UserProfileKeys";
+import authenticationMiddleware from "../../controllers/Authentication";
 
 import chai from 'chai';
 
@@ -32,7 +33,7 @@ describe("authenticationMiddleware", function () {
 
     let next: any;
 
-    let middleware: RequestHandler;
+    let middleware = function() {};
 
     let mockUrl = "transactionsearch";
 
@@ -66,7 +67,7 @@ describe("authenticationMiddleware", function () {
         const mockRequest: any = createMockRequest();
         const mockResponse: any = createMockResponse();
 
-        middleware(mockRequest, mockResponse, next);
+        authenticationMiddleware(mockRequest, mockResponse, next);
 
         chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}/`)).to.be.true;
     });
@@ -81,7 +82,7 @@ describe("authenticationMiddleware", function () {
         });
         const mockResponse: any = createMockResponse();
 
-        middleware(mockRequest, mockResponse, next);
+        authenticationMiddleware(mockRequest, mockResponse, next);
 
         chai.expect(next.calledOnce).to.be.true;
     });
@@ -95,7 +96,7 @@ describe("authenticationMiddleware", function () {
         });
         const mockResponse: any = createMockResponse();
 
-        middleware(mockRequest, mockResponse, next);
+        authenticationMiddleware(mockRequest, mockResponse, next);
 
         chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}/`)).to.be.true;
     });
