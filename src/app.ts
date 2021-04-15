@@ -39,7 +39,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(`/${config.urlPrefix}`, SigninRouter.create());
 
-app.use(authenticationMiddleware);
+app.use(authenticationMiddleware());
 app.use(`/${config.urlPrefix}`, BarcodeSearchRouter.create());
 app.use(createLoggerMiddleware(config.applicationNamespace));
 

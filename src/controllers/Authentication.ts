@@ -4,35 +4,32 @@ import { UserProfileKeys } from "ch-node-session-handler/lib/session/keys/UserPr
 import config from "../config";
 import { createLogger } from "ch-structured-logging";
 import { ISignInInfo } from "ch-node-session-handler/lib/session/model/SessionInterfaces";
-import { NextFunction, Request, Response } from 'express';
+import { RequestHandler } from "express";
+import { Session } from "ch-node-session-handler";
 
 const logger = createLogger(config.applicationNamespace);
 
-export default (req: Request, res: Response, next: NextFunction): void => {
+const createAuthenticationMiddleware = function (): RequestHandler {
 
-    try {
-        logger.info(`Session is currently: ${req.session}`);
-        const signInInfo = getSignInInfo(req.session);
-        logger.info(`Sign in info is: ${signInInfo}`);
-        if (checkUserSignedIn(signInInfo)) {
+    return (req, res, next) => {
+
+        const signInInfo = req.session
+            .chain((session: Session) => session.getValue<ISignInInfo>(SessionKey.SignInInfo))
+            .extract();
+        if (signInInfo !== undefined) {
+            const signedIn = signInInfo[SignInInfoKeys.SignedIn] === 1;
             const userInfo = signInInfo[SignInInfoKeys.UserProfile];
-            if (req.body === undefined) {
-                req.body = {};
+            if (signedIn && userInfo !== undefined) {
+                if (req.body === undefined) {
+                    req.body = {};
+                }
+                req.body.loggedInUserEmail = userInfo[UserProfileKeys.Email];
+                logger.info(`Logged in as: ${req.body.loggedInUserEmail}`);
+                return next();
             }
-            req.body.loggedInUserEmail = userInfo?.[UserProfileKeys.Email];
-            logger.info(`logged in as: ${req.body.loggedInUserEmail}`);
-            return next();
         }
         return res.redirect(`/signin?return_to=/${config.urlPrefix}/`);
-    } catch (err) {
-        logger.error(err);
-    }
+    };
 };
 
-function checkUserSignedIn(signInInfo): boolean {
-    return signInInfo?.[SignInInfoKeys.SignedIn] === 1;
-}
-
-function getSignInInfo(session): ISignInInfo {
-    return session?.data?.[SessionKey.SignInInfo];
-}
+export default createAuthenticationMiddleware;

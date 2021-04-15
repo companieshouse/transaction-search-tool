@@ -5,7 +5,6 @@ import { RequestHandler } from "express";
 import { SignInInfoKeys } from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
 import { SessionKey } from "ch-node-session-handler/lib/session/keys/SessionKey";
 import { UserProfileKeys } from "ch-node-session-handler/lib/session/keys/UserProfileKeys";
-import authenticationMiddleware from "../../controllers/Authentication";
 
 import chai from 'chai';
 
@@ -16,8 +15,10 @@ describe("authenticationMiddleware", function () {
     const createMockRequest = function (signInInfo?: ISignInInfo) {
         return {
             session: {
-                data: {
-                    [SessionKey.SignInInfo]: signInInfo
+                chain: function () {
+                    return {
+                        extract: () => signInInfo
+                    };
                 }
             },
         };
@@ -32,22 +33,15 @@ describe("authenticationMiddleware", function () {
     };
 
     let next: any;
+    let mockResponse: any;
 
-    let middleware = function() {};
+    let middleware: RequestHandler;
 
     let mockUrl = "transactionsearch";
 
     const requireMiddleware = function () {
 
         return proxyquire("../../controllers/Authentication", {
-            "ch-structured-logging": {
-                createLogger: function () {
-                    return { 
-                        info: sinon.stub(),
-                        error: sinon.stub()
-                     };
-                }
-            },
             "../config": {
                 default: {
                     urlPrefix:mockUrl
@@ -58,6 +52,7 @@ describe("authenticationMiddleware", function () {
 
     beforeEach(function () {
         next = sinon.stub();
+        mockResponse = createMockResponse();
         middleware = requireMiddleware();
     });
 
@@ -65,9 +60,7 @@ describe("authenticationMiddleware", function () {
     it("redirects to signin if session does not exist", function () {
 
         const mockRequest: any = createMockRequest();
-        const mockResponse: any = createMockResponse();
-
-        authenticationMiddleware(mockRequest, mockResponse, next);
+        middleware(mockRequest, mockResponse, next);
 
         chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}/`)).to.be.true;
     });
@@ -79,10 +72,9 @@ describe("authenticationMiddleware", function () {
                 [SignInInfoKeys.UserProfile]: {
                     [UserProfileKeys.Email]: 'email',
                 }
-        });
-        const mockResponse: any = createMockResponse();
+            });
 
-        authenticationMiddleware(mockRequest, mockResponse, next);
+        middleware(mockRequest, mockResponse, next);
 
         chai.expect(next.calledOnce).to.be.true;
     });
@@ -94,9 +86,7 @@ describe("authenticationMiddleware", function () {
                     [UserProfileKeys.Email]: 'email',
                 }
         });
-        const mockResponse: any = createMockResponse();
-
-        authenticationMiddleware(mockRequest, mockResponse, next);
+        middleware(mockRequest, mockResponse, next);
 
         chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}/`)).to.be.true;
     });
