@@ -9,6 +9,7 @@ class BarcodeSearchRouter {
         var barcodeSearchController = new BarcodeSearchController();
 
         router.get("/", (req, res) => barcodeSearchController.getSearchPage(req, res));
+        router.get("/barcodeSearch", (req, res) => barcodeSearchController.getSearchPage(req, res));
         router.get("/search", (req, res) => barcodeSearchController.searchBarcode(req, res));
 
         return router;

@@ -1,28 +1,14 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1 class="govuk-heading-xl">Transaction Search Tool</h1>
-<form action="/transactionsearch/search">
-    <div class="govuk-form-group">
-        <input type="search" name="search" id="search" class="govuk-input">
-        <input type="submit" class="govuk-button">
-    </div>
-</form>
-
-    {% if barcode %}
-    <table class="govuk-table">
-        <tbody>
-        <tr class="govuk-table__header">
-        {% for name, value in result %}
-            <th>{{ name }}</th>
-        {% endfor %}
-        </tr>
-        <tr class="govuk-table__cell">
-        {% for name, value in result %}
-            <td>{{ value }}</td>
-        {% endfor %}
-        </tr>
-        </tbody>
-    </table>
-    {% endif %}
+    <h1 class="govuk-heading-xl">Transaction Search Tool</h1>
+    <form action="/transactionsearch/search">
+        <div class="govuk-form-group">
+            <input type="search" name="search" id="search" class="govuk-input">
+            <input type="submit" class="govuk-button">
+            {% if error %}
+                <span id="barcode-error" class="govuk-error-message">No results found.</span>
+            {% endif %}
+        </div>
+    </form>
 {% endblock %}

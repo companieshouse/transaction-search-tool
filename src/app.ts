@@ -5,6 +5,11 @@ import config from "./config";
 import path from "path";
 
 import BarcodeSearchRouter from "./routes/BarcodeSearchRouter";
+import authenticationMiddleware from "./controllers/Authentication";
+import SigninRouter from "./routes/SigninRouter";
+import cookieParser from "cookie-parser";
+import getSessionMiddleware from "./utils/SessionHelper";
+import helmet from "helmet";
 
 const app = express();
 const logger = createLogger(config.applicationNamespace);
@@ -24,10 +29,17 @@ var env = nunjucks
 
 app.set("views", viewPath);
 app.set("view engine", "html");
-
 app.use(`/${config.urlPrefix}/static`, express.static("dist/static"));
 env.addGlobal("CSS_URL", `/${config.urlPrefix}/static/app.css`);
 
+app.use(cookieParser());
+app.use(getSessionMiddleware());
+app.use(helmet());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(`/${config.urlPrefix}`, SigninRouter.create());
+
+app.use(authenticationMiddleware());
 app.use(`/${config.urlPrefix}`, BarcodeSearchRouter.create());
 app.use(createLoggerMiddleware(config.applicationNamespace));
 
