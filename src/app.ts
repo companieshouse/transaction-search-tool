@@ -30,7 +30,7 @@ var env = nunjucks
 app.set("views", viewPath);
 app.set("view engine", "html");
 app.use(`/${config.urlPrefix}/static`, express.static("dist/static"));
-env.addGlobal("CSS_URL", `/${config.urlPrefix}/static/app.css`);
+env.addGlobal("CSS_URL", config.cdnUrl);
 
 app.use(cookieParser());
 app.use(getSessionMiddleware());
