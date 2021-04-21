@@ -1,6 +1,7 @@
 interface ApplicationConfiguration {
     port: number;
     urlPrefix: string;
+    cdnUrl: string;
     applicationNamespace: string;
     mongodb: string;
     chipsDatabase: {

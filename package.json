@@ -7,7 +7,6 @@
     "start": "NODE_ENV=development ts-node ./src/app.ts",
     "start:watch": "NODE_ENV=development nodemon",
     "build": "tsc && cp -r src/views dist/app/",
-    "build-scss": "gulp static",
     "lint": "tslint -p .",
     "test": "mocha -r ts-mocha src/**/*.test.ts"
   },
@@ -24,9 +23,6 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "govuk-frontend": "^3.9.1",
-    "gulp": "^4.0.2",
-    "gulp-cli": "^2.3.0",
-    "gulp-sass": "^4.1.0",
     "helmet": "^4.4.1",
     "mongodb": "^3.6.5",
     "nodemon": "^2.0.6",
