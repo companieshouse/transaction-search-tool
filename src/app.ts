@@ -29,7 +29,7 @@ var env = nunjucks
 
 app.set("views", viewPath);
 app.set("view engine", "html");
-env.addGlobal("CSS_URL", config.cdnUrl);
+env.addGlobal("CDN_URL", config.cdnUrl);
 
 app.use(cookieParser());
 app.use(getSessionMiddleware());
