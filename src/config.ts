@@ -5,7 +5,7 @@ const config: ApplicationConfiguration = {
     urlPrefix: "transactionsearch",
     applicationNamespace: "transaction-search-tool",
     mongodb: process.env.MONGODB_URL as string,
-    cdnUrl: "d3uvya5a8a1ncx.cloudfront.net",
+    cdnUrl: process.env.CDN_HOST as string,
     
     chipsDatabase: {
         username: process.env.CHIPS_DB_USER as string,
