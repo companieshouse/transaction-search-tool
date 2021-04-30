@@ -25,7 +25,18 @@ const createAuthenticationMiddleware = function (): RequestHandler {
                 }
                 req.body.loggedInUserEmail = userInfo[UserProfileKeys.Email];
                 logger.info(`Logged in as: ${req.body.loggedInUserEmail}`);
-                return next();
+
+                const permissions = userInfo[UserProfileKeys.Permissions];
+
+                if (permissions !== undefined && permissions["/admin/transaction-search"] === 1) {
+                    return next();
+                } else {
+                    logger.infoRequest(req, `Signed in user (${req.body.loggedInUserEmail}) does not have the correct permissions`);
+
+                    res.status(403);
+
+                    return res.render("notAuthorised");
+                }
             }
         }
         return res.redirect(`/signin?return_to=/${config.urlPrefix}/`);
