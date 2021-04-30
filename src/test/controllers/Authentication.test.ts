@@ -65,19 +65,38 @@ describe("authenticationMiddleware", function () {
         chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}/`)).to.be.true;
     });
 
-    it("calls next if signed in and user profile exists", function () {
+    it("calls next if signed in and user profile exists with permission", function () {
 
         const mockRequest: any = createMockRequest({
             [SignInInfoKeys.SignedIn]: 1,
                 [SignInInfoKeys.UserProfile]: {
                     [UserProfileKeys.Email]: 'email',
-                }
+                    [UserProfileKeys.Permissions]: {
+                        "/admin/transaction-search" : 1
+                    }
+                },
             });
 
         middleware(mockRequest, mockResponse, next);
 
         chai.expect(next.calledOnce).to.be.true;
     });
+
+    it("renders not authorised if signed in and user profile exists without permission", function () {
+
+        const mockRequest: any = createMockRequest({
+            [SignInInfoKeys.SignedIn]: 1,
+                [SignInInfoKeys.UserProfile]: {
+                    [UserProfileKeys.Email]: 'email'
+                },
+            });
+
+        middleware(mockRequest, mockResponse, next);
+
+        chai.expect(mockResponse.status.calledOnceWith(403)).to.be.true;
+        chai.expect(mockResponse.render.calledOnceWith("notAuthorised")).to.be.true;
+    });
+
     it("redirects to signin if signed in is set to 0", function () {
 
         const mockRequest: any = createMockRequest({
