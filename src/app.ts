@@ -29,18 +29,36 @@ var env = nunjucks
 
 app.set("views", viewPath);
 app.set("view engine", "html");
-env.addGlobal("CDN_URL", config.cdnUrl);
 
 app.use(cookieParser());
 app.use(getSessionMiddleware());
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        fontSrc: ["'self'", 'https:', 'data:', config.cdnUrl],
+        imgSrc: ["'self'", 'data:', config.cdnUrl],
+        styleSrc: ["'self'", 'https:', "'unsafe-inline'", config.cdnUrl],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          config.cdnUrl
+        ],
+        objectSrc: ["'none'"]
+      }
+    }
+  }));
 app.use(express.urlencoded({ extended: true }));
+env.addGlobal("CDN_URL", config.cdnUrl);
 
 app.use(`/${config.urlPrefix}`, SigninRouter.create());
 
 app.use(authenticationMiddleware());
 app.use(`/${config.urlPrefix}`, BarcodeSearchRouter.create());
 app.use(createLoggerMiddleware(config.applicationNamespace));
+app.use(`/${config.urlPrefix}/static`, express.static("dist/app/static"));
+
+app.set('engine', env);
 
 app.listen(config.port, function () {
     logger.info(`Server started on port ${config.port}`);

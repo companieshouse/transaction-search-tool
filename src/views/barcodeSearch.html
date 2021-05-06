@@ -1,14 +1,23 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1 class="govuk-heading-xl">Transaction Search Tool</h1>
     <form action="/transactionsearch/search">
         <div class="govuk-form-group">
-            <input type="search" name="search" id="search" class="govuk-input">
-            <input type="submit" class="govuk-button">
+            <h1 class="govuk-label-wrapper">
+              <label class="govuk-label govuk-label--xl" for="search">
+                Search for documents
+              </label>
+            </h1>
+          
+            <div id="search-hint" class="govuk-hint">
+              Search by document barcode
+            </div>
+          
+            <input class="govuk-input govuk-input--width-20" id="search" name="search" type="search" aria-describedby="search-hint">
             {% if error %}
                 <span id="barcode-error" class="govuk-error-message">No results found.</span>
             {% endif %}
-        </div>
+          </div>
+          <input type="submit" class="govuk-button">
     </form>
 {% endblock %}
