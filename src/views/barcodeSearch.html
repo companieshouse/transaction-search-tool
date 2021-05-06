@@ -7,15 +7,13 @@
               <label class="govuk-label govuk-label--xl" for="search">
                 Search for documents
               </label>
-              </h1>
+            </h1>
           
-            
-            
             <div id="search-hint" class="govuk-hint">
               Search by document barcode
             </div>
           
-          <input class="govuk-input govuk-input--width-20" id="search" name="search" type="search" aria-describedby="search-hint">
+            <input class="govuk-input govuk-input--width-20" id="search" name="search" type="search" aria-describedby="search-hint">
             {% if error %}
                 <span id="barcode-error" class="govuk-error-message">No results found.</span>
             {% endif %}

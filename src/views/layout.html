@@ -4,31 +4,8 @@
 {% block head %}
     <!--[if !IE 8]><!-->
     <link rel="stylesheet" type="text/css" media="screen" href="//{{CDN_URL}}/stylesheets/extensions/application.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="./static/app.css"/>
     <!--<![endif]-->
-
-    <style>
-        ul#navigation {
-            border-bottom: 1px solid #b1b4b6;
-            font-size: .9em;
-            margin: 0 0 1em;
-            padding: .8em 0;
-            text-align: right;
-        }
-
-        ul {
-            display: block;
-            list-style-type: disc;
-            margin-block-start: 1em;
-            margin-block-end: 1em;
-            margin-inline-start: 0px;
-            margin-inline-end: 0px;
-            padding-inline-start: 40px;
-        }
-        li {
-            display: inline;
-            padding: 8px;
-        }
-    </style>
 {% endblock %}
 
 
@@ -78,12 +55,14 @@
 
   <div class="govuk-width-container">
     <ul id="navigation">
-        <li id="signed-in-user" class="user">
-          <a>{{ loggedInUserEmail }}</a>
-        </li>
-        <li>
-          <a id="user-signout" href="/signout">Sign out</a>
-        </li>
+        {% if loggedInUserEmail %}
+            <li id="signed-in-user" class="user">
+                <a>{{ loggedInUserEmail }}</a>
+            </li>
+            <li>
+                <a id="user-signout" href="/signout">Sign out</a>
+            </li>
+        {% endif %}
     </ul>
 </div>
 {% endblock %}
