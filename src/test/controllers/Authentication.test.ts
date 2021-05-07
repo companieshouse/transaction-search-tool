@@ -29,7 +29,7 @@ describe("authenticationMiddleware", function () {
             redirect: sinon.spy(),
             status: sinon.stub(),
             render: sinon.spy(),
-            app: { get() {}}
+            app: sinon.stub()
         };
     };
 
