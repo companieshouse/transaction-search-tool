@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=development ts-node ./src/app.ts",
     "start:watch": "NODE_ENV=development nodemon",
-    "build": "tsc && cp -r src/views dist/app/",
+    "build": "tsc && cp -r src/views dist/app/ && cp -r src/static dist/app/",
     "lint": "tslint -p .",
     "test": "mocha --coverage -r ts-mocha src/**/*.test.ts",
     "analyse-code": "sonar-scanner"
