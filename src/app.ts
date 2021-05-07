@@ -57,6 +57,7 @@ app.use(authenticationMiddleware());
 app.use(`/${config.urlPrefix}`, BarcodeSearchRouter.create());
 app.use(createLoggerMiddleware(config.applicationNamespace));
 app.use(`/${config.urlPrefix}/static`, express.static("dist/app/static"));
+env.addGlobal("CSS_URL", `/${config.urlPrefix}/static/app.css`);
 
 app.set('engine', env);
 
