@@ -28,7 +28,8 @@ describe("authenticationMiddleware", function () {
         return {
             redirect: sinon.spy(),
             status: sinon.stub(),
-            render: sinon.spy()
+            render: sinon.spy(),
+            app: sinon.stub()
         };
     };
 
@@ -66,6 +67,10 @@ describe("authenticationMiddleware", function () {
     });
 
     it("calls next if signed in and user profile exists with permission", function () {
+        var engine = {
+            addGlobal: sinon.stub()
+          };
+        sinon.stub(mockResponse.app, "get").returns(engine);
 
         const mockRequest: any = createMockRequest({
             [SignInInfoKeys.SignedIn]: 1,
