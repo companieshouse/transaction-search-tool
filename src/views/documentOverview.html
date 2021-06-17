@@ -11,7 +11,7 @@
         <div class="govuk-grid-column-one-half no-print">
           <p class="float-right">Current status:<br>
             <strong>
-              {{ result.ChipsStatus }}</strong><br>
+              {{ result.Status }}</strong><br>
             at {{ result.TransactionDate }}</p>
         </div>
       </div>
@@ -26,7 +26,7 @@
           <dt class="govuk-summary-list__key">
             CHIPS status
           </dt>
-          <dd class="govuk-summary-list__value">{{ result.ChipsStatus }}</dd>
+          <dd class="govuk-summary-list__value">{{ result.ChipsStatus }} ({{ result.User }})</dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">

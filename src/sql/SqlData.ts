@@ -10,15 +10,11 @@ class SqlData {
     
     public static getQueueAndUserFromDocumentSQL: string =
     `SELECT O_QUEUENAME, O_QPARAM1
-    FROM STAFFO
-    WHERE O_CASENUM = (
-        SELECT CASENUM 
-        FROM CASE_DATA 
-        WHERE FIELD_NAME = 'X_QHADOCID' 
-        AND PROC_ID = 26
-        AND FIELD_VALUE = :documentId
-        AND ROWNUM = 1
-    )
+    FROM STAFFO SO
+    INNER JOIN CASE_DATA CD
+    ON SO.O_CASENUM = CD.CASENUM
+    WHERE CD.FIELD_NAME = 'X_QHADOCID'
+    AND CD.FIELD_VALUE = :documentId
     AND ROWNUM = 1`
 
     public static orgUnitSql: string = 
