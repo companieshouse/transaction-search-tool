@@ -60,6 +60,7 @@ class BarcodeSearchController {
     private createModel(barcode: string, chipsResult: ChipsResult, fesResult: FesResult, orgUnit: string, userLogin: string): DocumentOverviewModel {
         var model = new DocumentOverviewModel();
         model.formBarcode = barcode;
+        model.status = chipsResult.chipsStatus || fesResult.fesStatus;
         model.documentId = chipsResult.documentId;
         model.chipsStatus = chipsResult.chipsStatus;
         model.transactionId = chipsResult.transactionId;
