@@ -29,7 +29,7 @@ class ChipsService {
 
     public async getUserFromId(userId: number): Promise<string> {
         var result = await this.dao.makeQuery(SqlData.userSql, [userId]);
-        return result.rows[0]? result.rows[0]['LOGIN_ID'] : "No user allocated";
+        return result.rows[0] ? result.rows[0]['LOGIN_ID'] : "No user allocated";
     }
 }
 
