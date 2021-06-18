@@ -47,7 +47,7 @@ class SqlData {
     `SELECT b.BATCH_NAME 
     FROM BATCH b, ENVELOPE e
     WHERE e.ENVELOPE_BATCH_ID = b.BATCH_ID
-    AND e.ENVELOPE_ID = :formEnvelopeId;`
+    AND e.ENVELOPE_ID = :formEnvelopeId`
 }
 
 export default SqlData;
