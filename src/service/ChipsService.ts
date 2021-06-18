@@ -18,6 +18,8 @@ class ChipsService {
             result.chipsStatus = chipsSearch.rows[0]['TRANSACTION_STATUS_DESC'];
             result.documentId = chipsSearch.rows[0]['INPUT_DOCUMENT_ID'];
             result.transactionDate = chipsSearch.rows[0]['TRANSACTION_STATUS_DATE'];
+            result.userAccessId = chipsSearch.rows[0]['USER_ACCESS_ID'];
+            result.orgUnitId = chipsSearch.rows[0]['ORGANISATIONAL_UNIT_ID'];
         }
         return result;
     }

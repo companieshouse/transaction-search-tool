@@ -4,6 +4,8 @@ class ChipsResult {
     incorporationNumber: string;
     chipsStatus: string;
     transactionDate: string;
+    userAccessId: number;
+    orgUnitId: number;
 
     public isEmpty() {
         return Object.keys(this).length === 0;

@@ -37,8 +37,12 @@ class BarcodeSearchController {
 
         if (chipsResult.documentId != undefined ) {
             staffwareResult = await this.swService.addStaffwareData(chipsResult.documentId);
-            orgUnit = await this.chipsService.getOrgUnitFromId(staffwareResult.orgUnitId);
-            userLogin = await this.chipsService.getUserFromId(staffwareResult.userId);
+
+            var orgUnitId = staffwareResult.orgUnitId || chipsResult.orgUnitId;
+            orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);
+
+            var userId = staffwareResult.userId || chipsResult.userAccessId;
+            userLogin = await this.chipsService.getUserFromId(userId);
         }
 
         if (chipsResult.isEmpty() && fesResult.isEmpty()) {
