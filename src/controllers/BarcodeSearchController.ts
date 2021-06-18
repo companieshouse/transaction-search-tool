@@ -47,7 +47,8 @@ class BarcodeSearchController {
                 error: true
             });
         } else {
-            var model = this.createModel(barcode, chipsResult, fesResult, orgUnit, userLogin);
+            var batchName = await this.fesService.getBatchNameFromEnvelopeId(fesResult.envNo);
+            var model = this.createModel(barcode, chipsResult, fesResult, orgUnit, userLogin, batchName);
             logger.info(`Barcode searched: ${barcode}, result: ${model.toString()}`);
 
             res.render("documentOverview", {
@@ -57,7 +58,7 @@ class BarcodeSearchController {
         }
     }
 
-    private createModel(barcode: string, chipsResult: ChipsResult, fesResult: FesResult, orgUnit: string, userLogin: string): DocumentOverviewModel {
+    private createModel(barcode: string, chipsResult: ChipsResult, fesResult: FesResult, orgUnit: string, userLogin: string, batchName: string): DocumentOverviewModel {
         var model = new DocumentOverviewModel();
         model.formBarcode = barcode;
         model.documentId = chipsResult.documentId;
@@ -69,6 +70,7 @@ class BarcodeSearchController {
         model.orgUnit = orgUnit;
         model.user = userLogin;
         model.envNo = fesResult.envNo;
+        model.batchName = batchName;
         model.scanTime = fesResult.scanTime;
         model.fesStatus = fesResult.fesStatus;
         model.icoReturnedReason = fesResult.icoReturnedReason;

@@ -4,6 +4,7 @@ class DocumentOverviewModel extends BarcodeSearchModel {
     transactionId: number;
     documentId: number;
     envNo: number;
+    batchName: string;
     scanTime: string;
     icoReturnedReason: string;
     icoAction: string;
@@ -27,6 +28,7 @@ class DocumentOverviewModel extends BarcodeSearchModel {
             "TransactionId" : this.transactionId,
             "DocumentId" : this.documentId,
             "EnvNo" : this.envNo,
+            "BatchName" : this.batchName,
             "ScanTime": this.scanTime,
             "ICOReturnedReason" : this.icoReturnedReason,
             "ICOAction" : this.icoAction,
