@@ -38,6 +38,12 @@ class SqlData {
     `SELECT FORM_EVENT_OCCURRED, FORM_EVENT_TEXT
     FROM FORM_EVENT
     WHERE FORM_EVENT_IMAGE_EXCEPTION_ID = :exceptionId`
+
+    public static fesBatchNameSql: string =
+    `SELECT b.BATCH_NAME 
+    FROM BATCH b, ENVELOPE e
+    WHERE e.ENVELOPE_BATCH_ID = b.BATCH_ID
+    AND e.ENVELOPE_ID = :formEnvelopeId`
 }
 
 export default SqlData;

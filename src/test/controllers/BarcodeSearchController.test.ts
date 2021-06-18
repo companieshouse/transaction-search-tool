@@ -23,6 +23,7 @@ describe('barcode search controller', ()=>{
     var barcodeSearchController: BarcodeSearchController;
     var orgUnitStub: SinonStub;
     var userStub: SinonStub;
+    var batchStub: SinonStub;
 
     before(()=>{
 
@@ -62,6 +63,7 @@ describe('barcode search controller', ()=>{
         barcodeSearchController.swService = swService;
 
         sinon.stub(fesService, 'getTransactionDetailsFromBarcode').resolves(fesResult);
+        batchStub = sinon.stub(fesService, 'getBatchNameFromEnvelopeId').resolves("1");
         barcodeSearchController.fesService = fesService;
     })
 
@@ -86,6 +88,7 @@ describe('barcode search controller', ()=>{
                 "TransactionId" : 1,
                 "DocumentId" : 1,
                 "EnvNo" : 1,
+                "BatchName" : "1",
                 "ScanTime": "01/12/2020",
                 "ICOReturnedReason" : "No exception occurred",
                 "ICOAction" : "No exception occurred",
@@ -94,6 +97,7 @@ describe('barcode search controller', ()=>{
         await barcodeSearchController.searchBarcode(req, res);
         chai.expect(orgUnitStub.calledWithMatch(1234)).to.be.true;
         chai.expect(userStub.calledWithMatch(1)).to.be.true;
+        chai.expect(batchStub.calledWithMatch(1)).to.be.true;
         chai.expect(res.render.calledWithMatch("documentOverview", expectedRender)).to.be.true;
     }).timeout(5000)
 })

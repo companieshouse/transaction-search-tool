@@ -46,6 +46,17 @@ describe('FES service test', ()=>{
         chai.expect(returnedSearchResult).to.be.deep.equal(expectedResult);
     });
 
+    it('test getBatchNameFromEnvelopeId returns batch name', async ()=>{
+        var queryResult = {
+            BATCH_NAME : "Test Batch Name"
+        }
+        stub = sinon.stub(dao, 'makeQuery').resolves({rows: [queryResult]});
+        fesService.dao = dao;
+
+        var batchName = await fesService.getBatchNameFromEnvelopeId(1);
+        chai.expect(batchName).to.be.equal("Test Batch Name");
+    });
+
     afterEach(() => {
         stub.restore();
     });
