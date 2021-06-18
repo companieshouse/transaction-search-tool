@@ -25,6 +25,8 @@ describe('chips service test', ()=>{
             TRANSACTION_STATUS_DESC : 'Pending',
             INPUT_DOCUMENT_ID : 1,
             TRANSACTION_STATUS_DATE : '01/12/2020',
+            USER_ACCESS_ID : 100000,
+            ORGANISATIONAL_UNIT_ID : 1
         }
         var expectedResult = new ChipsResult();
         expectedResult.transactionId = 1;
@@ -32,6 +34,8 @@ describe('chips service test', ()=>{
         expectedResult.documentId = 1;
         expectedResult.incorporationNumber = 'inco';
         expectedResult.transactionDate = '01/12/2020';
+        expectedResult.userAccessId = 100000;
+        expectedResult.orgUnitId = 1;
 
         stub = sinon.stub(dao, 'makeQuery').resolves({rows: [queryResult]});
         chipsService.dao = dao;
