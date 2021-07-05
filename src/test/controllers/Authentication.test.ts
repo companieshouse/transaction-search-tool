@@ -88,6 +88,10 @@ describe("authenticationMiddleware", function () {
     });
 
     it("renders not authorised if signed in and user profile exists without permission", function () {
+        var engine = {
+            addGlobal: sinon.stub()
+          };
+        sinon.stub(mockResponse.app, "get").returns(engine);
 
         const mockRequest: any = createMockRequest({
             [SignInInfoKeys.SignedIn]: 1,
