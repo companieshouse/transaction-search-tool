@@ -55,6 +55,11 @@ describe("authenticationMiddleware", function () {
         next = sinon.stub();
         mockResponse = createMockResponse();
         middleware = requireMiddleware();
+        var engine = {
+            addGlobal: sinon.stub()
+          };
+        sinon.stub(mockResponse.app, "get").returns(engine);
+
     });
 
 
@@ -67,11 +72,6 @@ describe("authenticationMiddleware", function () {
     });
 
     it("calls next if signed in and user profile exists with permission", function () {
-        var engine = {
-            addGlobal: sinon.stub()
-          };
-        sinon.stub(mockResponse.app, "get").returns(engine);
-
         const mockRequest: any = createMockRequest({
             [SignInInfoKeys.SignedIn]: 1,
                 [SignInInfoKeys.UserProfile]: {
@@ -88,11 +88,6 @@ describe("authenticationMiddleware", function () {
     });
 
     it("renders not authorised if signed in and user profile exists without permission", function () {
-        var engine = {
-            addGlobal: sinon.stub()
-          };
-        sinon.stub(mockResponse.app, "get").returns(engine);
-
         const mockRequest: any = createMockRequest({
             [SignInInfoKeys.SignedIn]: 1,
                 [SignInInfoKeys.UserProfile]: {
