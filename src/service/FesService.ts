@@ -17,9 +17,11 @@ class FesService {
             result.scanTime = fesSearch.rows[0]['FORM_BARCODE_DATE'];
             result.formType = fesSearch.rows[0]['FORM_TYPE'];
             result.fesStatus = fesSearch.rows[0]['FORM_STATUS_TYPE_NAME'];
-            result.icoReturnedReason = fesSearch.rows[0]['IMAGE_EXCEPTION_REASON'] || "No image exception returned";
-            result.icoAction = fesSearch.rows[0]['IMAGE_EXCEPTION_FREE_TEXT'] || "No image exception returned";
-            result.exceptionId = fesSearch.rows[0]['IMAGE_EXCEPTION_ID'];
+            var imageSearch = await this.dao.makeQuery(SqlData.fesImageExceptionSql, [fesSearch.rows[0]['FORM_IMAGE_ID']]);
+            var imageResult = imageSearch.rows[0];
+            result.icoReturnedReason = imageResult['IMAGE_EXCEPTION_REASON'] || "No image exception returned";
+            result.icoAction = imageResult['IMAGE_EXCEPTION_FREE_TEXT'] || "No image exception returned";
+            result.exceptionId = imageResult['IMAGE_EXCEPTION_ID'];
             if (result.exceptionId) {
                 var exceptionSearch = await this.dao.makeQuery(SqlData.fesRescannedSql, [result.exceptionId]);
                 result.eventOccurredTime = exceptionSearch.rows[0]['FORM_EVENT_OCCURED'] || "No event yet";
