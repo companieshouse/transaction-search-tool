@@ -22,8 +22,7 @@ class ParentDao {
             });
         } catch (err: any) {
             logger.error("Error setting up connection: " + err +
-            " username: " + this.user + " password: " + this.password + 
-            " connectionString: " + this.connectionString);
+            " username: " + this.user + " connectionString: " + this.connectionString);
         }
         return
     }

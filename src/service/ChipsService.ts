@@ -15,11 +15,13 @@ class ChipsService {
         if (chipsSearch.rows[0]) {
             result.transactionId = chipsSearch.rows[0]['TRANSACTION_ID'];
             result.incorporationNumber = chipsSearch.rows[0]['INCORPORATION_NUMBER'] || "No Company Number";
-            result.chipsStatus = chipsSearch.rows[0]['TRANSACTION_STATUS_DESC'];
-            result.documentId = chipsSearch.rows[0]['INPUT_DOCUMENT_ID'];
             result.transactionDate = chipsSearch.rows[0]['TRANSACTION_STATUS_DATE'];
             result.userAccessId = chipsSearch.rows[0]['USER_ACCESS_ID'];
             result.orgUnitId = chipsSearch.rows[0]['ORGANISATIONAL_UNIT_ID'];
+            var transactionStatusSearch = await this.dao.makeQuery(SqlData.transactionStatusTypeSQL, [chipsSearch.rows[0]['TRANSACTION_STATUS_TYPE_ID']]);
+            result.chipsStatus = transactionStatusSearch.rows[0] ? transactionStatusSearch.rows[0]['TRANSACTION_STATUS_DESC'] : undefined;
+            var transactionXMLSearch = await this.dao.makeQuery(SqlData.transactionXMLDocSQL, [chipsSearch.rows[0]['TRANSACTION_ID']]);
+            result.documentId = transactionXMLSearch.rows[0] ? transactionXMLSearch.rows[0]['INPUT_DOCUMENT_ID'] : undefined;
         }
         return result;
     }
