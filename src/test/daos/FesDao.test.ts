@@ -25,7 +25,9 @@ describe('Fes database call', () => {
     before( async ()=> {
         sinon.stub(oracledb, 'getConnection').resolves({
             execute: function() {},
-            close: function() {}
+            close: function() { 
+                return { catch: function() {} };
+            }
         });
         let connection = await oracledb.getConnection(config);
         connection.execute = sinon.stub();
