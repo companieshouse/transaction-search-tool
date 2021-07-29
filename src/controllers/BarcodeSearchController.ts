@@ -35,6 +35,7 @@ class BarcodeSearchController {
             fesResult = await this.fesService.getTransactionDetailsFromBarcode(barcode);
         } catch(err) {
             errorHandler.handleError(this.constructor.name, "searchBarcode", err, res);
+            return;
         }
 
         var staffwareResult: StaffwareResult;
@@ -51,7 +52,7 @@ class BarcodeSearchController {
                 var userId = staffwareResult.userId || chipsResult.userAccessId;
                 userLogin = await this.chipsService.getUserFromId(userId);
             } catch(err) {
-                errorHandler.handleError(this.constructor.name, "searchBarcode", err, res);
+                errorHandler.handleError(this.constructor.name, "searchBarcode", err);
             }
             
         }
