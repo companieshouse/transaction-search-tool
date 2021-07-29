@@ -1,10 +1,7 @@
+import { errorHandler } from './../utils/ErrorHandler';
 import oracledb from "oracledb";
-import config from "../config";
-import { createLogger } from "ch-structured-logging";
 
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
-
-const logger = createLogger(config.applicationNamespace);
 
 class ParentDao {
 
@@ -21,7 +18,7 @@ class ParentDao {
                 connectString : this.connectionString
             });
         } catch (err: any) {
-            logger.error("Error setting up connection: " + err +
+            errorHandler.handleError(this.constructor.name, "setupConnection", err +
             " username: " + this.user + " connectionString: " + this.connectionString);
         }
         return
@@ -33,7 +30,7 @@ class ParentDao {
         try {
             result = await this.connection.execute(query, bindParams);
         } catch (err: any) {
-            logger.error("Error in make query: " + err);
+            errorHandler.handleError(this.constructor.name, "makeQuery", err);
             result = null;
         } finally {
             await this.connection.close();
