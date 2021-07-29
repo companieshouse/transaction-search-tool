@@ -7,6 +7,7 @@ import ChipsResult from "../data/ChipsResult";
 import FesService from "../service/FesService";
 import FesResult from "../data/FesResult";
 import DocumentOverviewModel from "../models/DocumentOverviewModel";
+import { errorHandler } from "../utils/ErrorHandler";
 
 const logger = createLogger(config.applicationNamespace);
 
@@ -28,21 +29,32 @@ class BarcodeSearchController {
 
     public async searchBarcode(req: any, res: any) {
         var barcode = req.query.search;
-        var chipsResult = await this.chipsService.getTransactionDetailsFromBarcode(barcode);
-        var fesResult = await this.fesService.getTransactionDetailsFromBarcode(barcode);
+        var chipsResult, fesResult;
+        try {
+            chipsResult = await this.chipsService.getTransactionDetailsFromBarcode(barcode);
+            fesResult = await this.fesService.getTransactionDetailsFromBarcode(barcode);
+        } catch(err) {
+            errorHandler.handleError(this.constructor.name, "searchBarcode", err, res);
+            return;
+        }
 
         var staffwareResult: StaffwareResult;
         var orgUnit = '';
         var userLogin= '';
 
         if (chipsResult.documentId != undefined ) {
-            staffwareResult = await this.swService.addStaffwareData(chipsResult.documentId);
+            try {
+                staffwareResult = await this.swService.addStaffwareData(chipsResult.documentId);
 
-            var orgUnitId = staffwareResult.orgUnitId || chipsResult.orgUnitId;
-            orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);
-
-            var userId = staffwareResult.userId || chipsResult.userAccessId;
-            userLogin = await this.chipsService.getUserFromId(userId);
+                var orgUnitId = staffwareResult.orgUnitId || chipsResult.orgUnitId;
+                orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);
+    
+                var userId = staffwareResult.userId || chipsResult.userAccessId;
+                userLogin = await this.chipsService.getUserFromId(userId);
+            } catch(err) {
+                errorHandler.handleError(this.constructor.name, "searchBarcode", err);
+            }
+            
         }
 
         if (chipsResult.isEmpty() && fesResult.isEmpty()) {
