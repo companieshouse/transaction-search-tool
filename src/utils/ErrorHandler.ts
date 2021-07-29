@@ -4,8 +4,8 @@ import { createLogger } from "ch-structured-logging";
 const logger = createLogger(config.applicationNamespace);
 
 class ErrorHandler {
-    public handleError(name:string, functionName: string, description: string, res?) {
-        logger.error("Error in " + name + " function " + functionName+ ": " + description);
+    public handleError(className:string, functionName: string, err: Error, res?) {
+        logger.error("Error in " + className + " function " + functionName+ ": " + err.message);
         res?.status(500);
     }
 }

@@ -18,8 +18,7 @@ class ParentDao {
                 connectString : this.connectionString
             });
         } catch (err: any) {
-            errorHandler.handleError(this.constructor.name, "setupConnection", err +
-            " username: " + this.user + " connectionString: " + this.connectionString);
+            errorHandler.handleError(this.constructor.name, "setupConnection", err);
         }
         return
     }
@@ -33,7 +32,7 @@ class ParentDao {
             errorHandler.handleError(this.constructor.name, "makeQuery", err);
             result = null;
         } finally {
-            await this.connection.close();
+            await this.connection.close().catch();
         }
         return result;
     }
