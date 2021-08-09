@@ -1,4 +1,6 @@
 class FesResult {
+    barcode: string;
+    incorporationNumber: string;
     envNo: number;
     scanTime: string;
     formType: string;
@@ -8,6 +10,7 @@ class FesResult {
     exceptionId: number;
     eventOccurredTime: string;
     eventText: string;
+    batchName: string;
 
     public isEmpty() {
         return Object.keys(this).length === 0;
