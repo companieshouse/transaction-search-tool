@@ -2,10 +2,6 @@ import SqlData from "../sql/SqlData"
 import FesResult from "../data/FesResult";
 import FesDao from "../daos/FES/FesDao";
 
-import config from "../config";
-import { createLogger } from "ch-structured-logging";
-
-const logger = createLogger(config.applicationNamespace);
 
 class FesService {
     dao: FesDao;
@@ -69,7 +65,6 @@ class FesService {
                 if (!result.isEmpty()) resultArray.push(result);
             }
         }
-        logger.info("Our result array in FES is: " + JSON.stringify(resultArray));
         return resultArray;
     }
 

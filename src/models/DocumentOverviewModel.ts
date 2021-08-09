@@ -17,7 +17,8 @@ class DocumentOverviewModel extends BarcodeSearchModel {
     userLogin: string;
     chipsStatus: string;
     fesStatus: string;
-
+    orgUnit:string;
+    
     public toString(): string {
         return `DocumentOverviewModel: ${JSON.stringify(this.getModel())}`;
     }

@@ -2,11 +2,6 @@ import ChipsDao from "../daos/CHIPS/ChipsDao";
 import SqlData from "../sql/SqlData"
 import ChipsResult from "../data/ChipsResult";
 
-import config from "../config";
-import { createLogger } from "ch-structured-logging";
-
-const logger = createLogger(config.applicationNamespace);
-
 class ChipsService {
     dao: ChipsDao;
 
@@ -51,7 +46,6 @@ class ChipsService {
                 if (!result.isEmpty()) resultArray.push(result);
             };
         }
-        logger.info("Our result array in CHIPS is: " + JSON.stringify(resultArray));
         return resultArray;
     }
 
