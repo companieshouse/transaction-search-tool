@@ -1,7 +1,7 @@
 import chai from 'chai';
 import ChipsService from '../../service/ChipsService';
 import sinon, { SinonStub } from 'sinon';
-import BarcodeSearchController from '../../controllers/BarcodeSearchController';
+import BarcodeSearchController from '../../handlers/BarcodeSearchHandler';
 import StaffwareService from '../../service/StaffwareService';
 import ChipsResult from '../../data/ChipsResult';
 import StaffwareResult from '../../data/StaffwareResult';

@@ -11,7 +11,7 @@ import { errorHandler } from "../utils/ErrorHandler";
 
 const logger = createLogger(config.applicationNamespace);
 
-class BarcodeSearchController {
+class CompanyNumberSearchHandler {
 
     chipsService: ChipsService;
     swService: StaffwareService;
@@ -23,55 +23,23 @@ class BarcodeSearchController {
         this.fesService = new FesService();
     }
 
-    public getSearchPage(req: any, res: any) {
-        res.render("barcodeSearch");
-    }
-
-    public async searchBarcode(req: any, res: any) {
-        var searchTerm = req.query.search;
+    public async searchCompanyNumber(searchTerm: string): Promise<Map<String, DocumentOverviewModel>> {
         var resultsMap: Map<String,DocumentOverviewModel> = new Map();
         var chipsResults: ChipsResult[] = [];
         var fesResults: FesResult[] = [];
 
         try {
-            let chipsResult = await this.chipsService.getTransactionDetailsFromBarcode(searchTerm);
-            let fesResult = await this.fesService.getTransactionDetailsFromBarcode(searchTerm);
             chipsResults = await this.chipsService.getTransactionDetailsFromCompanyNumber(searchTerm);
             fesResults = await this.fesService.getTransactionDetailsFromCompanyNumber(searchTerm);
-            if (!chipsResult.isEmpty()) chipsResults.push(chipsResult);
-            if (!fesResult.isEmpty()) fesResults.push(fesResult);
         } catch(err) {
-            errorHandler.handleError(this.constructor.name, "searchBarcode", err, res);
-            return;
+            errorHandler.handleError(this.constructor.name, "searchCompanyNumber", err);
+            return resultsMap;
         }
 
         chipsResults = await this.getStaffwareEntries(chipsResults);
         resultsMap = this.buildResultsMap(chipsResults,fesResults);
-
-        logger.info("resultsMap size is: " + resultsMap.size);
-
-        if (!resultsMap.entries()) {
-            res.render("barcodeSearch", {
-                barcode: searchTerm,
-                error: true
-            });
-        } else if(resultsMap.size === 1) {
-            var models = this.getModelsAsArray(resultsMap);
-            logger.info(`Search term: ${searchTerm}, returned result: ${JSON.stringify(models)}`);
-
-            res.render("documentOverview", {
-                barcode: searchTerm,
-                model: models[0]
-            });
-        } else {
-            var models = this.getModelsAsArray(resultsMap);
-            logger.info(`Search term: ${searchTerm}, returned result: ${JSON.stringify(models)}`);
-
-            res.render("resultsPage", {
-                searchTerm: searchTerm,
-                models: models
-            });
-        }
+        logger.info(`Search term: ${searchTerm}, returned ${JSON.stringify(resultsMap.size)} results for company number search`);
+        return resultsMap;
     }
 
     private async getStaffwareEntries(chipsResults: ChipsResult[]): Promise<ChipsResult[]> {
@@ -115,14 +83,6 @@ class BarcodeSearchController {
         return resultMap;
     }
 
-    private getModelsAsArray(resultsMap:Map<String,DocumentOverviewModel>): Object[] {
-        var models: Object[] = [];
-        for(let model of resultsMap.values()) {
-            models.push(model.getModel());
-        }
-        return models;
-    }
-
     private populateModel(result: Object, model: DocumentOverviewModel): DocumentOverviewModel {
         if(result instanceof ChipsResult || result instanceof FesResult) {
             Object.keys(result).forEach(key=>{
@@ -134,4 +94,4 @@ class BarcodeSearchController {
 
 }
 
-export default BarcodeSearchController;
+export default CompanyNumberSearchHandler;

@@ -18,15 +18,15 @@
             <th>FES Status</th>
             <th>Location</th>
         </tr>
-        {% for model in models %}
+        {% for result in results %}
             <tr>
-                <td>{{ model.Barcode }}</td>
-                <td>{{ model.User }}</td>
-                <td>{{ model.CoNumb }}</td>
-                <td>{{ model.Type }}</td>
-                <td>{{ model.ChipsStatus }}</td>
-                <td>{{ model.FESStatus }}</td>
-                <td>{{ model.Location }}</td>
+                <td>{{ result.Barcode }}</td>
+                <td>{{ result.User }}</td>
+                <td>{{ result.CoNumb }}</td>
+                <td>{{ result.Type }}</td>
+                <td>{{ result.ChipsStatus }}</td>
+                <td>{{ result.FESStatus }}</td>
+                <td>{{ result.Location }}</td>
             </tr>
         {% endfor %}
       </table>

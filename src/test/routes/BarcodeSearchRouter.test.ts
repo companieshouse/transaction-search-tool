@@ -1,7 +1,7 @@
 import chai from 'chai';
 import sinon, { SinonSpy } from 'sinon';
 import express, { Router } from "express";
-import BarcodeSearchRouter from '../../routes/BarcodeSearchRouter';
+import BarcodeSearchRouter from '../../routes/SearchRouter';
 chai.use(require('sinon-chai'));
 
 describe('barcode search router', ()=>{
