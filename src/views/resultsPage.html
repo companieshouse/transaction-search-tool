@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+            Search results for "{{ searchTerm }}"
+        </h1>
+      <table>
+        <tr>
+            <th>Barcode</th>
+            <th>Allocated to</th>
+            <th>Company number</th>
+            <th>Type</th>
+            <th>CHIPS Status</th>
+            <th>FES Status</th>
+            <th>Location</th>
+        </tr>
+        {% for result in results %}
+            <tr>
+                <td>{{ result.Barcode }}</td>
+                <td>{{ result.User }}</td>
+                <td>{{ result.CoNumb }}</td>
+                <td>{{ result.Type }}</td>
+                <td>{{ result.ChipsStatus }}</td>
+                <td>{{ result.FESStatus }}</td>
+                <td>{{ result.Location }}</td>
+            </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+{% endblock %}

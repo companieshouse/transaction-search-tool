@@ -1,7 +1,9 @@
 import BarcodeSearchModel from "./BarcodeSearchModel";
 
 class DocumentOverviewModel extends BarcodeSearchModel {
+    barcode: string;
     transactionId: number;
+    incorporationNumber: string;
     status: string;
     documentId: number;
     envNo: number;
@@ -12,16 +14,20 @@ class DocumentOverviewModel extends BarcodeSearchModel {
     eventOccurredTime: string;
     eventText: string;
     transactionDate: string;
-
+    userLogin: string;
+    chipsStatus: string;
+    fesStatus: string;
+    orgUnit:string;
+    
     public toString(): string {
         return `DocumentOverviewModel: ${JSON.stringify(this.getModel())}`;
     }
 
     public getModel(): Object {
         return {
-            "Barcode" : this.formBarcode,
+            "Barcode" : this.barcode,
             "Status" : this.status,
-            "User" : this.user || "No user allocated",
+            "User" : this.userLogin || "No user allocated",
             "CoNumb" : this.incorporationNumber,
             "Type" : this.formType,
             "ChipsStatus" : this.chipsStatus || "Not in CHIPS",
@@ -38,6 +44,10 @@ class DocumentOverviewModel extends BarcodeSearchModel {
             "eventText" : this.eventText,
             "TransactionDate" : this.transactionDate
         };
+    }
+
+    public isEmpty() {
+        return Object.keys(this).length === 0;
     }
 }
 

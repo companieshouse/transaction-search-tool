@@ -2,6 +2,7 @@ import SqlData from "../sql/SqlData"
 import FesResult from "../data/FesResult";
 import FesDao from "../daos/FES/FesDao";
 
+
 class FesService {
     dao: FesDao;
 
@@ -13,6 +14,7 @@ class FesService {
         var result = new FesResult();
         var fesSearch = await this.dao.makeQuery(SqlData.fesTransactionSql, [barcode]);
         if (fesSearch.rows[0]) {
+            result.barcode = barcode;
             result.envNo = fesSearch.rows[0]['FORM_ENVELOPE_ID'];
             result.scanTime = fesSearch.rows[0]['FORM_BARCODE_DATE'];
             result.formType = fesSearch.rows[0]['FORM_TYPE'];
@@ -34,7 +36,36 @@ class FesService {
         return result;
     }
 
-    public async getBatchNameFromEnvelopeId(envNo: number): Promise<string> {
+    public async getTransactionDetailsFromCompanyNumber(incno: string): Promise<FesResult[]> {
+        var resultArray: FesResult[] = [];
+        var fesSearch = await this.dao.makeQuery(SqlData.fesIncorporationNumberSql, [incno]);
+        if (fesSearch.rows[0]) {
+            for(let i=0; i<fesSearch.rows.length; i++) {
+                let result = new FesResult();
+                result.incorporationNumber = incno;
+                result.barcode = fesSearch.rows[i]['FORM_BARCODE'];
+                result.envNo = fesSearch.rows[i]['FORM_ENVELOPE_ID'];
+                result.scanTime = fesSearch.rows[i]['FORM_BARCODE_DATE'];
+                result.formType = fesSearch.rows[i]['FORM_TYPE'];
+                result.fesStatus = fesSearch.rows[i]['FORM_STATUS_TYPE_NAME'];
+                result.icoReturnedReason = fesSearch.rows[i]['IMAGE_EXCEPTION_REASON'] || "No image exception returned";
+                result.icoAction = fesSearch.rows[i]['IMAGE_EXCEPTION_FREE_TEXT'] || "No image exception returned";
+                result.exceptionId = fesSearch.rows[i]['IMAGE_EXCEPTION_ID'];
+                if (result.exceptionId) {
+                    result.eventOccurredTime = fesSearch.rows[i] || "No event yet";
+                    result.eventText = fesSearch.rows[i]['FORM_EVENT_TEXT'] || "No event yet";
+                } else {
+                    result.eventOccurredTime = "No exception occurred";
+                    result.eventText = "No exception occurred";
+                }
+                result.batchName = await this.getBatchNameFromEnvelopeId(result.envNo);
+                resultArray.push(result);
+            }
+        }
+        return resultArray;
+    }
+
+    private async getBatchNameFromEnvelopeId(envNo: number): Promise<string> {
         var result = await this.dao.makeQuery(SqlData.fesBatchNameSql, [envNo]);
         return result.rows[0]? result.rows[0]['BATCH_NAME'] : "No batch name found";
     }

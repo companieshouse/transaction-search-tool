@@ -4,7 +4,7 @@ import * as nunjucks from "nunjucks";
 import config from "./config";
 import path from "path";
 
-import BarcodeSearchRouter from "./routes/BarcodeSearchRouter";
+import SearchRouter from "./routes/SearchRouter";
 import authenticationMiddleware from "./controllers/Authentication";
 import SigninRouter from "./routes/SigninRouter";
 import cookieParser from "cookie-parser";
@@ -50,11 +50,10 @@ app.use(helmet({
   }));
 app.use(express.urlencoded({ extended: true }));
 env.addGlobal("CDN_URL", config.cdnUrl);
-
 app.use(`/${config.urlPrefix}`, SigninRouter.create());
 
 app.use(authenticationMiddleware());
-app.use(`/${config.urlPrefix}`, BarcodeSearchRouter.create());
+app.use(`/${config.urlPrefix}`, SearchRouter.create());
 app.use(createLoggerMiddleware(config.applicationNamespace));
 app.use(`/${config.urlPrefix}/static`, express.static("dist/app/static"));
 env.addGlobal("CSS_URL", `/${config.urlPrefix}/static/app.css`);

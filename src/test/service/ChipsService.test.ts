@@ -29,6 +29,7 @@ describe('chips service test', ()=>{
             ORGANISATIONAL_UNIT_ID : 1
         }
         var expectedResult = new ChipsResult();
+        expectedResult.barcode = 'barcode';
         expectedResult.transactionId = 1;
         expectedResult.chipsStatus = 'Pending';
         expectedResult.documentId = 1;
