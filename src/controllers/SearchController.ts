@@ -9,8 +9,8 @@ const logger = createLogger(config.applicationNamespace);
 
 class SearchController {
 
-    private barcodeSearchHandler: BarcodeSearchHandler;
-    private companyNumberSearchHandler: CompanyNumberSearchHandler;
+    barcodeSearchHandler: BarcodeSearchHandler;
+    companyNumberSearchHandler: CompanyNumberSearchHandler;
 
     constructor() {
         this.barcodeSearchHandler = new BarcodeSearchHandler();

@@ -29,6 +29,7 @@ describe('FES service test', ()=>{
             IMAGE_EXCEPTION_ID : 1
         }
         var expectedResult = new FesResult();
+        expectedResult.barcode = "barcode";
         expectedResult.envNo = 1;
         expectedResult.eventOccurredTime = "No event yet";
         expectedResult.eventText = "No event yet";
