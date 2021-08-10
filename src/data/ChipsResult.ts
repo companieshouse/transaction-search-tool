@@ -1,5 +1,6 @@
 class ChipsResult {
     barcode: string;
+    formType: string;
     transactionId: number;
     documentId: number;
     incorporationNumber: string;

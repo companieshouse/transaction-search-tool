@@ -34,6 +34,7 @@ class ChipsService {
             for(let i=0; i < chipsSearch.rows.length; i++) {
                 let result = new ChipsResult();
                 result.barcode = chipsSearch.rows[i]['FORM_BARCODE'];
+                result.formType = chipsSearch.rows[i]['TRANSACTION_TYPE_SHORT_NAME'];
                 result.transactionId = chipsSearch.rows[i]['TRANSACTION_ID'];
                 result.incorporationNumber = chipsSearch.rows[i]['INCORPORATION_NUMBER'] || "No Company Number";
                 result.transactionDate = chipsSearch.rows[i]['TRANSACTION_STATUS_DATE'];
