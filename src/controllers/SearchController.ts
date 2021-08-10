@@ -41,7 +41,6 @@ class SearchController {
             });
         } else {
             var models = this.getModelsAsArray(resultsMap);
-            logger.info(`Search term: ${searchTerm}, returned result: ${JSON.stringify(models)}`);
             if(models.length === 1) {
                 res.render("documentOverview", {
                     barcode: searchTerm,
