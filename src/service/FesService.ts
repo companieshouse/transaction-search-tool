@@ -52,7 +52,7 @@ class FesService {
                 result.icoAction = fesSearch.rows[i]['IMAGE_EXCEPTION_FREE_TEXT'] || "No image exception returned";
                 result.exceptionId = fesSearch.rows[i]['IMAGE_EXCEPTION_ID'];
                 if (result.exceptionId) {
-                    result.eventOccurredTime = fesSearch.rows[i] || "No event yet";
+                    result.eventOccurredTime = fesSearch.rows[i]['FORM_EVENT_OCCURED'] || "No event yet";
                     result.eventText = fesSearch.rows[i]['FORM_EVENT_TEXT'] || "No event yet";
                 } else {
                     result.eventOccurredTime = "No exception occurred";
