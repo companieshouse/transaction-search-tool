@@ -29,21 +29,19 @@ class ChipsService {
 
     public async getTransactionDetailsFromCompanyNumber(incno: string): Promise<ChipsResult[]> {
         var resultArray: ChipsResult[] = [];
-        var chipsSearch = await this.dao.makeQuery(SqlData.corporateBodySQL, [incno]);
+        var chipsSearch = await this.dao.makeQuery(SqlData.chipsIncorporationNumberSQL, [incno]);
         if (chipsSearch.rows[0]) {
             for(let i=0; i < chipsSearch.rows.length; i++) {
                 let result = new ChipsResult();
                 result.barcode = chipsSearch.rows[i]['FORM_BARCODE'];
                 result.formType = chipsSearch.rows[i]['TRANSACTION_TYPE_SHORT_NAME'];
                 result.transactionId = chipsSearch.rows[i]['TRANSACTION_ID'];
-                result.incorporationNumber = chipsSearch.rows[i]['INCORPORATION_NUMBER'] || "No Company Number";
+                result.incorporationNumber = chipsSearch.rows[i]['INCORPORATION_NUMBER'] || incno;
                 result.transactionDate = chipsSearch.rows[i]['TRANSACTION_STATUS_DATE'];
                 result.userAccessId = chipsSearch.rows[i]['USER_ACCESS_ID'];
                 result.orgUnitId = chipsSearch.rows[i]['ORGANISATIONAL_UNIT_ID'];
-                var transactionStatusSearch = await this.dao.makeQuery(SqlData.transactionStatusTypeSQL, [chipsSearch.rows[i]['TRANSACTION_STATUS_TYPE_ID']]);
-                result.chipsStatus = transactionStatusSearch.rows[i] ? transactionStatusSearch.rows[i]['TRANSACTION_STATUS_DESC'] : undefined;
-                var transactionXMLSearch = await this.dao.makeQuery(SqlData.transactionXMLDocSQL, [chipsSearch.rows[0]['TRANSACTION_ID']]);
-                result.documentId = transactionXMLSearch.rows[i] ? transactionXMLSearch.rows[i]['INPUT_DOCUMENT_ID'] : undefined;
+                result.chipsStatus = chipsSearch.rows[i]['TRANSACTION_STATUS_DESC']
+                result.documentId = chipsSearch.rows[i]['INPUT_DOCUMENT_ID']
                 if (!result.isEmpty()) resultArray.push(result);
             };
         }

@@ -48,15 +48,12 @@ class FesService {
                 result.scanTime = fesSearch.rows[i]['FORM_BARCODE_DATE'];
                 result.formType = fesSearch.rows[i]['FORM_TYPE'];
                 result.fesStatus = fesSearch.rows[i]['FORM_STATUS_TYPE_NAME'];
-                var imageSearch = await this.dao.makeQuery(SqlData.fesImageExceptionSql, [fesSearch.rows[i]['FORM_IMAGE_ID']]);
-                var imageResult = imageSearch.rows[i];
-                result.icoReturnedReason = imageResult ? imageResult['IMAGE_EXCEPTION_REASON'] : "No image exception returned";
-                result.icoAction = imageResult ? imageResult['IMAGE_EXCEPTION_FREE_TEXT'] : "No image exception returned";
-                result.exceptionId = imageResult ? imageResult['IMAGE_EXCEPTION_ID'] : "";
+                result.icoReturnedReason = fesSearch.rows[i]['IMAGE_EXCEPTION_REASON'] || "No image exception returned";
+                result.icoAction = fesSearch.rows[i]['IMAGE_EXCEPTION_FREE_TEXT'] || "No image exception returned";
+                result.exceptionId = fesSearch.rows[i]['IMAGE_EXCEPTION_ID'];
                 if (result.exceptionId) {
-                    var exceptionSearch = await this.dao.makeQuery(SqlData.fesRescannedSql, [result.exceptionId]);
-                    result.eventOccurredTime = exceptionSearch.rows[i]['FORM_EVENT_OCCURED'] || "No event yet";
-                    result.eventText = exceptionSearch.rows[i]['FORM_EVENT_TEXT'] || "No event yet";
+                    result.eventOccurredTime = fesSearch.rows[i] || "No event yet";
+                    result.eventText = fesSearch.rows[i]['FORM_EVENT_TEXT'] || "No event yet";
                 } else {
                     result.eventOccurredTime = "No exception occurred";
                     result.eventText = "No exception occurred";
