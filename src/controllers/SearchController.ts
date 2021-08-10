@@ -1,11 +1,7 @@
-import config from "../config";
-import { createLogger } from "ch-structured-logging";
 import DocumentOverviewModel from "../models/DocumentOverviewModel";
 import { errorHandler } from "../utils/ErrorHandler";
 import BarcodeSearchHandler from "../handlers/BarcodeSearchHandler";
 import CompanyNumberSearchHandler from "../handlers/CompanyNumberSearchHandler";
-
-const logger = createLogger(config.applicationNamespace);
 
 class SearchController {
 
@@ -28,20 +24,21 @@ class SearchController {
         try {
             resultsMap = await this.companyNumberSearchHandler.searchCompanyNumber(searchTerm);
             let barcodeSearchResult = await this.barcodeSearchHandler.searchBarcode(searchTerm);
-            if (barcodeSearchResult != undefined) resultsMap.set(searchTerm, barcodeSearchResult);
+            if (!barcodeSearchResult.isEmpty()) resultsMap.set(searchTerm, barcodeSearchResult);
         } catch(err) {
             errorHandler.handleError(this.constructor.name, "searchQuery", err, res);
             return;
         }
 
-        if (resultsMap.size == 0) {
-            res.render("barcodeSearch", {
+
+        if (resultsMap.size === 0) {
+            res.render("search", {
                 barcode: searchTerm,
                 error: true
             });
         } else {
             var models = this.getModelsAsArray(resultsMap);
-            if(models.length === 1) {
+            if(resultsMap.size === 1) {
                 res.render("documentOverview", {
                     barcode: searchTerm,
                     result: models[0]

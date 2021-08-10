@@ -45,6 +45,10 @@ class DocumentOverviewModel extends BarcodeSearchModel {
             "TransactionDate" : this.transactionDate
         };
     }
+
+    public isEmpty() {
+        return Object.keys(this).length === 0;
+    }
 }
 
 export default DocumentOverviewModel;

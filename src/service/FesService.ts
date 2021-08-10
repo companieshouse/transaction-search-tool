@@ -59,7 +59,7 @@ class FesService {
                     result.eventText = "No exception occurred";
                 }
                 result.batchName = await this.getBatchNameFromEnvelopeId(result.envNo);
-                if (!result.isEmpty()) resultArray.push(result);
+                resultArray.push(result);
             }
         }
         return resultArray;

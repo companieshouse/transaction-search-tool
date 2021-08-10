@@ -15,7 +15,7 @@ class ChipsService {
         if (chipsSearch.rows[0]) {
             result.barcode = barcode;
             result.transactionId = chipsSearch.rows[0]['TRANSACTION_ID'];
-            result.incorporationNumber = chipsSearch.rows[0]['INCORPORATION_NUMBER'] || "No Company Number";
+            result.incorporationNumber = chipsSearch.rows[0]['INCORPORATION_NUMBER'];
             result.transactionDate = chipsSearch.rows[0]['TRANSACTION_STATUS_DATE'];
             result.userAccessId = chipsSearch.rows[0]['USER_ACCESS_ID'];
             result.orgUnitId = chipsSearch.rows[0]['ORGANISATIONAL_UNIT_ID'];
@@ -36,13 +36,13 @@ class ChipsService {
                 result.barcode = chipsSearch.rows[i]['FORM_BARCODE'];
                 result.formType = chipsSearch.rows[i]['TRANSACTION_TYPE_SHORT_NAME'];
                 result.transactionId = chipsSearch.rows[i]['TRANSACTION_ID'];
-                result.incorporationNumber = chipsSearch.rows[i]['INCORPORATION_NUMBER'] || incno;
+                result.incorporationNumber = chipsSearch.rows[i]['INCORPORATION_NUMBER'];
                 result.transactionDate = chipsSearch.rows[i]['TRANSACTION_STATUS_DATE'];
                 result.userAccessId = chipsSearch.rows[i]['USER_ACCESS_ID'];
                 result.orgUnitId = chipsSearch.rows[i]['ORGANISATIONAL_UNIT_ID'];
                 result.chipsStatus = chipsSearch.rows[i]['TRANSACTION_STATUS_DESC']
                 result.documentId = chipsSearch.rows[i]['INPUT_DOCUMENT_ID']
-                if (!result.isEmpty()) resultArray.push(result);
+                resultArray.push(result);
             };
         }
         return resultArray;

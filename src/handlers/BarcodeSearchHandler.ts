@@ -87,15 +87,6 @@ class BarcodeSearchHandler {
         return model;
     }
 
-    private populateModel(result: Object, model: DocumentOverviewModel): DocumentOverviewModel {
-        if(result instanceof ChipsResult || result instanceof FesResult) {
-            Object.keys(result).forEach(key=>{
-                    model[key] = result[key];
-            });
-        }
-        return model;
-    }
-
 }
 
 export default BarcodeSearchHandler;
