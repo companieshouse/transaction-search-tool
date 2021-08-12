@@ -14,7 +14,7 @@ class SearchController {
     }
 
     public getSearchPage(req: any, res: any) {
-        res.render("barcodeSearch");
+        res.render("search");
     }
 
     public async searchQuery(req: any, res: any) {
