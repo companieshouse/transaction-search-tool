@@ -88,6 +88,7 @@ class CompanyNumberSearchHandler {
             Object.keys(result).forEach(key=>{
                     model[key] = result[key];
             });
+            if (model.status == undefined) model.status = result['chipsStatus'] || result['fesStatus'];
         }
         return model;
     }

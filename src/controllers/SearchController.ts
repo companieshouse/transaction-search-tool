@@ -39,8 +39,9 @@ class SearchController {
         } else {
             var models = this.getModelsAsArray(resultsMap);
             if(resultsMap.size === 1) {
+                var barcode = resultsMap.keys().next().value;
                 res.render("documentOverview", {
-                    barcode: searchTerm,
+                    barcode: barcode,
                     result: models[0]
                 })
             } else {

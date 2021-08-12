@@ -72,6 +72,7 @@ describe('company number search handler', ()=>{
         model.incorporationNumber = "inco";
         model.documentId = 1;
         model.envNo = 1;
+        model.status = "Pending";
         model.batchName = "Batch Name";
         model.scanTime = "01/12/2020";
         model.icoReturnedReason = "Not Returned";
