@@ -24,6 +24,7 @@ class FesService {
             result.icoReturnedReason = imageResult ? imageResult['IMAGE_EXCEPTION_REASON'] : "No image exception returned";
             result.icoAction = imageResult ? imageResult['IMAGE_EXCEPTION_FREE_TEXT'] : "No image exception returned";
             result.exceptionId = imageResult ? imageResult['IMAGE_EXCEPTION_ID'] : "";
+            result.batchName = await this.getBatchNameFromEnvelopeId(result.envNo);
             if (result.exceptionId) {
                 var exceptionSearch = await this.dao.makeQuery(SqlData.fesRescannedSql, [result.exceptionId]);
                 result.eventOccurredTime = exceptionSearch.rows[0]['FORM_EVENT_OCCURED'] || "No event yet";
