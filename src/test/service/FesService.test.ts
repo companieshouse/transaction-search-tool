@@ -31,6 +31,7 @@ describe('FES service test', ()=>{
         var expectedResult = new FesResult();
         expectedResult.barcode = "barcode";
         expectedResult.envNo = 1;
+        expectedResult.batchName = "No batch name found";
         expectedResult.eventOccurredTime = "No event yet";
         expectedResult.eventText = "No event yet";
         expectedResult.scanTime = '01/12/2020';
