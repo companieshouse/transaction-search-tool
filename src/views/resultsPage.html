@@ -8,27 +8,39 @@
         <h1 class="govuk-heading-l">
             Search results for "{{ searchTerm }}"
         </h1>
-      <table>
-        <tr>
-            <th>Barcode</th>
-            <th>Allocated to</th>
-            <th>Company number</th>
-            <th>Type</th>
-            <th>CHIPS Status</th>
-            <th>FES Status</th>
-            <th>Location</th>
-        </tr>
-        {% for result in results %}
-            <tr>
-                <td>{{ result.Barcode }}</td>
-                <td>{{ result.User }}</td>
-                <td>{{ result.CoNumb }}</td>
-                <td>{{ result.Type }}</td>
-                <td>{{ result.ChipsStatus }}</td>
-                <td>{{ result.FESStatus }}</td>
-                <td>{{ result.Location }}</td>
+
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Barcode</th>
+              <th scope="col" class="govuk-table__header">Allocated to</th>
+              <th scope="col" class="govuk-table__header">Company number</th>
+              <th scope="col" class="govuk-table__header">Type</th>
+              <th scope="col" class="govuk-table__header">CHIPS Status</th>
+              <th scope="col" class="govuk-table__header">FES Status</th>
+              <th scope="col" class="govuk-table__header">Location</th>
             </tr>
-        {% endfor %}
+          </thead>
+          <tbody class="govuk-table__body">
+
+          {% for result in results %}
+            <div class="govuk-grid-column-full-width">
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell">
+                      <a href="search?search={{result.Barcode}}" class="govuk-link">
+                        {{ result.Barcode }}
+                      </a>
+                  </td>
+                  <td class="govuk-table__cell">{{ result.User }}</td>
+                  <td class="govuk-table__cell">{{ result.CoNumb }}</td>
+                  <td class="govuk-table__cell">{{ result.Type }}</td>
+                  <td class="govuk-table__cell">{{ result.ChipsStatus }}</td>
+                  <td class="govuk-table__cell">{{ result.FESStatus }}</td>
+                  <td class="govuk-table__cell">{{ result.Location }}</td>
+              </tr>
+            </div>
+          {% endfor %}
+          </tbody>
       </table>
     </div>
   </div>
