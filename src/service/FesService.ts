@@ -68,7 +68,7 @@ class FesService {
 
     private async getBatchNameFromEnvelopeId(envNo: number): Promise<string> {
         var result = await this.dao.makeQuery(SqlData.fesBatchNameSql, [envNo]);
-        return result.rows[0]? result.rows[0]['BATCH_NAME'] : "No batch name found";
+        return result.rows[0]['BATCH_NAME']? result.rows[0]['BATCH_NAME'] : "No batch name found";
     }
 }
 
