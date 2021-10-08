@@ -75,7 +75,7 @@ class BarcodeSearchHandler {
         model.transactionDate = chipsResult.transactionDate;
         model.formType = fesResult.formType;
         model.orgUnit = chipsResult.orgUnit;
-        model.user = chipsResult.userLogin;
+        model.userLogin = chipsResult.userLogin;
         model.envNo = fesResult.envNo;
         model.batchName = fesResult.batchName;
         model.scanTime = fesResult.scanTime;
