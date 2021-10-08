@@ -79,7 +79,7 @@ describe('barcode search handler', ()=>{
         model.fesStatus = "Sent to CHIPS";
         model.orgUnit = "My Org Unit";
         model.formType = "IN01";
-        model.user = "Test User";
+        model.userLogin = "Test User";
 
         var result = await barcodeSearchHandler.searchBarcode('XYZ123456');
         chai.expect(result).to.be.deep.equal(model);
