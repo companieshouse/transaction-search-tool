@@ -10,14 +10,14 @@
             </h1>
           
             <div id="search-hint" class="govuk-hint">
-              Search by document barcode
+              Search by document barcode or company number 
             </div>
           
             <input class="govuk-input govuk-input--width-20" id="search" name="search" type="search" aria-describedby="search-hint">
             {% if error %}
                 <span id="barcode-error" class="govuk-error-message">No results found.</span>
             {% endif %}
-          </div>
+        </div>
           <input type="submit" class="govuk-button">
     </form>
 {% endblock %}
