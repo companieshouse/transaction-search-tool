@@ -93,9 +93,9 @@ class BarcodeSearchHandler {
 
     private createTimelineModel(fesResult: FesResult): TimelineModel {
         var model = new TimelineModel();
-        model.date = fesResult.eventOccurredTime;
+        model.date = this.splitDateAndTime(fesResult.eventOccurredTime);
         model.event = fesResult.eventText;
-        model.location = fesResult.location;
+        model.location = "FES";
         model.userLogin = fesResult.userLogin;
 
         return model;
@@ -110,23 +110,25 @@ class BarcodeSearchHandler {
         }
 
         var chipsEntry = new TimelineModel();
-        chipsEntry.date = docModel.transactionDate;
+        chipsEntry.date = this.splitDateAndTime(docModel.transactionDate);
         chipsEntry.event = docModel.chipsStatus;
         chipsEntry.location = docModel.orgUnit;
         chipsEntry.userLogin = docModel.userLogin;
 
         var swEntry = new TimelineModel();
-        swEntry.date = swResult.date;
+        swEntry.date = this.splitDateAndTime(swResult.date);
         swEntry.event = "Arrived in Staffware";
         swEntry.location = "Staffware";
         swEntry.userLogin = "User";
 
-        if (swResult.date != undefined) {
-            models.push(swEntry.getModel());
-        }
+        logger.info("sw: "  + JSON.stringify(swResult));
 
         if (docModel.transactionId != undefined) {
             models.push(chipsEntry.getModel());
+        }
+
+        if (swResult.date != undefined) {
+            models.push(swEntry.getModel());
         }
 
         return models;
@@ -149,6 +151,14 @@ class BarcodeSearchHandler {
         timelineModel = this.buildTimelineModelsArray(fesTimelineResults, docModel, staffwareResult);
 
         return timelineModel;
+    }
+
+    private splitDateAndTime(str: string) {
+        if (!str) return str;
+        const strArr = str.split(" ");
+        str = strArr[0] + " at " + strArr[1];
+        str = str.replace(/-/g," ");
+        return str;
     }
 
 }
