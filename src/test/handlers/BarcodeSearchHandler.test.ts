@@ -36,7 +36,7 @@ describe('barcode search handler', ()=>{
         staffwareResult.orgUnitId = 1234;
         staffwareResult.userId = 1;
         staffwareResult.casenum = "11439511";
-        staffwareResult.date = "02-DEC-2020";
+        staffwareResult.date = "09-NOV-2021 11:21";
 
         sinon.stub(chipsService, 'getTransactionDetailsFromBarcode').resolves(chipsResult);
         orgUnitStub = sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
@@ -94,7 +94,7 @@ describe('barcode search handler', ()=>{
     it('test barcodeSearch returns expected timelineModel when called', async ()=>{
 
         let fesResult2 = new FesResult();
-        fesResult2.eventOccurredTime = "02-DEC-2020";
+        fesResult2.eventOccurredTime = "09-NOV-2021 11:21";
         fesResult2.eventText = "Scanning";
         fesResult2.location = "Fes";
         fesResult2.userLogin = "sbowen";
@@ -107,13 +107,13 @@ describe('barcode search handler', ()=>{
         barcodeSearchHandler.fesService = fesService;
 
         let model = new TimelineModel();
-        model.date = "02-DEC-2020";
+        model.date = "09-NOV-2021 11:21";
         model.event = "Scanning";
-        model.location = "FES";
+        model.location = "Staffware";
         model.userLogin = "sbowen";
 
         let docModel = new DocumentOverviewModel();
-        docModel.transactionDate = "02-DEC-2020";
+        docModel.transactionDate = "09-NOV-2021 11:21";
         docModel.chipsStatus = "Scanning";
         docModel.orgUnit = "FES";
         docModel.userLogin = "sbowen";
@@ -121,17 +121,17 @@ describe('barcode search handler', ()=>{
         
 
         var expectedArray = [{
-            "date" : "02 DEC 2020",
+            "date" : "09 NOV 2021 at 11:21",
             "event" : "Scanning", 
             "location" : "FES",
             "userLogin" : "sbowen"
         }, {
-            "date" : "02 DEC 2020",
+            "date" : "09 NOV 2021 at 11:21",
             "event" : "Scanning", 
             "location" : "FES",
             "userLogin" : "sbowen"
         }, {
-            "date" : "02 DEC 2020",
+            "date" : "09 NOV 2021 at 11:21",
             "event" : "Arrived in Staffware", 
             "location" : "Staffware",
             "userLogin" : "User"
