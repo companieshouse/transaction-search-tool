@@ -106,7 +106,7 @@ class BarcodeSearchHandler {
 
         for(let result of fesResults) {
             let model = this.createTimelineModel(result);
-            models.push(model);
+            models.push(model.getModel());
         }
 
         var chipsEntry = new TimelineModel();

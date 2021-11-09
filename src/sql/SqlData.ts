@@ -84,12 +84,13 @@ class SqlData {
     WHERE e.ENVELOPE_BATCH_ID = b.BATCH_ID
     AND e.ENVELOPE_ID = :formEnvelopeId`
 
-    public static fesTimeLineSql: string =
+    public static fesTimelineSql: string =
     `SELECT fe.FORM_EVENT_OCCURRED, fet.FORM_EVENT_TYPE_NAME, f.FORM_ORG_UNIT_NAME, f.FORM_USER_ID
     FROM FORM f, FORM_EVENT fe, FORM_EVENT_TYPE fet
     WHERE fe.FORM_EVENT_TYPE_ID = fet.FORM_EVENT_TYPE_ID
     AND f.FORM_ID = fe.FORM_EVENT_FORM_ID
-    and f.FORM_BARCODE = :barcode`
+    AND f.FORM_BARCODE = :barcode
+    ORDER BY fe.FORM_EVENT_OCCURRED ASC`
 }
 
 export default SqlData;

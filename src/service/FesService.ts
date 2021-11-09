@@ -2,7 +2,6 @@ import SqlData from "../sql/SqlData"
 import FesResult from "../data/FesResult";
 import FesDao from "../daos/FES/FesDao";
 
-
 class FesService {
     dao: FesDao;
 
@@ -68,15 +67,14 @@ class FesService {
 
     public async getFesTimelineDetails(barcode: string): Promise<FesResult []> {
         var resultArray: FesResult[] = [];
-        var timeLineSearch = await this.dao.makeQuery(SqlData.fesTimeLineSql, [barcode]);
-
-        if (timeLineSearch.rows[0]) {
-            for (let i=0; i < timeLineSearch.rows.length; i++) {
+        var timelineSearch = await this.dao.makeQuery(SqlData.fesTimelineSql, [barcode]);
+        if (timelineSearch.rows[0]) {
+            for (let row of timelineSearch.rows) {
                 let result = new FesResult();
-                result.eventOccurredTime = timeLineSearch.rows[i]['FORM_EVENT_OCCURRED'];
-                result.eventText = timeLineSearch.rows[i]['FORM_EVENT_TYPE_NAME'];
-                result.location = timeLineSearch.rows[i]['FORM_ORG_UNIT_NAME'];
-                result.userLogin = timeLineSearch.rows[i]['USER_ACCESS_ID'];
+                result.eventOccurredTime = row['FORM_EVENT_OCCURRED'];
+                result.eventText = row['FORM_EVENT_TYPE_NAME'];
+                result.location = row['FORM_ORG_UNIT_NAME'];
+                result.userLogin = row['USER_ACCESS_ID'];
                 resultArray.push(result);
             };
         }
