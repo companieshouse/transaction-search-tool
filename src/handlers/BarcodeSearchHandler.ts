@@ -121,8 +121,6 @@ class BarcodeSearchHandler {
         swEntry.location = "Staffware";
         swEntry.userLogin = "User";
 
-        logger.info("sw: "  + JSON.stringify(swResult));
-
         if (docModel.transactionId != undefined) {
             models.push(chipsEntry.getModel());
         }
