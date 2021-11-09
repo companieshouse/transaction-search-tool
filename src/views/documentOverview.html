@@ -110,24 +110,28 @@
               </dd>
             </div>
           </dl>
-          <h2 class="govuk-heading-m">Additional information</h2>
-          <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                Form re-identification
-              </dt>
-              <dd class="govuk-summary-list__value">
-                {{ result.eventOccurredTime }}
-              </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                Action taken
-              </dt>
-              <dd class="govuk-summary-list__value">
-                {{ result.eventText }}
-              </dd>
-            </div>
-          </dl>
+        <h2 class="govuk-heading-m">Additional information</h2>
+        <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+        <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+            Form re-identification
+            </dt>
+            <dd class="govuk-summary-list__value">
+            {{ result.eventOccurredTime }}
+            </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+            Action taken
+            </dt>
+            <dd class="govuk-summary-list__value">
+            {{ result.eventText }}
+            </dd>
+        </div>
+        </dl>
+        <h2 class="govuk-heading-m">Timeline</h2>
+        <div>
+        {% include "timeline.html" %}
+        </div>
     </div>
 {% endblock %}

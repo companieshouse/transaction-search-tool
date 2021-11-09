@@ -7,6 +7,7 @@ import ChipsResult from "../data/ChipsResult";
 import FesService from "../service/FesService";
 import FesResult from "../data/FesResult";
 import DocumentOverviewModel from "../models/DocumentOverviewModel";
+import TimelineModel from "../models/TimelineModel";
 import { errorHandler } from "../utils/ErrorHandler";
 
 const logger = createLogger(config.applicationNamespace);
@@ -40,6 +41,7 @@ class BarcodeSearchHandler {
             model = this.createModel(barcode, chipsResult, fesResult);
             logger.info(`Search term: ${barcode}, returned result: ${JSON.stringify(model)} for barcode search`);
         }
+
         return model;
     }
 
@@ -56,6 +58,7 @@ class BarcodeSearchHandler {
                     let userLogin = await this.chipsService.getUserFromId(userId);
                     chipsResult.orgUnit = orgUnit;
                     chipsResult.userLogin = userLogin;
+                    chipsResult.casenum = staffwareResult.casenum;
                 } catch(err) {
                     errorHandler.handleError(this.constructor.name, "getStaffwareEntries", err);
                 }
@@ -84,7 +87,76 @@ class BarcodeSearchHandler {
         model.icoAction = fesResult.icoAction;
         model.eventOccurredTime = fesResult.eventOccurredTime;
         model.eventText = fesResult.eventText;
+        model.casenum = chipsResult.casenum;
         return model;
+    }
+
+    private createTimelineModel(fesResult: FesResult): TimelineModel {
+        var model = new TimelineModel();
+        model.date = this.splitDateAndTime(fesResult.eventOccurredTime);
+        model.event = fesResult.eventText;
+        model.location = "FES";
+        model.userLogin = fesResult.userLogin;
+
+        return model;
+    }
+
+    private buildTimelineModelsArray(fesResults: FesResult[], docModel: DocumentOverviewModel, swResult: StaffwareResult): Object[] {
+        var models: Object[] = [];
+
+        for(let result of fesResults) {
+            let model = this.createTimelineModel(result);
+            models.push(model.getModel());
+        }
+
+        var chipsEntry = new TimelineModel();
+        chipsEntry.date = this.splitDateAndTime(docModel.transactionDate);
+        chipsEntry.event = docModel.chipsStatus;
+        chipsEntry.location = docModel.orgUnit;
+        chipsEntry.userLogin = docModel.userLogin;
+
+        var swEntry = new TimelineModel();
+        swEntry.date = this.splitDateAndTime(swResult.date);
+        swEntry.event = "Arrived in Staffware";
+        swEntry.location = "Staffware";
+        swEntry.userLogin = "User";
+
+        if (docModel.transactionId != undefined) {
+            models.push(chipsEntry.getModel());
+        }
+
+        if (swResult.date != undefined) {
+            models.push(swEntry.getModel());
+        }
+
+        return models;
+    }
+
+    public async getTimelineResult(barcode: string, docModel: DocumentOverviewModel): Promise<Object[]> {
+
+        var fesTimelineResults: FesResult[];
+        var timelineModel: Object[] = [];
+        var staffwareResult: StaffwareResult;
+
+        try {
+            fesTimelineResults = await this.fesService.getFesTimelineDetails(barcode);
+            staffwareResult = await this.swService.getAuditDate(docModel.casenum);
+        } catch(err) {
+            errorHandler.handleError(this.constructor.name, "getTimelineResult", err);
+            return timelineModel;
+        }
+
+        timelineModel = this.buildTimelineModelsArray(fesTimelineResults, docModel, staffwareResult);
+
+        return timelineModel;
+    }
+
+    private splitDateAndTime(str: string) {
+        if (!str) return str;
+        const strArr = str.split(" ");
+        str = strArr[0] + (strArr[1] ? " at " + strArr[1] : "");
+        str = str.replace(/-/g," ");
+        return str;
     }
 
 }

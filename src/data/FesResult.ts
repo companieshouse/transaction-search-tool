@@ -11,6 +11,8 @@ class FesResult {
     eventOccurredTime: string;
     eventText: string;
     batchName: string;
+    location: string;
+    userLogin: string;
 
     public isEmpty() {
         return Object.keys(this).length === 0;

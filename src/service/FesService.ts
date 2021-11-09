@@ -2,7 +2,6 @@ import SqlData from "../sql/SqlData"
 import FesResult from "../data/FesResult";
 import FesDao from "../daos/FES/FesDao";
 
-
 class FesService {
     dao: FesDao;
 
@@ -53,7 +52,7 @@ class FesService {
                 result.icoAction = fesSearch.rows[i]['IMAGE_EXCEPTION_FREE_TEXT'] || "No image exception returned";
                 result.exceptionId = fesSearch.rows[i]['IMAGE_EXCEPTION_ID'];
                 if (result.exceptionId) {
-                    result.eventOccurredTime = fesSearch.rows[i]['FORM_EVENT_OCCURED'] || "No event yet";
+                    result.eventOccurredTime = fesSearch.rows[i]['FORM_EVENT_OCCURRED'] || "No event yet";
                     result.eventText = fesSearch.rows[i]['FORM_EVENT_TEXT'] || "No event yet";
                 } else {
                     result.eventOccurredTime = "No exception occurred";
@@ -62,6 +61,22 @@ class FesService {
                 result.batchName = await this.getBatchNameFromEnvelopeId(result.envNo);
                 resultArray.push(result);
             }
+        }
+        return resultArray;
+    }
+
+    public async getFesTimelineDetails(barcode: string): Promise<FesResult []> {
+        var resultArray: FesResult[] = [];
+        var timelineSearch = await this.dao.makeQuery(SqlData.fesTimelineSql, [barcode]);
+        if (timelineSearch.rows[0]) {
+            for (let row of timelineSearch.rows) {
+                let result = new FesResult();
+                result.eventOccurredTime = row['FORM_EVENT_OCCURRED'];
+                result.eventText = row['FORM_EVENT_TYPE_NAME'];
+                result.location = row['FORM_ORG_UNIT_NAME'];
+                result.userLogin = row['USER_ACCESS_ID'];
+                resultArray.push(result);
+            };
         }
         return resultArray;
     }

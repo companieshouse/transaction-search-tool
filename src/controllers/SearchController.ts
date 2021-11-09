@@ -30,7 +30,6 @@ class SearchController {
             return;
         }
 
-
         if (resultsMap.size === 0) {
             res.render("search", {
                 barcode: searchTerm,
@@ -40,9 +39,11 @@ class SearchController {
             var models = this.getModelsAsArray(resultsMap);
             if(resultsMap.size === 1) {
                 var barcode = resultsMap.keys().next().value;
+                var timelineModel = await this.barcodeSearchHandler.getTimelineResult(barcode, resultsMap.values().next().value);
                 res.render("documentOverview", {
                     barcode: barcode,
-                    result: models[0]
+                    result: models[0],
+                    timeline: timelineModel
                 })
             } else {
                 res.render("resultsPage", {

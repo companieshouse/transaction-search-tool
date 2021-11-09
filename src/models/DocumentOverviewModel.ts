@@ -17,7 +17,8 @@ class DocumentOverviewModel extends BarcodeSearchModel {
     userLogin: string;
     chipsStatus: string;
     fesStatus: string;
-    orgUnit:string;
+    orgUnit: string;
+    casenum: string;
     
     public toString(): string {
         return `DocumentOverviewModel: ${JSON.stringify(this.getModel())}`;
@@ -42,7 +43,8 @@ class DocumentOverviewModel extends BarcodeSearchModel {
             "ICOAction" : this.icoAction,
             "eventOccurredTime" : this.eventOccurredTime,
             "eventText" : this.eventText,
-            "TransactionDate" : this.transactionDate
+            "TransactionDate" : this.transactionDate,
+            "CaseNum" : this.casenum
         };
     }
 
