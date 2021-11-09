@@ -156,7 +156,7 @@ class BarcodeSearchHandler {
     private splitDateAndTime(str: string) {
         if (!str) return str;
         const strArr = str.split(" ");
-        str = strArr[0] + " at " + strArr[1];
+        str = strArr[0] + (strArr[1] ? " at " + strArr[1] : "");
         str = str.replace(/-/g," ");
         return str;
     }

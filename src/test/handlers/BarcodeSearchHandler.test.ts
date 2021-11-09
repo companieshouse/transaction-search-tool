@@ -109,35 +109,35 @@ describe('barcode search handler', ()=>{
         let model = new TimelineModel();
         model.date = "02-DEC-2020";
         model.event = "Scanning";
-        model.location = "Fes";
+        model.location = "FES";
         model.userLogin = "sbowen";
 
         let docModel = new DocumentOverviewModel();
         docModel.transactionDate = "02-DEC-2020";
         docModel.chipsStatus = "Scanning";
-        docModel.orgUnit = "Fes";
+        docModel.orgUnit = "FES";
         docModel.userLogin = "sbowen";
         docModel.transactionId = 1;
         
 
-        var finalArray = [{
-            "date" : "02-DEC-2020",
+        var expectedArray = [{
+            "date" : "02 DEC 2020",
             "event" : "Scanning", 
-            "location" : "Fes",
+            "location" : "FES",
             "userLogin" : "sbowen"
         }, {
-            "date" : "02-DEC-2020",
+            "date" : "02 DEC 2020",
+            "event" : "Scanning", 
+            "location" : "FES",
+            "userLogin" : "sbowen"
+        }, {
+            "date" : "02 DEC 2020",
             "event" : "Arrived in Staffware", 
             "location" : "Staffware",
             "userLogin" : "User"
-        }, {
-            "date" : "02-DEC-2020",
-            "event" : "Scanning", 
-            "location" : "Fes",
-            "userLogin" : "sbowen"
-        },];
+        }];
 
         var result = await barcodeSearchHandler.getTimelineResult('XYZ123456', docModel);
-        chai.expect(result).to.be.deep.equal(finalArray);
+        chai.expect(result).to.be.deep.equal(expectedArray);
     }).timeout(5000)
 })
