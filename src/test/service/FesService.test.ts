@@ -83,6 +83,29 @@ describe('FES service test', ()=>{
         chai.expect(returnedSearchResult).to.be.deep.equal(resultsArray);
     });
 
+    it('test getFesTimelineDetails returns an array of fes results', async ()=>{
+
+        var queryResult = {
+            FORM_EVENT_OCCURRED: "02-DEC-2020",
+            FORM_EVENT_TYPE_NAME : "Sent to chips",
+            FORM_ORG_UNIT_NAME : "FrontE Scanning",
+            USER_ACCESS_ID : "sbowen"
+        }
+
+        var expectedResult = new FesResult();
+        expectedResult.eventOccurredTime = "02-DEC-2020";
+        expectedResult.eventText = "Sent to chips";
+        expectedResult.location = "FrontE Scanning";
+        expectedResult.userLogin = "sbowen";
+
+        var resultsArray: FesResult[] = [expectedResult];
+        stub = sinon.stub(dao, 'makeQuery').resolves({rows: [queryResult]});
+        fesService.dao = dao;
+
+        var returnedSearchResult = await fesService.getFesTimelineDetails("barcode");
+        chai.expect(returnedSearchResult).to.be.deep.equal(resultsArray);
+    });
+
     afterEach(() => {
         stub.restore();
     });

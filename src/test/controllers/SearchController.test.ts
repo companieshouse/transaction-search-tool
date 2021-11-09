@@ -54,7 +54,7 @@ describe('search bar controller', ()=>{
         model.orgUnit = "My Org Unit";
         model.formType = "IN01";
         model.user = "No user allocated";
-
+        model.casenum = "11439511";
 
         let resultMap: Map<String,DocumentOverviewModel> = new Map();
         let resultMapEmpty: Map<String,DocumentOverviewModel> = new Map();
@@ -63,11 +63,14 @@ describe('search bar controller', ()=>{
 
         var barcodeSearchStub = sinon.stub(barcodeSearchHandler, 'searchBarcode');
         var companyNumbStub = sinon.stub(companyNumberSearchHandler, 'searchCompanyNumber');
+        var timelineStub = sinon.stub(barcodeSearchHandler, 'getTimelineResult');
+        var timelineArray = [{"date" : "02-DEC-2020", "event" : "Scan", "location" : "fes", "user" : "sbowen"}];
+
         barcodeSearchStub.withArgs("barcode").resolves(model);
         companyNumbStub.withArgs("barcode").resolves(resultMapEmpty);
         barcodeSearchStub.withArgs("barcode1").resolves(model);
         companyNumbStub.withArgs("barcode1").resolves(resultMap);
-
+        timelineStub.withArgs("barcode", model).resolves(timelineArray);
 
         searchController.barcodeSearchHandler = barcodeSearchHandler;
         searchController.companyNumberSearchHandler = companyNumberSearchHandler;
@@ -101,7 +104,8 @@ describe('search bar controller', ()=>{
                 "eventOccurredTime" : "No exception occurred",
                 "eventText" : "No exception occurred",
                 "TransactionDate" : "01/12/2020"
-            }
+            },
+            "timeline" : [{"date" : "02-DEC-2020", "event" : "Scan", "location" : "fes", "user" : "sbowen"}]
         }
         await searchController.searchQuery(req, res);
         chai.expect(res.render.calledWithMatch("documentOverview", expectedRender)).to.be.true;
@@ -129,7 +133,8 @@ describe('search bar controller', ()=>{
                 "ICOAction" : "No Action Required",
                 "eventOccurredTime" : "No exception occurred",
                 "eventText" : "No exception occurred",
-                "TransactionDate" : "01/12/2020"
+                "TransactionDate" : "01/12/2020",
+                "CaseNum" : "11439511"
             }, {
                 "Barcode" : "barcode",
                 "Status" : "Pending",
@@ -148,7 +153,8 @@ describe('search bar controller', ()=>{
                 "ICOAction" : "No Action Required",
                 "eventOccurredTime" : "No exception occurred",
                 "eventText" : "No exception occurred",
-                "TransactionDate" : "01/12/2020"
+                "TransactionDate" : "01/12/2020",
+                "CaseNum" : "11439511"
             },{
                 "Barcode" : "barcode",
                 "Status" : "Pending",
@@ -167,7 +173,8 @@ describe('search bar controller', ()=>{
                 "ICOAction" : "No Action Required",
                 "eventOccurredTime" : "No exception occurred",
                 "eventText" : "No exception occurred",
-                "TransactionDate" : "01/12/2020"
+                "TransactionDate" : "01/12/2020",
+                "CaseNum" : "11439511"
             }]
         }
         await searchController.searchQuery(req2, res);

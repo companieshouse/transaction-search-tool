@@ -10,6 +10,7 @@ class ChipsResult {
     orgUnitId: number;
     orgUnit: string;
     userLogin: string;
+    casenum: string;
 
     public isEmpty() {
         return Object.keys(this).length === 0;

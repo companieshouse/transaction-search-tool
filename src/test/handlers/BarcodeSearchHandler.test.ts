@@ -8,6 +8,8 @@ import StaffwareResult from '../../data/StaffwareResult';
 import FesService from '../../service/FesService';
 import FesResult from '../../data/FesResult';
 import DocumentOverviewModel from '../../models/DocumentOverviewModel';
+import TimelineModel from '../../models/TimelineModel';
+
 chai.use(require('sinon-chai'));
 
 describe('barcode search handler', ()=>{
@@ -22,7 +24,6 @@ describe('barcode search handler', ()=>{
 
         let chipsService = new ChipsService();
         let swService = new StaffwareService();
-        let fesService = new FesService();
 
         let chipsResult = new ChipsResult();
         chipsResult.transactionId = 1;
@@ -34,6 +35,22 @@ describe('barcode search handler', ()=>{
         let staffwareResult = new StaffwareResult();
         staffwareResult.orgUnitId = 1234;
         staffwareResult.userId = 1;
+        staffwareResult.casenum = "11439511";
+        staffwareResult.date = "02-DEC-2020";
+
+        sinon.stub(chipsService, 'getTransactionDetailsFromBarcode').resolves(chipsResult);
+        orgUnitStub = sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
+        userStub = sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
+        barcodeSearchHandler.chipsService = chipsService;
+
+        sinon.stub(swService, 'addStaffwareData').resolves(staffwareResult);
+        sinon.stub(swService, 'getAuditDate').resolves(staffwareResult);
+        barcodeSearchHandler.swService = swService;
+    })
+
+    it('test barcodeSearch returns expected DocumentOverviewModel when called', async ()=>{
+
+        var fesService = new FesService();
 
         let fesResult = new FesResult();
         fesResult.envNo = 1;
@@ -46,20 +63,8 @@ describe('barcode search handler', ()=>{
         fesResult.eventText = "No exception occurred";
         fesResult.batchName = "Batch Name";
 
-
-        sinon.stub(chipsService, 'getTransactionDetailsFromBarcode').resolves(chipsResult);
-        orgUnitStub = sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
-        userStub = sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
-        barcodeSearchHandler.chipsService = chipsService;
-
-        sinon.stub(swService, 'addStaffwareData').resolves(staffwareResult);
-        barcodeSearchHandler.swService = swService;
-
         sinon.stub(fesService, 'getTransactionDetailsFromBarcode').resolves(fesResult);
         barcodeSearchHandler.fesService = fesService;
-    })
-
-    it('test barcodeSearch returns expected DocumentOverviewModel when called', async ()=>{
 
         let model = new DocumentOverviewModel();
         model.formBarcode = "XYZ123456";
@@ -80,8 +85,59 @@ describe('barcode search handler', ()=>{
         model.orgUnit = "My Org Unit";
         model.formType = "IN01";
         model.userLogin = "Test User";
+        model.casenum = "11439511";
 
         var result = await barcodeSearchHandler.searchBarcode('XYZ123456');
         chai.expect(result).to.be.deep.equal(model);
+    }).timeout(5000)
+
+    it('test barcodeSearch returns expected timelineModel when called', async ()=>{
+
+        let fesResult2 = new FesResult();
+        fesResult2.eventOccurredTime = "02-DEC-2020";
+        fesResult2.eventText = "Scanning";
+        fesResult2.location = "Fes";
+        fesResult2.userLogin = "sbowen";
+        
+        let fesTimelineResult : FesResult[] = [fesResult2];
+
+        var fesService = new FesService();
+
+        sinon.stub(fesService, 'getFesTimelineDetails').resolves(fesTimelineResult);
+        barcodeSearchHandler.fesService = fesService;
+
+        let model = new TimelineModel();
+        model.date = "02-DEC-2020";
+        model.event = "Scanning";
+        model.location = "Fes";
+        model.userLogin = "sbowen";
+
+        let docModel = new DocumentOverviewModel();
+        docModel.transactionDate = "02-DEC-2020";
+        docModel.chipsStatus = "Scanning";
+        docModel.orgUnit = "Fes";
+        docModel.userLogin = "sbowen";
+        docModel.transactionId = 1;
+        
+
+        var finalArray = [{
+            "date" : "02-DEC-2020",
+            "event" : "Scanning", 
+            "location" : "Fes",
+            "userLogin" : "sbowen"
+        }, {
+            "date" : "02-DEC-2020",
+            "event" : "Arrived in Staffware", 
+            "location" : "Staffware",
+            "userLogin" : "User"
+        }, {
+            "date" : "02-DEC-2020",
+            "event" : "Scanning", 
+            "location" : "Fes",
+            "userLogin" : "sbowen"
+        },];
+
+        var result = await barcodeSearchHandler.getTimelineResult('XYZ123456', docModel);
+        chai.expect(result).to.be.deep.equal(finalArray);
     }).timeout(5000)
 })

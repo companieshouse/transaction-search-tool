@@ -29,13 +29,18 @@ class SqlData {
         WHERE tst.TRANSACTION_STATUS_TYPE_ID = :transactionStatusID`
     
     public static getQueueAndUserFromDocumentSQL: string =
-    `SELECT O_QUEUENAME, O_QPARAM1
+    `SELECT O_QUEUENAME, O_QPARAM1, O_CASENUM
     FROM STAFFO SO
     INNER JOIN CASE_DATA CD
     ON SO.O_CASENUM = CD.CASENUM
     WHERE CD.FIELD_NAME = 'X_QHADOCID'
     AND CD.FIELD_VALUE = :documentId
     AND ROWNUM = 1`
+
+    public static getAuditTrailDate: string =
+    `SELECT MIN(AUDIT_DATE)
+    FROM AUDIT_TRAIL
+    WHERE CASENUM = :casenum`
 
     public static orgUnitSql: string = 
     `SELECT ORGANISATIONAL_UNIT_DESC
@@ -78,6 +83,13 @@ class SqlData {
     FROM BATCH b, ENVELOPE e
     WHERE e.ENVELOPE_BATCH_ID = b.BATCH_ID
     AND e.ENVELOPE_ID = :formEnvelopeId`
+
+    public static fesTimeLineSql: string =
+    `SELECT fe.FORM_EVENT_OCCURRED, fet.FORM_EVENT_TYPE_NAME, f.FORM_ORG_UNIT_NAME, f.FORM_USER_ID
+    FROM FORM f, FORM_EVENT fe, FORM_EVENT_TYPE fet
+    WHERE fe.FORM_EVENT_TYPE_ID = fet.FORM_EVENT_TYPE_ID
+    AND f.FORM_ID = fe.FORM_EVENT_FORM_ID
+    and f.FORM_BARCODE = :barcode`
 }
 
 export default SqlData;
