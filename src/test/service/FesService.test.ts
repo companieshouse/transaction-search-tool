@@ -89,7 +89,7 @@ describe('FES service test', ()=>{
             FORM_EVENT_OCCURRED: "02-DEC-2020",
             FORM_EVENT_TYPE_NAME : "Sent to chips",
             FORM_ORG_UNIT_NAME : "FrontE Scanning",
-            USER_ACCESS_ID : "sbowen"
+            ACCOUNT_USERNAME : "sbowen"
         }
 
         var expectedResult = new FesResult();

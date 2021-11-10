@@ -74,7 +74,7 @@ class FesService {
                 result.eventOccurredTime = row['FORM_EVENT_OCCURRED'];
                 result.eventText = row['FORM_EVENT_TYPE_NAME'];
                 result.location = row['FORM_ORG_UNIT_NAME'];
-                result.userLogin = row['USER_ACCESS_ID'];
+                result.userLogin = row['ACCOUNT_USERNAME'];
                 resultArray.push(result);
             };
         }
