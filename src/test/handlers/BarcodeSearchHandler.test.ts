@@ -118,6 +118,7 @@ describe('barcode search handler', ()=>{
         docModel.orgUnit = "FES";
         docModel.userLogin = "sbowen";
         docModel.transactionId = 1;
+        docModel.casenum = "11439511";
 
         var expectedArray = [{
             "date" : "09 NOV 2021 at 11:21",
