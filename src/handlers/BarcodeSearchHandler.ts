@@ -140,7 +140,7 @@ class BarcodeSearchHandler {
 
         try {
             fesTimelineResults = await this.fesService.getFesTimelineDetails(barcode);
-            staffwareResult = await this.swService.getAuditDate(docModel.casenum);
+            staffwareResult = docModel.casenum ? await this.swService.getAuditDate(docModel.casenum) : new StaffwareResult();
         } catch(err) {
             errorHandler.handleError(this.constructor.name, "getTimelineResult", err);
             return timelineModel;
