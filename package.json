@@ -8,7 +8,7 @@
     "start:watch": "NODE_ENV=development nodemon",
     "build": "tsc && cp -r src/views dist/app/ && cp -r src/static dist/app/",
     "lint": "tslint -p .",
-    "test": "mocha --coverage -r ts-mocha src/**/*.test.ts",
+    "test": "nyc mocha -r ts-mocha src/**/*.test.ts",
     "analyse-code": "sonar-scanner"
   },
   "author": "companieshouse",
@@ -28,6 +28,7 @@
     "mongodb": "^3.6.5",
     "nodemon": "2.0.7",
     "nunjucks": "^3.2.2",
+    "nyc": "^15.1.0",
     "oracledb": "^5.0.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3",
@@ -46,10 +47,10 @@
     "@types/sinon": "^9.0.8",
     "chai": "^4.2.0",
     "mocha": "8.3.2",
+    "proxyquire": "^2.1.3",
     "sinon": "^9.2.1",
     "sinon-chai": "^3.5.0",
-    "ts-mocha": "^8.0.0",
-    "proxyquire": "^2.1.3",
-    "sonarqube-scanner": "^2.8.0"
+    "sonarqube-scanner": "^2.8.0",
+    "ts-mocha": "^8.0.0"
   }
 }
