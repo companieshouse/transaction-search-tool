@@ -17,6 +17,9 @@ clean:
 npm-install:
 	npm i
 
+.PHONY: test
+test: test-unit
+
 .PHONY: test-unit
 test-unit:
 	npm run test
