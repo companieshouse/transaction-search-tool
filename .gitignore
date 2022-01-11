@@ -10,3 +10,5 @@ dist/
 
 coverage
 .scannerwork/ 
+.nyc_output
+.vscode
