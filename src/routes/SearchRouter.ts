@@ -1,7 +1,7 @@
 import SearchController from '../controllers/SearchController';
 import * as express from "express";
 
-class BarcodeSearchRouter {
+class SearchRouter {
 
     public static create() {
         const router = express.Router();
@@ -17,4 +17,4 @@ class BarcodeSearchRouter {
 
 }
 
-export default BarcodeSearchRouter;
+export default SearchRouter;
