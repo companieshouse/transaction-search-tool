@@ -21,7 +21,7 @@
     "ch-structured-logging": "git+ssh://git@github.com/companieshouse/ch-structured-logging-node.git#15a811238ceb58988ab755229a5c07b9500200f2",
     "cookie-parser": "~1.4.4",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-session": "^1.17.1",
     "govuk-frontend": "^3.9.1",
     "helmet": "^4.4.1",
