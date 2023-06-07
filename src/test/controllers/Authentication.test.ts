@@ -1,10 +1,10 @@
 import sinon from "sinon";
 
-import { ISignInInfo } from "ch-node-session-handler/lib/session/model/SessionInterfaces";
+import { ISignInInfo } from "@companieshouse/node-session-handler/lib/session/model/SessionInterfaces";
 import { RequestHandler } from "express";
-import { SignInInfoKeys } from "ch-node-session-handler/lib/session/keys/SignInInfoKeys";
-import { SessionKey } from "ch-node-session-handler/lib/session/keys/SessionKey";
-import { UserProfileKeys } from "ch-node-session-handler/lib/session/keys/UserProfileKeys";
+import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
+import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
+import { UserProfileKeys } from "@companieshouse/node-session-handler/lib/session/keys/UserProfileKeys";
 
 import chai from 'chai';
 
@@ -15,10 +15,8 @@ describe("authenticationMiddleware", function () {
     const createMockRequest = function (signInInfo?: ISignInInfo) {
         return {
             session: {
-                chain: function () {
-                    return {
-                        extract: () => signInInfo
-                    };
+                data: {
+                    [SessionKey.SignInInfo]: signInInfo
                 }
             },
         };
@@ -73,7 +71,7 @@ describe("authenticationMiddleware", function () {
 
     it("calls next if signed in and user profile exists with permission", function () {
         const mockRequest: any = createMockRequest({
-            [SignInInfoKeys.SignedIn]: 1,
+                [SignInInfoKeys.SignedIn]: 1,
                 [SignInInfoKeys.UserProfile]: {
                     [UserProfileKeys.Email]: 'email',
                     [UserProfileKeys.Permissions]: {
