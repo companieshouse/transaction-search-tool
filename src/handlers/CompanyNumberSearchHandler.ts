@@ -1,7 +1,7 @@
 import StaffwareResult from "../data/StaffwareResult";
 import StaffwareService from "../service/StaffwareService";
 import config from "../config";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import ChipsService from "../service/ChipsService";
 import ChipsResult from "../data/ChipsResult";
 import FesService from "../service/FesService";
