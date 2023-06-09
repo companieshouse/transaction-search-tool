@@ -1,5 +1,5 @@
 import config from "../config";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 
 const logger = createLogger(config.applicationNamespace);
 

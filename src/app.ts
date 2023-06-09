@@ -1,5 +1,5 @@
 import express from "express";
-import { createLogger, createLoggerMiddleware } from "ch-structured-logging";
+import { createLogger, createLoggerMiddleware } from "@companieshouse/structured-logging-node";
 import * as nunjucks from "nunjucks";
 import config from "./config";
 import path from "path";

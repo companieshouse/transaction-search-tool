@@ -1,7 +1,7 @@
 import config from "../config";
 import session from "express-session";
 import genuuid from "uuid/v4";
-import { SessionMiddleware, SessionStore } from "ch-node-session-handler";
+import { SessionMiddleware, SessionStore } from "@companieshouse/node-session-handler";
 import Redis from "ioredis";
 import { RequestHandler } from "express";
 
@@ -29,7 +29,8 @@ const getSessionMiddleware = function(): RequestHandler {
         const sessionStore = new SessionStore(new Redis(`redis://${config.session.cacheServer}`));
         sessionMiddleware = SessionMiddleware({
             cookieName: config.session.cookieName,
-            cookieSecret: config.session.cookieSecret
+            cookieSecret: config.session.cookieSecret,
+            cookieDomain: config.session.cookieDomain
         }, sessionStore);
     }
     return sessionMiddleware;
