@@ -111,6 +111,12 @@ variable "max_file_size_bytes" {
 variable "human_log" {
   type        = string
 }
+
+variable "port" {
+  type = string
+  default = "18580" 
+}
+
 variable "show_service_offline_page" {
   type        = string
 }
