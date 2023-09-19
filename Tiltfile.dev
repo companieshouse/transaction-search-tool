@@ -1,11 +1,6 @@
 local_resource(
-  name = 'dev:transaction-search-tool:init',
-  cmd = 'npm --silent install'
-)
-
-local_resource(
-  name = 'dev:transaction-search-tool:build',
-  cmd = 'npm --silent run build',
+  name = 'dev:transaction-search-tool',
+  cmd = 'npm install && npm run build',
   deps = [
     'src'
   ]
