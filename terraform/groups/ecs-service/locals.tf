@@ -14,19 +14,19 @@ locals {
   service_secrets           = jsondecode(data.vault_generic_secret.service_secrets.data_json)
 
   parameter_store_secrets    = {
-    "vpc_name"                      = local.vpc_name
-    "cache_server"                  = local.cache_server
-    "cookie_server"                 = local.cookie_server
-    "mongodb_url"                   = local.mongodb_url
-    "chips_db_user"                 = local.chips_db_user
-    "chips_db_password"             = local.chips_db_password
-    "chips_db_connectionstring"     = local.chips_db_connectionstring
-    "fes_db_user"                   = local.fes_db_user
-    "fes_db_password"               = local.fes_db_password
-    "fes_db_connectionstring"       = local.fes_db_connectionstring
-    "staffware_db_user"             = local.staffware_db_user
-    "staffware_db_password"         = local.staffware_db_password
-    "staffware_db_connectionstring" = local.staffware_db_connectionstring
+  vpc_name                      = local.service_secrets["vpc_name"]
+  cache_server                  = local.service_secrets["cache_server"]
+  cookie_server                 = local.service_secrets["cookie_server"]
+  mongodb_url                   = local.service_secrets["mongodb_url"]
+  chips_db_user                 = local.service_secrets["chips_db_user"]
+  chips_db_password             = local.service_secrets["chips_db_password"]
+  chips_db_connectionstring     = local.service_secrets["chips_db_connectionstring"]
+  fes_db_user                   = local.service_secrets["fes_db_user"]
+  fes_db_password               = local.service_secrets["fes_db_password"]
+  fes_db_connectionstring       = local.service_secrets["fes_db_connectionstring"]
+  staffware_db_user             = local.service_secrets["staffware_db_user"]
+  staffware_db_password         = local.service_secrets["staffware_db_password"]
+  staffware_db_connectionstring = local.service_secrets["staffware_db_connectionstring"]
   }
 
   vpc_name                      = local.service_secrets["vpc_name"]
