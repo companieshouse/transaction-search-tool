@@ -14,31 +14,31 @@ locals {
   service_secrets           = jsondecode(data.vault_generic_secret.service_secrets.data_json)
 
   parameter_store_secrets    = {
-    "vpc_name"                  = local.vpc_name
-    "cache_server"              = local.cache_server
-    "cookie_server"             = local.cookie_server
-    "mongodb_url"               = local.mongodb_url
-    "chips_db_user"             = local.chips_db_user
-    "chips_db_password"         = local.chips_db_password
-    "chips_db_connectionstring" = local.chips_db_connectionstring
-    "fes_db_user"             = local.fes_db_user
-    "fes_db_password"         = local.fes_db_password
-    "fes_db_connectionstring" = local.fes_db_connectionstring
+    "vpc_name"                      = local.vpc_name
+    "cache_server"                  = local.cache_server
+    "cookie_server"                 = local.cookie_server
+    "mongodb_url"                   = local.mongodb_url
+    "chips_db_user"                 = local.chips_db_user
+    "chips_db_password"             = local.chips_db_password
+    "chips_db_connectionstring"     = local.chips_db_connectionstring
+    "fes_db_user"                   = local.fes_db_user
+    "fes_db_password"               = local.fes_db_password
+    "fes_db_connectionstring"       = local.fes_db_connectionstring
     "staffware_db_user"             = local.staffware_db_user
     "staffware_db_password"         = local.staffware_db_password
     "staffware_db_connectionstring" = local.staffware_db_connectionstring
   }
 
-  vpc_name                  = local.service_secrets["vpc_name"]
-  cache_server              = local.service_secrets["cache_server"]
-  cookie_server             = local.service_secrets["cookie_server"]
-  mongodb_url               = local.service_secrets["mongodb_url"]
-  chips_db_user             = local.service_secrets["chips_db_user"]
-  chips_db_password         = local.service_secrets["chips_db_password"]
-  chips_db_connectionstring = local.service_secrets["chips_db_connectionstring"]
-  fes_db_user             = local.service_secrets["fes_db_user"]
-  fes_db_password         = local.service_secrets["fes_db_password"]
-  fes_db_connectionstring = local.service_secrets["fes_db_connectionstring"]
+  vpc_name                      = local.service_secrets["vpc_name"]
+  cache_server                  = local.service_secrets["cache_server"]
+  cookie_server                 = local.service_secrets["cookie_server"]
+  mongodb_url                   = local.service_secrets["mongodb_url"]
+  chips_db_user                 = local.service_secrets["chips_db_user"]
+  chips_db_password             = local.service_secrets["chips_db_password"]
+  chips_db_connectionstring     = local.service_secrets["chips_db_connectionstring"]
+  fes_db_user                   = local.service_secrets["fes_db_user"]
+  fes_db_password               = local.service_secrets["fes_db_password"]
+  fes_db_connectionstring       = local.service_secrets["fes_db_connectionstring"]
   staffware_db_user             = local.service_secrets["staffware_db_user"]
   staffware_db_password         = local.service_secrets["staffware_db_password"]
   staffware_db_connectionstring = local.service_secrets["staffware_db_connectionstring"]
@@ -65,15 +65,14 @@ locals {
     { "name": "FES_DB_PASSWORD", "valueFrom": "${local.service_secrets_arn_map.fes_db_password}"},
     { "name": "FES_DB_CONNECTIONSTRING", "valueFrom": "${local.service_secrets_arn_map.fes_db_connectionstring}"},
     { "name": "MONGODB_URL", "valueFrom": "${local.service_secrets_arn_map.mongodb_url}"},
-    {"name": "STAFFWARE_DB_USER", "valueFrom": "${local.service_secrets_arn_map.staffware_db_user}"},
-    {"name": "STAFFWARE_DB_PASSWORD", "valueFrom": "${local.service_secrets_arn_map.staffware_db_password}"}, 
-    {"name": "STAFFWARE_DB_CONNECTIONSTRING", "valueFrom": "${local.service_secrets_arn_map.staffware_db_connectionstring}"},
+    { "name": "STAFFWARE_DB_USER", "valueFrom": "${local.service_secrets_arn_map.staffware_db_user}"},
+    { "name": "STAFFWARE_DB_PASSWORD", "valueFrom": "${local.service_secrets_arn_map.staffware_db_password}"}, 
+    { "name": "STAFFWARE_DB_CONNECTIONSTRING", "valueFrom": "${local.service_secrets_arn_map.staffware_db_connectionstring}"},
     { "name": "COOKIE_SECRET", "valueFrom": "${local.secrets_arn_map.web-oauth2-cookie-secret}" },
     { "name": "COOKIE_SERVER", "valueFrom": "${local.service_secrets_arn_map.cookie_server}" }   
   ]
 
   task_environment = [
-    { "name": "CDN_HOST", "value": "//${var.cdn_host}" },
     { "name": "COOKIE_DOMAIN", "value": "${var.cookie_domain}" },
     { "name": "COOKIE_SECURE_ONLY", "value": "${var.cookie_secure_only}" },
     { "name": "DEFAULT_SESSION_EXPIRATION", "value": "${var.default_session_expiration}" },
