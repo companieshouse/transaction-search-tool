@@ -77,6 +77,7 @@ locals {
     { "name" : "COOKIE_SECURE_ONLY", "value" : "${var.cookie_secure_only}" },
     { "name" : "DEFAULT_SESSION_EXPIRATION", "value" : "${var.default_session_expiration}" },
     { "name" : "PORT", "value" : "${var.port}" },
-    { "name" : "COOKIE_NAME", "value" : "${var.cookie_name}" }
+    { "name" : "COOKIE_NAME", "value" : "${var.cookie_name}" },
+    { "name" : "CDN_HOST", "value" : "${var.cdn_host}" }
   ]
 }
