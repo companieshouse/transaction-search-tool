@@ -60,6 +60,9 @@ env.addGlobal("CSS_URL", `/${config.urlPrefix}/static/app.css`);
 
 app.set('engine', env);
 
+const oracledb = require("oracledb");
+oracledb.initOracleClient();
+
 app.listen(config.port, function () {
     logger.info(`Server started on port ${config.port}`);
 });
