@@ -6,8 +6,8 @@ locals {
   container_port            = "3000" # default node port required here until prod docker container is built allowing port change via env var
   docker_repo               = "transaction-search-tool"
   lb_listener_rule_priority = 34
-  lb_listener_paths         = ["/transactionsearch/.*"]
-  healthcheck_path          = "/transaction-search-tool" #healthcheck path for transaction-search-tool web
+  lb_listener_paths         = ["/transactionsearch/*"]
+  healthcheck_path          = "/transaction-search-tool/healthcheck" #healthcheck path for transaction-search-tool web
   healthcheck_matcher       = "200-302"
 
   kms_alias       = "alias/${var.aws_profile}/environment-services-kms"
@@ -16,7 +16,6 @@ locals {
   parameter_store_secrets = {
     "vpc_name"                      = local.service_secrets["vpc_name"]
     "cache_server"                  = local.service_secrets["cache_server"]
-    "cookie_server"                 = local.service_secrets["cookie_server"]
     "mongodb_url"                   = local.service_secrets["mongodb_url"]
     "chips_db_user"                 = local.service_secrets["chips_db_user"]
     "chips_db_password"             = local.service_secrets["chips_db_password"]
@@ -31,7 +30,6 @@ locals {
 
   vpc_name                      = local.service_secrets["vpc_name"]
   cache_server                  = local.service_secrets["cache_server"]
-  cookie_server                 = local.service_secrets["cookie_server"]
   mongodb_url                   = local.service_secrets["mongodb_url"]
   chips_db_user                 = local.service_secrets["chips_db_user"]
   chips_db_password             = local.service_secrets["chips_db_password"]
@@ -68,8 +66,7 @@ locals {
     { "name" : "STAFFWARE_DB_USER", "valueFrom" : "${local.service_secrets_arn_map.staffware_db_user}" },
     { "name" : "STAFFWARE_DB_PASSWORD", "valueFrom" : "${local.service_secrets_arn_map.staffware_db_password}" },
     { "name" : "STAFFWARE_DB_CONNECTIONSTRING", "valueFrom" : "${local.service_secrets_arn_map.staffware_db_connectionstring}" },
-    { "name" : "COOKIE_SECRET", "valueFrom" : "${local.secrets_arn_map.web-oauth2-cookie-secret}" },
-    { "name" : "COOKIE_SERVER", "valueFrom" : "${local.service_secrets_arn_map.cookie_server}" }
+    { "name" : "COOKIE_SECRET", "valueFrom" : "${local.secrets_arn_map.web-oauth2-cookie-secret}" }
   ]
 
   task_environment = [
