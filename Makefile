@@ -45,3 +45,7 @@ endif
 
 .PHONY: init
 init: npm-install
+
+.PHONY: security-check
+security-check:
+	npm audit

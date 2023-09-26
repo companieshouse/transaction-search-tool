@@ -1,7 +1,8 @@
 *
 
 !src
+!dist
 !gulpfile.js
 !package.json
 !package-lock.json
-!tsconfig.json
+!docker_start.sh

@@ -6,6 +6,7 @@ import path from "path";
 
 import SearchRouter from "./routes/SearchRouter";
 import authenticationMiddleware from "./controllers/Authentication";
+import HealthCheckRouter from "./routes/HealthCheckRouter";
 import SigninRouter from "./routes/SigninRouter";
 import cookieParser from "cookie-parser";
 import getSessionMiddleware from "./utils/SessionHelper";
@@ -51,6 +52,7 @@ app.use(helmet({
 app.use(express.urlencoded({ extended: true }));
 env.addGlobal("CDN_URL", config.cdnUrl);
 app.use(`/${config.urlPrefix}`, SigninRouter.create());
+app.use(`/${config.urlPrefix}`, HealthCheckRouter.create());
 
 app.use(authenticationMiddleware());
 app.use(`/${config.urlPrefix}`, SearchRouter.create());
@@ -59,6 +61,9 @@ app.use(`/${config.urlPrefix}/static`, express.static("dist/app/static"));
 env.addGlobal("CSS_URL", `/${config.urlPrefix}/static/app.css`);
 
 app.set('engine', env);
+
+const oracledb = require("oracledb");
+oracledb.initOracleClient();
 
 app.listen(config.port, function () {
     logger.info(`Server started on port ${config.port}`);
