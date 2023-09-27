@@ -8,7 +8,7 @@ locals {
   lb_listener_rule_priority = 34
   lb_listener_paths         = ["/transactionsearch/*"]
   healthcheck_path          = "/transactionsearch/healthcheck" #healthcheck path for transaction-search-tool web
-  healthcheck_matcher       = "200-302"
+  healthcheck_matcher       = "200-304"
 
   kms_alias       = "alias/${var.aws_profile}/environment-services-kms"
   service_secrets = jsondecode(data.vault_generic_secret.service_secrets.data_json)
