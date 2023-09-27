@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Start script for overseas entities web
+# Start script for transaction search tool
 
-PORT=18580
+PORT=3000
 
 exec node /opt/dist/app/app.js -- ${PORT}
