@@ -7,7 +7,7 @@ locals {
   docker_repo               = "transaction-search-tool"
   lb_listener_rule_priority = 34
   lb_listener_paths         = ["/transactionsearch/*"]
-  healthcheck_path          = "/transaction-search-tool/healthcheck" #healthcheck path for transaction-search-tool web
+  healthcheck_path          = "/transactionsearchtool/healthcheck" #healthcheck path for transaction-search-tool web
   healthcheck_matcher       = "200-302"
 
   kms_alias       = "alias/${var.aws_profile}/environment-services-kms"
