@@ -4,4 +4,4 @@
 
 PORT=18580
 
-exec node /opt/app.js -- ${PORT}
+exec node /opt/dist/app/app.js -- ${PORT}
