@@ -1,5 +1,0 @@
-app_name: transaction-search-tool
-group: web
-weight: 1000
-routes:
-  1: /transactionsearch/.*

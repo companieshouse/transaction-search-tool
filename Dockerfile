@@ -12,6 +12,7 @@ ENV PATH=$PATH:$ORACLE_HOME/bin
 RUN dnf update -y && \
     dnf install -y \
         wget \
+        tar \
         libaio && \
     dnf clean all
 
