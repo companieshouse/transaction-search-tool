@@ -23,9 +23,15 @@ test: test-unit
 .PHONY: test-unit
 test-unit:
 	npm run test
+
+.PHONY: lint
+lint:
+	npm i lint
+
 .PHONY: sonar
 sonar:
 	npm run analyse-code
+
 .PHONY: package
 package: init build 
 ifndef version
