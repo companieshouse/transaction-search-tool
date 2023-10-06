@@ -9,7 +9,7 @@
     "build": "tsc && cp -r src/views dist/app/ && cp -r src/static dist/app/",
     "lint": "tslint -p .",
     "test": "nyc mocha -r ts-mocha src/**/*.test.ts",
-    "analyse-code": "sonar-scanner"
+    "analyse-code": "sonar-scanner -D sonar.pullrequest.base=main"
   },
   "author": "companieshouse",
   "license": "MIT",
@@ -25,6 +25,7 @@
     "express-session": "^1.17.1",
     "govuk-frontend": "^3.9.1",
     "helmet": "^4.4.1",
+    "lint": "^1.1.2",
     "mongodb": "^3.6.5",
     "nodemon": "^3.0.1",
     "nunjucks": "^3.2.2",
