@@ -1,8 +1,9 @@
 *
 
-!src
 !dist
+!docker_start.sh
 !gulpfile.js
+!node_modules
 !package.json
 !package-lock.json
-!docker_start.sh
+!src
