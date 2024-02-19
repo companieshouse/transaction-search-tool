@@ -13,7 +13,7 @@ custom_build(
   live_update = [
     sync(
       local_path = './dist',
-      remote_path = '/app/dist'
+      remote_path = '/opt/dist'
     ),
     restart_container()
   ],
