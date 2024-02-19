@@ -19,7 +19,7 @@ const viewPath = path.join(__dirname, "views");
 
 var env = nunjucks
     .configure([
-        viewPath,  
+        viewPath,
         "node_modules/govuk-frontend/",
         "node_modules/govuk-frontend/components",
     ], {
@@ -49,6 +49,7 @@ app.use(helmet({
       }
     }
   }));
+
 app.use(express.urlencoded({ extended: true }));
 env.addGlobal("CDN_URL", config.cdnUrl);
 app.use(`/${config.urlPrefix}`, SigninRouter.create());
