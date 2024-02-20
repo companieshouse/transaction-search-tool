@@ -4,7 +4,7 @@ locals {
   name_prefix                 = "${local.stack_name}-${var.environment}"
   global_prefix               = "global-${var.environment}"
   service_name                = "transaction-search-tool"
-  container_port              = "18580" # default node port required here until prod docker container is built allowing port change via env var
+  container_port              = "3000" # default node port required here until prod docker container is built allowing port change via env var
   docker_repo                 = "transaction-search-tool"
   kms_alias                   = "alias/${var.aws_profile}/environment-services-kms"
   lb_listener_rule_priority   = 34
