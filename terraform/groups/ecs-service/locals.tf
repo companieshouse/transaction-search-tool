@@ -11,7 +11,7 @@ locals {
   lb_listener_paths           = ["/transactionsearch/*"]
   healthcheck_path            = "/transactionsearch/healthcheck" #healthcheck path for transaction-search-tool web
   healthcheck_matcher         = "200"
-  vpc_name                    = data.aws_ssm_parameter.secret[format("/%s/%s", local.name_prefix, "vpc-name")].value
+  vpc_name                    = local.stack_secrets["vpc_name"]
   s3_config_bucket            = data.vault_generic_secret.shared_s3.data["config_bucket_name"]
   app_environment_filename    = "transaction-search-tool.env"
   use_set_environment_files   = var.use_set_environment_files
