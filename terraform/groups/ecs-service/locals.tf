@@ -1,45 +1,25 @@
 # Define all hardcoded local variable and local variables looked up from data resources
 locals {
-  stack_name                = "utility" # this must match the stack name the service deploys into
-  name_prefix               = "${local.stack_name}-${var.environment}"
-  service_name              = "transaction-search-tool"
-  container_port            = "3000" # default node port required here until prod docker container is built allowing port change via env var
-  docker_repo               = "transaction-search-tool"
-  lb_listener_rule_priority = 34
-  lb_listener_paths         = ["/transactionsearch/*"]
-  healthcheck_path          = "/transactionsearch/healthcheck" #healthcheck path for transaction-search-tool web
-  healthcheck_matcher       = "200-304"
+  stack_name                  = "utility" # this must match the stack name the service deploys into
+  name_prefix                 = "${local.stack_name}-${var.environment}"
+  global_prefix               = "global-${var.environment}"
+  service_name                = "transaction-search-tool"
+  container_port              = "18580" # default node port required here until prod docker container is built allowing port change via env var
+  docker_repo                 = "transaction-search-tool"
+  kms_alias                   = "alias/${var.aws_profile}/environment-services-kms"
+  lb_listener_rule_priority   = 34
+  lb_listener_paths           = ["/transactionsearch/*"]
+  healthcheck_path            = "/transactionsearch/healthcheck" #healthcheck path for transaction-search-tool web
+  healthcheck_matcher         = "200"
+  vpc_name                    = data.aws_ssm_parameter.secret[format("/%s/%s", local.name_prefix, "vpc-name")].value
+  s3_config_bucket            = data.vault_generic_secret.shared_s3.data["config_bucket_name"]
+  app_environment_filename    = "transaction-search-tool.env"
+  use_set_environment_files   = var.use_set_environment_files
+  application_subnet_ids      = data.aws_subnets.application.ids
+  application_subnet_pattern  = local.stack_secrets["application_subnet_pattern"]
 
-  kms_alias       = "alias/${var.aws_profile}/environment-services-kms"
-  service_secrets = jsondecode(data.vault_generic_secret.service_secrets.data_json)
-
-  parameter_store_secrets = {
-    "vpc_name"                      = local.service_secrets["vpc_name"]
-    "cache_server"                  = local.service_secrets["cache_server"]
-    "mongodb_url"                   = local.service_secrets["mongodb_url"]
-    "chips_db_user"                 = local.service_secrets["chips_db_user"]
-    "chips_db_password"             = local.service_secrets["chips_db_password"]
-    "chips_db_connectionstring"     = local.service_secrets["chips_db_connectionstring"]
-    "fes_db_user"                   = local.service_secrets["fes_db_user"]
-    "fes_db_password"               = local.service_secrets["fes_db_password"]
-    "fes_db_connectionstring"       = local.service_secrets["fes_db_connectionstring"]
-    "staffware_db_user"             = local.service_secrets["staffware_db_user"]
-    "staffware_db_password"         = local.service_secrets["staffware_db_password"]
-    "staffware_db_connectionstring" = local.service_secrets["staffware_db_connectionstring"]
-  }
-
-  vpc_name                      = local.service_secrets["vpc_name"]
-  cache_server                  = local.service_secrets["cache_server"]
-  mongodb_url                   = local.service_secrets["mongodb_url"]
-  chips_db_user                 = local.service_secrets["chips_db_user"]
-  chips_db_password             = local.service_secrets["chips_db_password"]
-  chips_db_connectionstring     = local.service_secrets["chips_db_connectionstring"]
-  fes_db_user                   = local.service_secrets["fes_db_user"]
-  fes_db_password               = local.service_secrets["fes_db_password"]
-  fes_db_connectionstring       = local.service_secrets["fes_db_connectionstring"]
-  staffware_db_user             = local.service_secrets["staffware_db_user"]
-  staffware_db_password         = local.service_secrets["staffware_db_password"]
-  staffware_db_connectionstring = local.service_secrets["staffware_db_connectionstring"]
+  stack_secrets               = jsondecode(data.vault_generic_secret.stack_secrets.data_json)
+  service_secrets             = jsondecode(data.vault_generic_secret.service_secrets.data_json)
 
   # create a map of secret name => secret arn to pass into ecs service module
   # using the trimprefix function to remove the prefixed path from the secret name
@@ -48,33 +28,40 @@ locals {
     trimprefix(sec.name, "/${local.name_prefix}/") => sec.arn
   }
 
+  global_secrets_arn_map = {
+    for sec in data.aws_ssm_parameter.global_secret :
+    trimprefix(sec.name, "/${local.global_prefix}/") => sec.arn
+  }
+
+  global_secret_list = flatten([for key, value in local.global_secrets_arn_map :
+    { "name" = upper(key), "valueFrom" = value }
+  ])
+
+  ssm_global_version_map = [
+    for sec in data.aws_ssm_parameter.global_secret : {
+      name = "GLOBAL_${var.ssm_version_prefix}${replace(upper(basename(sec.name)), "-", "_")}", value = sec.version
+    }
+  ]
+
   service_secrets_arn_map = {
-    for sec in module.secrets.secrets :
+    for sec in module.secrets.secrets:
     trimprefix(sec.name, "/${local.service_name}-${var.environment}/") => sec.arn
   }
 
-  # TODO: task_secrets don't seem to correspond with 'parameter_store_secrets'. What is the difference?
-  task_secrets = [
-    { "name" : "CACHE_SERVER", "valueFrom" : "${local.service_secrets_arn_map.cache_server}" },
-    { "name" : "CHIPS_DB_USER", "valueFrom" : "${local.service_secrets_arn_map.chips_db_user}" },
-    { "name" : "CHIPS_DB_PASSWORD", "valueFrom" : "${local.service_secrets_arn_map.chips_db_password}" },
-    { "name" : "CHIPS_DB_CONNECTIONSTRING", "valueFrom" : "${local.service_secrets_arn_map.chips_db_connectionstring}" },
-    { "name" : "FES_DB_USER", "valueFrom" : "${local.service_secrets_arn_map.fes_db_user}" },
-    { "name" : "FES_DB_PASSWORD", "valueFrom" : "${local.service_secrets_arn_map.fes_db_password}" },
-    { "name" : "FES_DB_CONNECTIONSTRING", "valueFrom" : "${local.service_secrets_arn_map.fes_db_connectionstring}" },
-    { "name" : "MONGODB_URL", "valueFrom" : "${local.service_secrets_arn_map.mongodb_url}" },
-    { "name" : "STAFFWARE_DB_USER", "valueFrom" : "${local.service_secrets_arn_map.staffware_db_user}" },
-    { "name" : "STAFFWARE_DB_PASSWORD", "valueFrom" : "${local.service_secrets_arn_map.staffware_db_password}" },
-    { "name" : "STAFFWARE_DB_CONNECTIONSTRING", "valueFrom" : "${local.service_secrets_arn_map.staffware_db_connectionstring}" },
-    { "name" : "COOKIE_SECRET", "valueFrom" : "${local.secrets_arn_map.web-oauth2-cookie-secret}" }
+  service_secret_list = flatten([for key, value in local.service_secrets_arn_map :
+    { "name" = upper(key), "valueFrom" = value }
+  ])
+
+  ssm_service_version_map = [
+    for sec in module.secrets.secrets : {
+      name = "${replace(upper(local.service_name), "-", "_")}_${var.ssm_version_prefix}${replace(upper(basename(sec.name)), "-", "_")}", value = sec.version
+    }
   ]
 
-  task_environment = [
-    { "name" : "COOKIE_DOMAIN", "value" : "${var.cookie_domain}" },
-    { "name" : "COOKIE_SECURE_ONLY", "value" : "${var.cookie_secure_only}" },
-    { "name" : "DEFAULT_SESSION_EXPIRATION", "value" : "${var.default_session_expiration}" },
-    { "name" : "PORT", "value" : "${var.port}" },
-    { "name" : "COOKIE_NAME", "value" : "${var.cookie_name}" },
-    { "name" : "CDN_HOST", "value" : "${var.cdn_host}" }
-  ]
+  # applications.developer.web.ch.gov.uk secrets to go in list
+  task_secrets = concat(local.global_secret_list,local.service_secret_list,[])
+
+  task_environment = concat(local.ssm_global_version_map,local.ssm_service_version_map,[
+    { "name" : "PORT", "value" : local.container_port }
+  ])
 }
