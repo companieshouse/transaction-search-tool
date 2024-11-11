@@ -29,7 +29,7 @@ lint:
 	npm i lint
 
 .PHONY: sonar
-sonar:
+sonar: test
 	npm run analyse-code
 
 .PHONY: package
