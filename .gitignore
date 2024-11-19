@@ -9,6 +9,10 @@ node_modules/
 dist/
 
 coverage
-.scannerwork/ 
+.scannerwork/
 .nyc_output
 .vscode
+
+# Vim files
+*.vim
+.*.sw?

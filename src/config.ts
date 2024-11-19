@@ -6,7 +6,7 @@ const config: ApplicationConfiguration = {
     applicationNamespace: "transaction-search-tool",
     mongodb: process.env.MONGODB_URL as string,
     cdnUrl: process.env.CDN_HOST as string,
-    
+
     chipsDatabase: {
         username: process.env.CHIPS_DB_USER as string,
         password: process.env.CHIPS_DB_PASSWORD as string,
@@ -23,9 +23,9 @@ const config: ApplicationConfiguration = {
         connectionString: process.env.FES_DB_CONNECTIONSTRING as string
     },
     session: {
-        cookieName: process.env.COOKIE_NAME as string,
-        cookieSecret: process.env.COOKIE_SECRET as string,
-        cookieDomain: process.env.COOKIE_DOMAIN as string,
+        cookieName: process.env.COOKIE_NAME || "default_cookie_name_for_tests",
+        cookieSecret: process.env.COOKIE_SECRET || "default_cookie_secret_for_tests",
+        cookieDomain: process.env.COOKIE_DOMAIN || "default_cookie_domain_for_tests",
         cacheServer: process.env.CACHE_SERVER as string,
         cookieSecure: process.env.COOKIE_SECURE_ONLY as string,
         timeOut: parseInt(process.env.DEFAULT_SESSION_EXPIRATION as string)

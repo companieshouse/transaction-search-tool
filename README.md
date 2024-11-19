@@ -17,7 +17,7 @@ For building and running with Docker:
 
 * Run `docker_chs modules enable transaction` to enable the module.
 * Run `docker_chs up` to start.
-* Navigate to `http://chs.local/transactionsearch/signin` to sign in using the old/existing admin sign in credentials.
+* Navigate to `http://chs.local/transactionsearch` ( sign in with `admin*demo@ch.gov.uk` if redirected )
 
 ### How to Build
 * Enable local development by running `docker_chs development enable transaction-search-tool`.
