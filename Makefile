@@ -29,11 +29,11 @@ lint:
 	npm i lint
 
 .PHONY: sonar
-sonar:
+sonar: test
 	npm run analyse-code
 
 .PHONY: package
-package: init build 
+package: init build
 ifndef version
 	$(error No version given. Aborting)
 endif

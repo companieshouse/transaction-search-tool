@@ -1,18 +1,19 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <form action="/transactionsearch/search">
+    {# CSRF token not required for GET wth no update #}
+    <form action="/transactionsearch/search" method="GET">
         <div class="govuk-form-group">
             <h1 class="govuk-label-wrapper">
               <label class="govuk-label govuk-label--xl" for="search">
                 Search for documents
               </label>
             </h1>
-          
+
             <div id="search-hint" class="govuk-hint">
-              Search by document barcode or company number 
+              Search by document barcode or company number
             </div>
-          
+
             <input class="govuk-input govuk-input--width-20" id="search" name="search" type="search" aria-describedby="search-hint">
             {% if error %}
                 <span id="barcode-error" class="govuk-error-message">No results found.</span>

@@ -7,13 +7,19 @@ import path from "path";
 import SearchRouter from "./routes/SearchRouter";
 import authenticationMiddleware from "./controllers/Authentication";
 import HealthCheckRouter from "./routes/HealthCheckRouter";
-import SigninRouter from "./routes/SigninRouter";
 import cookieParser from "cookie-parser";
-import getSessionMiddleware from "./utils/SessionHelper";
+import { createSessionMiddleware } from "./middleware/session_middleware";
 import helmet from "helmet";
+import { SessionStore } from "@companieshouse/node-session-handler";
+import { createCsrfProtectionMiddleware, csrfErrorHandler } from "./middleware/csrf_middleware";
+import Redis from "ioredis";
 
 const app = express();
 const logger = createLogger(config.applicationNamespace);
+
+const sessionStore = new SessionStore(new Redis(`redis://${config.session.cacheServer}`));
+const sessionMiddleware = createSessionMiddleware(sessionStore);
+const csrfProtectionMiddleware = createCsrfProtectionMiddleware(sessionStore);
 
 const viewPath = path.join(__dirname, "views");
 
@@ -22,6 +28,7 @@ var env = nunjucks
         viewPath,
         "node_modules/govuk-frontend/",
         "node_modules/govuk-frontend/components",
+        "node_modules/@companieshouse/",
     ], {
         autoescape: true,
         noCache: false,
@@ -32,7 +39,8 @@ app.set("views", viewPath);
 app.set("view engine", "html");
 
 app.use(cookieParser());
-app.use(getSessionMiddleware());
+app.use(sessionMiddleware);
+app.use(csrfProtectionMiddleware);
 app.use(helmet({
     contentSecurityPolicy: {
       directives: {
@@ -52,7 +60,6 @@ app.use(helmet({
 
 app.use(express.urlencoded({ extended: true }));
 env.addGlobal("CDN_URL", config.cdnUrl);
-app.use(`/${config.urlPrefix}`, SigninRouter.create());
 app.use(`/${config.urlPrefix}`, HealthCheckRouter.create());
 
 app.use(authenticationMiddleware());
@@ -60,6 +67,7 @@ app.use(`/${config.urlPrefix}`, SearchRouter.create());
 app.use(createLoggerMiddleware(config.applicationNamespace));
 app.use(`/${config.urlPrefix}/static`, express.static("dist/app/static"));
 env.addGlobal("CSS_URL", `/${config.urlPrefix}/static/app.css`);
+app.use(csrfErrorHandler);
 
 app.set('engine', env);
 

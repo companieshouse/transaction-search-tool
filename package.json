@@ -8,7 +8,7 @@
     "start:watch": "NODE_ENV=development nodemon",
     "build": "tsc && cp -r src/views dist/app/ && cp -r src/static dist/app/",
     "lint": "tslint -p .",
-    "test": "nyc mocha -r ts-mocha src/**/*.test.ts",
+    "test": "nyc mocha -r ts-mocha src/test/**/*.test.ts && nyc report --reporter=lcov",
     "sonarqube-base-branch": "sonar-scanner",
     "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
     "analyse-code": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); if [[ $branch == \"HEAD\" ]]; then echo $branch && npm run sonarqube-base-branch; else echo $branch && npm run sonarqube-pull-request; fi;"
@@ -18,12 +18,13 @@
   "dependencies": {
     "@companieshouse/node-session-handler": "^5.0.1",
     "@companieshouse/structured-logging-node": "^2.0.1",
+    "@companieshouse/web-security-node": "^4.4.1",
     "@types/express": "~4.17.6",
     "@types/node": "^14.14.6",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.3",
     "cookie-parser": "~1.4.4",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.21.0",
     "express-session": "^1.17.1",
     "govuk-frontend": "^3.9.1",
     "helmet": "^4.4.1",
@@ -35,7 +36,6 @@
     "oracledb": "^6.0.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3",
-    "uuid": "^3.3.2",
     "winston": "~3.3.3"
   },
   "nodemonConfig": {
