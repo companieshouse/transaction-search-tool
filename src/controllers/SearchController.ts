@@ -19,7 +19,7 @@ class SearchController {
 
     public async searchQuery(req: any, res: any) {
         var searchTerm = req.query.search;
-        var resultsMap: Map<String,DocumentOverviewModel> = new Map();
+        var resultsMap: Map<string,DocumentOverviewModel>;
 
         try {
             resultsMap = await this.companyNumberSearchHandler.searchCompanyNumber(searchTerm);
@@ -54,7 +54,7 @@ class SearchController {
         }
     }
 
-    private getModelsAsArray(resultsMap:Map<String,DocumentOverviewModel>): Object[] {
+    private getModelsAsArray(resultsMap:Map<string,DocumentOverviewModel>): Object[] {
         var models: Object[] = [];
         for(let model of resultsMap.values()) {
             models.push(model.getModel());
