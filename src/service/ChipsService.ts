@@ -31,19 +31,19 @@ class ChipsService {
         var resultArray: ChipsResult[] = [];
         var chipsSearch = await this.dao.makeQuery(SqlData.chipsIncorporationNumberSQL, [incno]);
         if (chipsSearch.rows[0]) {
-            for(let i=0; i < chipsSearch.rows.length; i++) {
+            for(let row of chipsSearch.rows) {
                 let result = new ChipsResult();
-                result.barcode = chipsSearch.rows[i]['FORM_BARCODE'];
-                result.formType = chipsSearch.rows[i]['TRANSACTION_TYPE_SHORT_NAME'];
-                result.transactionId = chipsSearch.rows[i]['TRANSACTION_ID'];
-                result.incorporationNumber = chipsSearch.rows[i]['INCORPORATION_NUMBER'];
-                result.transactionDate = chipsSearch.rows[i]['TRANSACTION_STATUS_DATE'];
-                result.userAccessId = chipsSearch.rows[i]['USER_ACCESS_ID'];
-                result.orgUnitId = chipsSearch.rows[i]['ORGANISATIONAL_UNIT_ID'];
-                result.chipsStatus = chipsSearch.rows[i]['TRANSACTION_STATUS_DESC']
-                result.documentId = chipsSearch.rows[i]['INPUT_DOCUMENT_ID']
+                result.barcode = row['FORM_BARCODE'];
+                result.formType = row['TRANSACTION_TYPE_SHORT_NAME'];
+                result.transactionId = row['TRANSACTION_ID'];
+                result.incorporationNumber = row['INCORPORATION_NUMBER'];
+                result.transactionDate = row['TRANSACTION_STATUS_DATE'];
+                result.userAccessId = row['USER_ACCESS_ID'];
+                result.orgUnitId = row['ORGANISATIONAL_UNIT_ID'];
+                result.chipsStatus = row['TRANSACTION_STATUS_DESC']
+                result.documentId = row['INPUT_DOCUMENT_ID']
                 resultArray.push(result);
-            };
+            }
         }
         return resultArray;
     }

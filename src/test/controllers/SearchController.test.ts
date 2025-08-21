@@ -56,8 +56,8 @@ describe('search bar controller', ()=>{
         model.user = "No user allocated";
         model.casenum = "11439511";
 
-        let resultMap: Map<String,DocumentOverviewModel> = new Map();
-        let resultMapEmpty: Map<String,DocumentOverviewModel> = new Map();
+        let resultMap: Map<string,DocumentOverviewModel> = new Map();
+        let resultMapEmpty: Map<string,DocumentOverviewModel> = new Map();
         resultMap.set("barcode2", model);
         resultMap.set("barcode3", model);
 

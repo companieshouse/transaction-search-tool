@@ -23,8 +23,8 @@ class CompanyNumberSearchHandler {
         this.fesService = new FesService();
     }
 
-    public async searchCompanyNumber(searchTerm: string): Promise<Map<String, DocumentOverviewModel>> {
-        var resultsMap: Map<String,DocumentOverviewModel> = new Map();
+    public async searchCompanyNumber(searchTerm: string): Promise<Map<string, DocumentOverviewModel>> {
+        var resultsMap: Map<string,DocumentOverviewModel> = new Map();
         var chipsResults: ChipsResult[] = [];
         var fesResults: FesResult[] = [];
 
@@ -43,19 +43,19 @@ class CompanyNumberSearchHandler {
     }
 
     private async getStaffwareEntries(chipsResults: ChipsResult[]): Promise<ChipsResult[]> {
-        for(let i=0; i<chipsResults.length; i++) {
-            if (chipsResults[i].documentId != undefined) {
+        for (let chipsResult of chipsResults) {
+            if (chipsResult.documentId != undefined) {
                 try {
                     var staffwareResult: StaffwareResult;
-                    staffwareResult = await this.swService.addStaffwareData(chipsResults[i].documentId);
+                    staffwareResult = await this.swService.addStaffwareData(chipsResult.documentId);
 
-                    var orgUnitId = staffwareResult.orgUnitId || chipsResults[i].orgUnitId;
+                    var orgUnitId = staffwareResult.orgUnitId || chipsResult.orgUnitId;
                     let orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);
 
-                    var userId = staffwareResult.userId || chipsResults[i].userAccessId;
+                    var userId = staffwareResult.userId || chipsResult.userAccessId;
                     let userLogin = await this.chipsService.getUserFromId(userId);
-                    chipsResults[i].orgUnit = orgUnit;
-                    chipsResults[i].userLogin = userLogin;
+                    chipsResult.orgUnit = orgUnit;
+                    chipsResult.userLogin = userLogin;
                 } catch(err) {
                     errorHandler.handleError(this.constructor.name, "getStaffwareEntries", err);
                 }
@@ -65,8 +65,8 @@ class CompanyNumberSearchHandler {
         return chipsResults;
     }
 
-    private buildResultsMap(chipsResults:ChipsResult[], fesResults:FesResult[]): Map<String,DocumentOverviewModel> {
-        var resultMap:Map<String,DocumentOverviewModel> = new Map();
+    private buildResultsMap(chipsResults:ChipsResult[], fesResults:FesResult[]): Map<string,DocumentOverviewModel> {
+        var resultMap:Map<string,DocumentOverviewModel> = new Map();
         chipsResults.forEach(chipsResult=> {
             let model = new DocumentOverviewModel();
             model = this.populateModel(chipsResult, model);

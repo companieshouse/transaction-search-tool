@@ -1,7 +1,7 @@
 import chai from 'chai';
 import sinon, { SinonSpy } from 'sinon';
 import express, { Router } from "express";
-import BarcodeSearchRouter from '../../routes/SearchRouter';
+import SearchRouter from '../../routes/SearchRouter';
 chai.use(require('sinon-chai'));
 
 describe('barcode search router', ()=>{
@@ -15,7 +15,7 @@ describe('barcode search router', ()=>{
     });
 
     it('test that search is called', ()=>{
-        BarcodeSearchRouter.create();
+        SearchRouter.create();
         chai.expect(spy.getCall(0).calledWithMatch('/')).to.be.true;
         chai.expect(spy.getCall(1).calledWithMatch('/barcodeSearch')).to.be.true;
         chai.expect(spy.getCall(2).calledWithMatch('/search')).to.be.true;
