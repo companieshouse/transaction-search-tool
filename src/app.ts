@@ -14,7 +14,7 @@ import { SessionStore } from "@companieshouse/node-session-handler";
 import { createCsrfProtectionMiddleware, csrfErrorHandler } from "./middleware/csrf_middleware";
 import Redis from "ioredis";
 
-const app = express();
+export const app = express();
 const logger = createLogger(config.applicationNamespace);
 
 const sessionStore = new SessionStore(new Redis(`redis://${config.session.cacheServer}`));
