@@ -25,5 +25,3 @@ RUN rpm -ivh /tmp/oracle-instantclient-basic-linuxx64.rpm && \
 rm -rf /tmp/*.rpm
 
 CMD ["./docker_start.sh"]
-
-EXPOSE 18580
