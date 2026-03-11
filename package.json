@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=development ./dist/app.js",
     "start:watch": "NODE_ENV=development nodemon",
-    "build": "tsc && cp -r src/views dist/app/ && cp -r src/static dist/app/",
+    "build": "tsc && cp -r src/views dist/ && cp -r src/static dist/",
     "lint": "tslint -p .",
     "test": "nyc mocha -r ts-mocha src/test/**/*.test.ts && nyc report --reporter=lcov",
     "sonarqube-base-branch": "sonar-scanner",
