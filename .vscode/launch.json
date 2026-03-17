@@ -12,7 +12,7 @@
             "port": 9244,
             "restart": true,
             "sourceMaps": true,
-            "remoteRoot": "/app",
+            "remoteRoot": "/opt",
             "localRoot": "${workspaceFolder}",
             "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"]
         }
