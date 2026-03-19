@@ -7,7 +7,7 @@
     "start": "NODE_ENV=development PORT=18580 CACHE_SERVER=localhost:6379 ts-node ./dist/app/app.js",
     "start:watch": "NODE_ENV=development PORT=18580 CACHE_SERVER=localhost:6379 nodemon",
     "build": "tsc && cp -r src/views dist/app/ && cp -r src/static dist/app/",
-    "lint": "tslint -p .",
+    "lint": "eslint '{src,test}/**/*'",
     "test": "nyc mocha -r ts-mocha src/test/**/*.test.ts && nyc report --reporter=lcov",
     "sonarqube-base-branch": "sonar-scanner",
     "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
@@ -29,6 +29,7 @@
     "express-session": "^1.17.1",
     "govuk-frontend": "^3.9.1",
     "helmet": "^4.4.1",
+    "jiti": "^2.6.1",
     "lint": "^1.1.2",
     "mongodb": "^3.6.5",
     "nunjucks": "^3.2.2",
@@ -46,17 +47,21 @@
     "exec": "ts-node ./src/app.ts"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.0.3",
     "@types/sinon": "^9.0.8",
     "chai": "^4.2.0",
+    "eslint": "^10.0.3",
+    "globals": "^17.4.0",
     "mocha": "^10.2.0",
     "nodemon": "^3.0.1",
     "proxyquire": "^2.1.3",
     "sinon": "^9.2.1",
     "sinon-chai": "^3.5.0",
     "sonarqube-scanner": "^4.3.5",
-    "ts-mocha": "^10.0.0"
+    "ts-mocha": "^10.0.0",
+    "typescript-eslint": "^8.57.1"
   },
   "overrides": {
     "serialize-javascript": "^7.0.4"
