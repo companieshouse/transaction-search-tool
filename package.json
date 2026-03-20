@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Administration tool for Front End Scanned (FES) documents to enable users to monitor, audit and investigate the routing, status and journey of Front End Scanned document submissions",
   "main": "dist/app/app.js",
+  "type": "module",
   "scripts": {
     "start": "NODE_ENV=development PORT=18580 CACHE_SERVER=localhost:6379 ts-node ./dist/app/app.js",
     "start:watch": "NODE_ENV=development PORT=18580 CACHE_SERVER=localhost:6379 nodemon",
