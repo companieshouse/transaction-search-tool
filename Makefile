@@ -26,7 +26,7 @@ test-unit:
 
 .PHONY: lint
 lint:
-	npm i lint
+	npm run lint
 
 .PHONY: sonar
 sonar: test
