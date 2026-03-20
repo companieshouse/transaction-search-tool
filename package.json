@@ -8,7 +8,7 @@
     "start": "NODE_ENV=development PORT=18580 CACHE_SERVER=localhost:6379 ts-node ./dist/app/app.js",
     "start:watch": "NODE_ENV=development PORT=18580 CACHE_SERVER=localhost:6379 nodemon",
     "build": "tsc && cp -r src/views dist/app/ && cp -r src/static dist/app/",
-    "lint": "eslint '{src,test}/**/*'",
+    "lint": "eslint 'src/**/*'",
     "test": "nyc mocha -r ts-mocha src/test/**/*.test.ts && nyc report --reporter=lcov",
     "sonarqube-base-branch": "sonar-scanner",
     "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
