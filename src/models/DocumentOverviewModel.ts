@@ -24,7 +24,7 @@ class DocumentOverviewModel extends BarcodeSearchModel {
         return `DocumentOverviewModel: ${JSON.stringify(this.getModel())}`;
     }
 
-    public getModel(): Object {
+    public getModel(): object {
         return {
             "Barcode" : this.barcode,
             "Status" : this.status,

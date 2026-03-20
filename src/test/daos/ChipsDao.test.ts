@@ -29,7 +29,7 @@ describe('Chips database call', () => {
                     return { catch: function() {} };
             }
         });
-        let connection = await oracledb.getConnection(config);
+        const connection = await oracledb.getConnection(config);
         connection.execute = sinon.stub();
         connection.execute.withArgs(CORRECT_BARCODE, sinon.match.any).resolves({
             rows: {"XXXX1234": { transaction_id: "123456789", orgunit_desc: "ORG UNIT DESC" }}
@@ -40,20 +40,20 @@ describe('Chips database call', () => {
     })
 
     it('test makeQuery returns data when correct barcode is provided', async () => {
-        let result = await chipsDao.makeQuery(CORRECT_BARCODE, ["bind value 1"]);
+        const result = await chipsDao.makeQuery(CORRECT_BARCODE, ["bind value 1"]);
         expect(result.rows[CORRECT_BARCODE]).to.deep.equal(DATA[CORRECT_BARCODE]);
     })
 
     it('test makeQuery returns empty when incorrect barcode is provided', async () => {
-        let result = await chipsDao.makeQuery(INCORRECT_BARCODE, ["bind value 1"]);
+        const result = await chipsDao.makeQuery(INCORRECT_BARCODE, ["bind value 1"]);
         expect(result).to.equal(undefined);
     })
 
     it('test execute throws an error, result is set to null', async () => {
 
-        let connection = await oracledb.getConnection(config);
+        const connection = await oracledb.getConnection(config);
         connection.execute.throws(error);
-        let result = await chipsDao.makeQuery(INCORRECT_BARCODE, ["bind value 1"]);
+        const result = await chipsDao.makeQuery(INCORRECT_BARCODE, ["bind value 1"]);
         expect(connection.execute).to.have.throw(error);
         expect(result).to.not.equal(undefined);
         expect(result).to.equal(null);

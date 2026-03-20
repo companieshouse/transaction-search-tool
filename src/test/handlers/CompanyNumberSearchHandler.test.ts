@@ -12,32 +12,32 @@ chai.use(require('sinon-chai'));
 
 describe('company number search handler', ()=>{
 
-    var companyNumberSearchHandler:CompanyNumberSearchHandler;
-    var orgUnitStub: SinonStub;
-    var userStub: SinonStub;
+    let companyNumberSearchHandler:CompanyNumberSearchHandler;
+    let orgUnitStub: SinonStub;
+    let userStub: SinonStub;
 
     before(()=>{
 
         companyNumberSearchHandler = new CompanyNumberSearchHandler();
 
-        let chipsService = new ChipsService();
-        let swService = new StaffwareService();
-        let fesService = new FesService();
+        const chipsService = new ChipsService();
+        const swService = new StaffwareService();
+        const fesService = new FesService();
 
-        let chipsResultItem = new ChipsResult();
+        const chipsResultItem = new ChipsResult();
         chipsResultItem.barcode = "barcode";
         chipsResultItem.transactionId = 1;
         chipsResultItem.incorporationNumber = "inco";
         chipsResultItem.documentId = 1;
         chipsResultItem.chipsStatus = "Pending";
         chipsResultItem.transactionDate = "01/12/2020";
-        let chipsResults:ChipsResult[] = [chipsResultItem];
+        const chipsResults:ChipsResult[] = [chipsResultItem];
 
-        let staffwareResult = new StaffwareResult();
+        const staffwareResult = new StaffwareResult();
         staffwareResult.orgUnitId = 1234;
         staffwareResult.userId = 1;
 
-        let fesResultItem = new FesResult();
+        const fesResultItem = new FesResult();
         fesResultItem.envNo = 1;
         fesResultItem.barcode = "barcode";
         fesResultItem.incorporationNumber = "inco";
@@ -49,7 +49,7 @@ describe('company number search handler', ()=>{
         fesResultItem.eventOccurredTime = "No exception occurred";
         fesResultItem.eventText = "No exception occurred";
         fesResultItem.batchName = "Batch Name";
-        let fesResults:FesResult[] = [fesResultItem];
+        const fesResults:FesResult[] = [fesResultItem];
 
 
         sinon.stub(chipsService, 'getTransactionDetailsFromCompanyNumber').resolves(chipsResults);
@@ -66,7 +66,7 @@ describe('company number search handler', ()=>{
 
     it('test company number search returns expected DocumentOverviewModel map when called', async ()=>{
 
-        let model = new DocumentOverviewModel();
+        const model = new DocumentOverviewModel();
         model.barcode = "barcode";
         model.transactionId = 1;
         model.incorporationNumber = "inco";
@@ -86,10 +86,10 @@ describe('company number search handler', ()=>{
         model.formType = "IN01";
         model.userLogin = "Test User";
 
-        let expectedReturnValue: Map<String,DocumentOverviewModel> = new Map();
+        const expectedReturnValue: Map<string,DocumentOverviewModel> = new Map();
         expectedReturnValue.set("barcode", model);
 
-        var result = await companyNumberSearchHandler.searchCompanyNumber("inco");
+        const result = await companyNumberSearchHandler.searchCompanyNumber("inco");
         chai.expect(result).to.be.deep.equal(expectedReturnValue);
     }).timeout(5000)
 })

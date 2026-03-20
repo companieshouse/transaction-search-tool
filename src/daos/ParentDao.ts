@@ -25,7 +25,7 @@ class ParentDao {
 
     public async makeQuery(query: string, bindParams: Array<any>) {
         await this.setupConnection();
-        var result: any;
+        let result: any;
         try {
             result = await this.connection.execute(query, bindParams);
         } catch (err: any) {

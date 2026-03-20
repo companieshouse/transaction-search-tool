@@ -25,15 +25,15 @@ describe('search bar controller', ()=>{
         render: sinon.spy(),
     };
 
-    var searchController: SearchController;
+    let searchController: SearchController;
 
-    var model:DocumentOverviewModel;
+    let model:DocumentOverviewModel;
 
     before(()=>{
         searchController = new SearchController();
 
-        var barcodeSearchHandler = new BarcodeSearchHandler();
-        var companyNumberSearchHandler = new CompanyNumberSearchHandler();
+        const barcodeSearchHandler = new BarcodeSearchHandler();
+        const companyNumberSearchHandler = new CompanyNumberSearchHandler();
 
         model = new DocumentOverviewModel();
         model.barcode = "barcode";
@@ -56,15 +56,15 @@ describe('search bar controller', ()=>{
         model.user = "No user allocated";
         model.casenum = "11439511";
 
-        let resultMap: Map<String,DocumentOverviewModel> = new Map();
-        let resultMapEmpty: Map<String,DocumentOverviewModel> = new Map();
+        const resultMap: Map<string,DocumentOverviewModel> = new Map();
+        const resultMapEmpty: Map<string,DocumentOverviewModel> = new Map();
         resultMap.set("barcode2", model);
         resultMap.set("barcode3", model);
 
-        var barcodeSearchStub = sinon.stub(barcodeSearchHandler, 'searchBarcode');
-        var companyNumbStub = sinon.stub(companyNumberSearchHandler, 'searchCompanyNumber');
-        var timelineStub = sinon.stub(barcodeSearchHandler, 'getTimelineResult');
-        var timelineArray = [{"date" : "02-DEC-2020", "event" : "Scan", "location" : "fes", "user" : "sbowen"}];
+        const barcodeSearchStub = sinon.stub(barcodeSearchHandler, 'searchBarcode');
+        const companyNumbStub = sinon.stub(companyNumberSearchHandler, 'searchCompanyNumber');
+        const timelineStub = sinon.stub(barcodeSearchHandler, 'getTimelineResult');
+        const timelineArray = [{"date" : "02-DEC-2020", "event" : "Scan", "location" : "fes", "user" : "sbowen"}];
 
         barcodeSearchStub.withArgs("barcode").resolves(model);
         companyNumbStub.withArgs("barcode").resolves(resultMapEmpty);

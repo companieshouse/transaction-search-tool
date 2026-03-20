@@ -7,9 +7,9 @@ chai.use(require('sinon-chai'));
 
 describe('chips service test', ()=>{
 
-    var chipsService: ChipsService;
-    var dao: ChipsDao;
-    var stub: SinonStub;
+    let chipsService: ChipsService;
+    let dao: ChipsDao;
+    let stub: SinonStub;
 
     before(()=>{
 
@@ -19,7 +19,7 @@ describe('chips service test', ()=>{
     });
 
     it('test getTransactionDetailsFromBarcode returns searchResult', async ()=>{
-        var queryResult = {
+        const queryResult = {
             TRANSACTION_ID : 1,
             INCORPORATION_NUMBER : 'inco',
             TRANSACTION_STATUS_DESC : 'Pending',
@@ -28,7 +28,7 @@ describe('chips service test', ()=>{
             USER_ACCESS_ID : 100000,
             ORGANISATIONAL_UNIT_ID : 1
         }
-        var expectedResult = new ChipsResult();
+        const expectedResult = new ChipsResult();
         expectedResult.barcode = 'barcode';
         expectedResult.transactionId = 1;
         expectedResult.chipsStatus = 'Pending';
@@ -41,29 +41,29 @@ describe('chips service test', ()=>{
         stub = sinon.stub(dao, 'makeQuery').resolves({rows: [queryResult]});
         chipsService.dao = dao;
 
-        var returnedSearchResult = await chipsService.getTransactionDetailsFromBarcode("barcode");
+        const returnedSearchResult = await chipsService.getTransactionDetailsFromBarcode("barcode");
         chai.expect(returnedSearchResult).to.be.deep.equal(expectedResult);
     });
 
     it('test getOrgUnitFromId returns orgUnit', async ()=>{
-        var queryResult = {
+        const queryResult = {
             ORGANISATIONAL_UNIT_DESC : "My Org Unit"
         }
         stub = sinon.stub(dao, 'makeQuery').resolves({rows: [queryResult]});
         chipsService.dao = dao;
 
-        var orgUnit = await chipsService.getOrgUnitFromId(1);
+        const orgUnit = await chipsService.getOrgUnitFromId(1);
         chai.expect(orgUnit).to.be.equal("My Org Unit");
     });
 
     it('test getUserFromId returns user', async ()=>{
-        var queryResult = {
+        const queryResult = {
             LOGIN_ID : "Test User"
         }
         stub = sinon.stub(dao, 'makeQuery').resolves({rows: [queryResult]});
         chipsService.dao = dao;
 
-        var user = await chipsService.getUserFromId(1);
+        const user = await chipsService.getUserFromId(1);
         chai.expect(user).to.be.equal("Test User");
     });
 

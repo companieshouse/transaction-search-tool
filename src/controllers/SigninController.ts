@@ -17,9 +17,9 @@ class SigninController {
     }
 
     public async submitSignin(req: any, res: any) {
-        var username = req.body.username;
-        var password = req.body.password;
-        var result = await this.signinDao.checkSignin(username);
+        const username = req.body.username;
+        const password = req.body.password;
+        const result = await this.signinDao.checkSignin(username);
         
         if (result !== undefined && result.password === password) {
             this.populateSession(req, result);

@@ -7,9 +7,9 @@ chai.use(require('sinon-chai'));
 
 describe('FES service test', ()=>{
 
-    var fesService: FesService;
-    var dao: FesDao;
-    var stub: SinonStub;
+    let fesService: FesService;
+    let dao: FesDao;
+    let stub: SinonStub;
 
     before(()=>{
 
@@ -19,7 +19,7 @@ describe('FES service test', ()=>{
     });
 
     it('test getTransactionDetailsFromBarcode returns searchResult', async ()=>{
-        var queryResult = {
+        const queryResult = {
             FORM_ENVELOPE_ID : 1,
             FORM_BARCODE_DATE : '01/12/2020',
             FORM_TYPE : "IN01",
@@ -28,7 +28,7 @@ describe('FES service test', ()=>{
             IMAGE_EXCEPTION_FREE_TEXT : 'No Action Required',
             IMAGE_EXCEPTION_ID : 1
         }
-        var expectedResult = new FesResult();
+        const expectedResult = new FesResult();
         expectedResult.barcode = "barcode";
         expectedResult.envNo = 1;
         expectedResult.batchName = "No batch name found";
@@ -44,13 +44,13 @@ describe('FES service test', ()=>{
         stub = sinon.stub(dao, 'makeQuery').resolves({rows: [queryResult]});
         fesService.dao = dao;
 
-        var returnedSearchResult = await fesService.getTransactionDetailsFromBarcode("barcode");
+        const returnedSearchResult = await fesService.getTransactionDetailsFromBarcode("barcode");
         chai.expect(returnedSearchResult).to.be.deep.equal(expectedResult);
     });
 
     it('test getTransactionDetailsFromCompanyNumber returns an array of fes results', async ()=>{
 
-        var queryResult = {
+        const queryResult = {
             FORM_BARCODE: "barcode",
             FORM_ENVELOPE_ID : 1,
             FORM_BARCODE_DATE : '01/12/2020',
@@ -61,7 +61,7 @@ describe('FES service test', ()=>{
             IMAGE_EXCEPTION_ID : 1,
             BATCH_NAME : "Test Batch Name",
         }
-        var expectedResult = new FesResult();
+        const expectedResult = new FesResult();
         expectedResult.incorporationNumber = "inco";
         expectedResult.barcode = "barcode";
         expectedResult.envNo = 1;
@@ -75,34 +75,34 @@ describe('FES service test', ()=>{
         expectedResult.exceptionId = 1;
         expectedResult.batchName = "Test Batch Name";
 
-        var resultsArray: FesResult[] = [expectedResult];
+        const resultsArray: FesResult[] = [expectedResult];
         stub = sinon.stub(dao, 'makeQuery').resolves({rows: [queryResult]});
         fesService.dao = dao;
 
-        var returnedSearchResult = await fesService.getTransactionDetailsFromCompanyNumber("inco");
+        const returnedSearchResult = await fesService.getTransactionDetailsFromCompanyNumber("inco");
         chai.expect(returnedSearchResult).to.be.deep.equal(resultsArray);
     });
 
     it('test getFesTimelineDetails returns an array of fes results', async ()=>{
 
-        var queryResult = {
+        const queryResult = {
             FORM_EVENT_OCCURRED: "02-DEC-2020",
             FORM_EVENT_TYPE_NAME : "Sent to chips",
             FORM_ORG_UNIT_NAME : "FrontE Scanning",
             ACCOUNT_USERNAME : "sbowen"
         }
 
-        var expectedResult = new FesResult();
+        const expectedResult = new FesResult();
         expectedResult.eventOccurredTime = "02-DEC-2020";
         expectedResult.eventText = "Sent to chips";
         expectedResult.location = "FrontE Scanning";
         expectedResult.userLogin = "sbowen";
 
-        var resultsArray: FesResult[] = [expectedResult];
+        const resultsArray: FesResult[] = [expectedResult];
         stub = sinon.stub(dao, 'makeQuery').resolves({rows: [queryResult]});
         fesService.dao = dao;
 
-        var returnedSearchResult = await fesService.getFesTimelineDetails("barcode");
+        const returnedSearchResult = await fesService.getFesTimelineDetails("barcode");
         chai.expect(returnedSearchResult).to.be.deep.equal(resultsArray);
     });
 
