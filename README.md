@@ -63,3 +63,70 @@ Here is a list of endpoints:
 |-------------|-----------------------------------|
 | LOG_LEVEL   | e.g. DEBUG, INFO                  |
 | HUMAN_LOG   | For human readable logs (integer) |
+
+## Note on the removal of the `start` and `start:watch` script commands
+
+The `start` and `start:watch` script commands have been removed from the `package.json` file. These commands were 
+previously used to start the app up for local development and testing on the host machine (i.e. not in a container).
+
+There are two reasons why they have been removed. The first is that to get them to actually function in a meaningful 
+way for such testing requires considerable knowledge of the set up of the app (and CHS) and its dependencies, 
+all of which is already encapsulated in the `docker-chs-development` environment. The second reason is that it requires 
+changes to the implementation of the application itself so that the app can interact with the Oracle database it uses 
+outside of the container environment too.
+
+### Details of the script commands removed (for the record)
+
+#### Non-functioning commands as previously configured
+
+```aiignore
+    "start": "NODE_ENV=development ./dist/app.js",
+    "start:watch": "NODE_ENV=development nodemon",
+```
+
+#### Reconfigured commands and altered app code to be able to run up and test the app on the host machine
+
+##### Script commands
+
+```aiignore
+    "start": "NODE_ENV=development PORT=18580 CACHE_SERVER=localhost:6379 ts-node ./dist/app/app.js",
+    "start:watch": "NODE_ENV=development PORT=18580 CACHE_SERVER=localhost:6379 nodemon",
+```
+
+##### Altered code in `app.ts`
+
+This line in `app.ts` was changed from:
+
+```typescript
+oracledb.initOracleClient();
+```
+
+to 
+
+```typescript
+// This example runs in both node-oracledb Thin and Thick modes.
+//
+// Optionally run in node-oracledb Thick mode
+if (process.env.NODE_ORACLEDB_DRIVER_MODE === 'thick') {
+
+    // Thick mode requires Oracle Client or Oracle Instant Client libraries.
+    // On Windows and macOS Intel you can specify the directory containing the
+    // libraries at runtime or before Node.js starts.  On other platforms (where
+    // Oracle libraries are available) the system library search path must always
+    // include the Oracle library path before Node.js starts.  If the search path
+    // is not correct, you will get a DPI-1047 error.  See the node-oracledb
+    // installation documentation.
+    let clientOpts = {};
+    if (process.platform === 'win32') {                                   // Windows
+        clientOpts = { libDir: 'C:\\oracle\\instantclient_19_17' };
+    } else if (process.platform === 'darwin' && process.arch === 'x64') { // macOS Intel
+        clientOpts = { libDir: process.env.HOME + '/Downloads/instantclient_19_8' };
+    }
+    oracledb.initOracleClient(clientOpts);  // enable node-oracledb Thick mode
+}
+```
+
+The replacement code was copied and pasted from an example provided in the `oracledb` node module. It could have 
+been simplified, to remove the check on the `NODE_ORACLEDB_DRIVER_MODE` environment variable, as the Thick mode is 
+always required to run the app correctly.
+
