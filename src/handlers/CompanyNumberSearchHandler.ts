@@ -43,23 +43,23 @@ class CompanyNumberSearchHandler {
     }
 
     private async getStaffwareEntries(chipsResults: ChipsResult[]): Promise<ChipsResult[]> {
-        for(let i=0; i<chipsResults.length; i++) {
-            if (chipsResults[i].documentId != undefined) {
+        for(let result of chipsResults) {
+            if (result.documentId != undefined) {
                 try {
                     var staffwareResult: StaffwareResult;
-                    staffwareResult = await this.swService.addStaffwareData(chipsResults[i].documentId);
+                    staffwareResult = await this.swService.addStaffwareData(result.documentId);
 
-                    const orgUnitId = staffwareResult.orgUnitId || chipsResults[i].orgUnitId;
+                    const orgUnitId = staffwareResult.orgUnitId || result.orgUnitId;
                     const orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);
 
-                    const userId = staffwareResult.userId || chipsResults[i].userAccessId;
+                    const userId = staffwareResult.userId || result.userAccessId;
                     const userLogin = await this.chipsService.getUserFromId(userId);
-                    chipsResults[i].orgUnit = orgUnit;
-                    chipsResults[i].userLogin = userLogin;
+                    result.orgUnit = orgUnit;
+                    result.userLogin = userLogin;
                 } catch(err) {
                     errorHandler.handleError(this.constructor.name, "getStaffwareEntries", err);
                 }
-                
+
             }
         }
         return chipsResults;
@@ -73,7 +73,7 @@ class CompanyNumberSearchHandler {
             resultMap.set(chipsResult.barcode, model);
         });
         fesResults.forEach(fesResult => {
-            let model = new DocumentOverviewModel(); 
+            let model = new DocumentOverviewModel();
             if(resultMap.has(fesResult.barcode)) {
                 model = resultMap.get(fesResult.barcode) as DocumentOverviewModel;
             }

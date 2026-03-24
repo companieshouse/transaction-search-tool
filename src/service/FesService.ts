@@ -40,20 +40,20 @@ class FesService {
         const resultArray: FesResult[] = [];
         const fesSearch = await this.dao.makeQuery(SqlData.fesIncorporationNumberSql, [incno]);
         if (fesSearch.rows[0]) {
-            for(let i=0; i<fesSearch.rows.length; i++) {
+            for(let row of fesSearch.rows) {
                 const result = new FesResult();
                 result.incorporationNumber = incno;
-                result.barcode = fesSearch.rows[i]['FORM_BARCODE'];
-                result.envNo = fesSearch.rows[i]['FORM_ENVELOPE_ID'];
-                result.scanTime = fesSearch.rows[i]['FORM_BARCODE_DATE'];
-                result.formType = fesSearch.rows[i]['FORM_TYPE'];
-                result.fesStatus = fesSearch.rows[i]['FORM_STATUS_TYPE_NAME'];
-                result.icoReturnedReason = fesSearch.rows[i]['IMAGE_EXCEPTION_REASON'] || "No image exception returned";
-                result.icoAction = fesSearch.rows[i]['IMAGE_EXCEPTION_FREE_TEXT'] || "No image exception returned";
-                result.exceptionId = fesSearch.rows[i]['IMAGE_EXCEPTION_ID'];
+                result.barcode = row['FORM_BARCODE'];
+                result.envNo = row['FORM_ENVELOPE_ID'];
+                result.scanTime = row['FORM_BARCODE_DATE'];
+                result.formType = row['FORM_TYPE'];
+                result.fesStatus = row['FORM_STATUS_TYPE_NAME'];
+                result.icoReturnedReason = row['IMAGE_EXCEPTION_REASON'] || "No image exception returned";
+                result.icoAction = row['IMAGE_EXCEPTION_FREE_TEXT'] || "No image exception returned";
+                result.exceptionId = row['IMAGE_EXCEPTION_ID'];
                 if (result.exceptionId) {
-                    result.eventOccurredTime = fesSearch.rows[i]['FORM_EVENT_OCCURRED'] || "No event yet";
-                    result.eventText = fesSearch.rows[i]['FORM_EVENT_TEXT'] || "No event yet";
+                    result.eventOccurredTime = row['FORM_EVENT_OCCURRED'] || "No event yet";
+                    result.eventText = row['FORM_EVENT_TEXT'] || "No event yet";
                 } else {
                     result.eventOccurredTime = "No exception occurred";
                     result.eventText = "No exception occurred";
