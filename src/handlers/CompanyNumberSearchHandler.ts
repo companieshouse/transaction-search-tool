@@ -43,7 +43,7 @@ class CompanyNumberSearchHandler {
     }
 
     private async getStaffwareEntries(chipsResults: ChipsResult[]): Promise<ChipsResult[]> {
-        for(let result of chipsResults) {
+        for(const result of chipsResults) {
             if (result.documentId != undefined) {
                 try {
                     var staffwareResult: StaffwareResult;

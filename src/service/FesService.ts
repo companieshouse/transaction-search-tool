@@ -40,7 +40,7 @@ class FesService {
         const resultArray: FesResult[] = [];
         const fesSearch = await this.dao.makeQuery(SqlData.fesIncorporationNumberSql, [incno]);
         if (fesSearch.rows[0]) {
-            for(let row of fesSearch.rows) {
+            for(const row of fesSearch.rows) {
                 const result = new FesResult();
                 result.incorporationNumber = incno;
                 result.barcode = row['FORM_BARCODE'];

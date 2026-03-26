@@ -21,7 +21,7 @@ class SearchController {
         const searchTerm = req.query.search;
 
         try {
-            let resultsMap = await this.companyNumberSearchHandler.searchCompanyNumber(searchTerm);
+            const resultsMap = await this.companyNumberSearchHandler.searchCompanyNumber(searchTerm);
             const barcodeSearchResult = await this.barcodeSearchHandler.searchBarcode(searchTerm);
             if (!barcodeSearchResult.isEmpty()) resultsMap.set(searchTerm, barcodeSearchResult);
 

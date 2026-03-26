@@ -31,7 +31,7 @@ class ChipsService {
         const resultArray: ChipsResult[] = [];
         const chipsSearch = await this.dao.makeQuery(SqlData.chipsIncorporationNumberSQL, [incno]);
         if (chipsSearch.rows[0]) {
-            for(let row of chipsSearch.rows) {
+            for(const row of chipsSearch.rows) {
                 const result = new ChipsResult();
                 result.barcode = row['FORM_BARCODE'];
                 result.formType = row['TRANSACTION_TYPE_SHORT_NAME'];
