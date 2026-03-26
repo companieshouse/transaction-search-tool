@@ -45,6 +45,40 @@ describe('chips service test', ()=>{
         chai.expect(returnedSearchResult).to.be.deep.equal(expectedResult);
     });
 
+    it('test getTransactionDetailsFromCompanyNumber returns searchResult', async ()=>{
+        const queryResult =
+        {
+            FORM_BARCODE: 'X12A4CVM',
+            TRANSACTION_ID: 3052085475,
+            TRANSACTION_STATUS_DATE: '08-Feb-2012 09:29',
+            TRANSACTION_STATUS_TYPE_ID: 1,
+            USER_ACCESS_ID: 1000002,
+            ORGANISATIONAL_UNIT_ID: 3000002513,
+            INCORPORATION_NUMBER: '03347220',
+            TRANSACTION_TYPE_SHORT_NAME: 'PR01',
+            INPUT_DOCUMENT_ID: null,
+            TRANSACTION_STATUS_DESC: 'Accepted'
+        };
+        const expectedResult = new ChipsResult();
+        expectedResult.barcode = 'X12A4CVM';
+        expectedResult.chipsStatus = 'Accepted';
+        expectedResult.documentId = null;
+        expectedResult.formType = 'PR01';
+        expectedResult.incorporationNumber = '03347220';
+        expectedResult.orgUnitId = 3000002513;
+        expectedResult.transactionDate = '08-Feb-2012 09:29';
+        expectedResult.transactionId = 3052085475;
+        expectedResult.userAccessId = 1000002;
+        const expectedResults: ChipsResult[] = [];
+        expectedResults.push(expectedResult);
+
+        stub = sinon.stub(dao, 'makeQuery').resolves({rows: [queryResult]});
+        chipsService.dao = dao;
+
+        const returnedSearchResult = await chipsService.getTransactionDetailsFromCompanyNumber("03347220");
+        chai.expect(returnedSearchResult).to.be.deep.equal(expectedResults);
+    });
+
     it('test getOrgUnitFromId returns orgUnit', async ()=>{
         const queryResult = {
             ORGANISATIONAL_UNIT_DESC : "My Org Unit"
