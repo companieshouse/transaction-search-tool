@@ -4,7 +4,7 @@ WORKDIR /opt
 
 COPY dist ./dist
 COPY node_modules ./node_modules
-COPY ./package.json ./package-lock.json docker_start.sh ./
+COPY ./package.json ./package-lock.json ./nodemon.json docker_start.sh ./
 
 # Set environment variables for Oracle Instant Client installation
 ENV ORACLE_HOME=/usr/lib/oracle/19.6/client64
@@ -25,5 +25,3 @@ RUN rpm -ivh /tmp/oracle-instantclient-basic-linuxx64.rpm && \
 rm -rf /tmp/*.rpm
 
 CMD ["./docker_start.sh"]
-
-EXPOSE 18580

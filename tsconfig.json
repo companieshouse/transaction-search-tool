@@ -10,7 +10,7 @@
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "strictNullChecks": true,
-      "typeRoots": [ "../node_modules/@types" ],
+      "typeRoots": [ "./node_modules/@types" ],
       "types" : [ "node" ],
       "esModuleInterop": true
     },

@@ -4,6 +4,7 @@
 !docker_start.sh
 !gulpfile.js
 !node_modules
+!nodemon.json
 !package.json
 !package-lock.json
 !src
