@@ -11,7 +11,7 @@ class BarcodeSearchModel {
         return `BarcodeSearchModel: ${JSON.stringify(this.getModel())}`;
     }
 
-    public getModel(): Object {
+    public getModel(): object {
         return {
             "Barcode" : this.formBarcode,
             "Allocated to" : this.user,

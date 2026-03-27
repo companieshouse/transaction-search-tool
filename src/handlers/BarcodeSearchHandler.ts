@@ -25,8 +25,8 @@ class BarcodeSearchHandler {
     }
 
     public async searchBarcode(barcode: string): Promise<DocumentOverviewModel> {
-        var chipsResult, fesResult;
-        var model = new DocumentOverviewModel();
+        let chipsResult, fesResult;
+        let model = new DocumentOverviewModel();
 
         try {
             chipsResult = await this.chipsService.getTransactionDetailsFromBarcode(barcode);
@@ -48,14 +48,14 @@ class BarcodeSearchHandler {
     private async getStaffwareEntries(chipsResult: ChipsResult): Promise<ChipsResult> {
             if (chipsResult.documentId != undefined) {
                 try {
-                    var staffwareResult: StaffwareResult;
+                    let staffwareResult: StaffwareResult;
                     staffwareResult = await this.swService.addStaffwareData(chipsResult.documentId);
 
-                    var orgUnitId = staffwareResult.orgUnitId || chipsResult.orgUnitId;
-                    let orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);
+                    const orgUnitId = staffwareResult.orgUnitId || chipsResult.orgUnitId;
+                    const orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);
 
-                    var userId = staffwareResult.userId || chipsResult.userAccessId;
-                    let userLogin = await this.chipsService.getUserFromId(userId);
+                    const userId = staffwareResult.userId || chipsResult.userAccessId;
+                    const userLogin = await this.chipsService.getUserFromId(userId);
                     chipsResult.orgUnit = orgUnit;
                     chipsResult.userLogin = userLogin;
                     chipsResult.casenum = staffwareResult.casenum;
@@ -68,7 +68,7 @@ class BarcodeSearchHandler {
     }
 
     private createModel(barcode: string, chipsResult: ChipsResult, fesResult: FesResult): DocumentOverviewModel {
-        var model = new DocumentOverviewModel();
+        const model = new DocumentOverviewModel();
         model.formBarcode = barcode;
         model.status = chipsResult.chipsStatus || fesResult.fesStatus;
         model.documentId = chipsResult.documentId;
@@ -92,7 +92,7 @@ class BarcodeSearchHandler {
     }
 
     private createTimelineModel(fesResult: FesResult): TimelineModel {
-        var model = new TimelineModel();
+        const model = new TimelineModel();
         model.date = this.splitDateAndTime(fesResult.eventOccurredTime);
         model.event = fesResult.eventText;
         model.location = "FES";
@@ -101,21 +101,21 @@ class BarcodeSearchHandler {
         return model;
     }
 
-    private buildTimelineModelsArray(fesResults: FesResult[], docModel: DocumentOverviewModel, swResult: StaffwareResult): Object[] {
-        var models: Object[] = [];
+    private buildTimelineModelsArray(fesResults: FesResult[], docModel: DocumentOverviewModel, swResult: StaffwareResult): object[] {
+        const models: object[] = [];
 
-        for(let result of fesResults) {
-            let model = this.createTimelineModel(result);
+        for(const result of fesResults) {
+            const model = this.createTimelineModel(result);
             models.push(model.getModel());
         }
 
-        var chipsEntry = new TimelineModel();
+        const chipsEntry = new TimelineModel();
         chipsEntry.date = this.splitDateAndTime(docModel.transactionDate);
         chipsEntry.event = docModel.chipsStatus;
         chipsEntry.location = docModel.orgUnit;
         chipsEntry.userLogin = docModel.userLogin;
 
-        var swEntry = new TimelineModel();
+        const swEntry = new TimelineModel();
         swEntry.date = this.splitDateAndTime(swResult.date);
         swEntry.event = "Arrived in Staffware";
         swEntry.location = "Staffware";
@@ -132,11 +132,11 @@ class BarcodeSearchHandler {
         return models;
     }
 
-    public async getTimelineResult(barcode: string, docModel: DocumentOverviewModel): Promise<Object[]> {
+    public async getTimelineResult(barcode: string, docModel: DocumentOverviewModel): Promise<object[]> {
 
-        var fesTimelineResults: FesResult[];
-        var timelineModel: Object[] = [];
-        var staffwareResult: StaffwareResult;
+        let fesTimelineResults: FesResult[];
+        let timelineModel: object[] = [];
+        let staffwareResult: StaffwareResult;
 
         try {
             fesTimelineResults = await this.fesService.getFesTimelineDetails(barcode);

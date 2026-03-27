@@ -25,7 +25,7 @@ const createAuthenticationMiddleware = function (): RequestHandler {
 
                 const permissions = userInfo[UserProfileKeys.Permissions];
 
-                var engine = res.app.get('engine');
+                const engine = res.app.get('engine');
                 engine.addGlobal("loggedInUserEmail", req.body.loggedInUserEmail);
 
                 if (permissions !== undefined && permissions["/admin/transaction-search"] === 1) {

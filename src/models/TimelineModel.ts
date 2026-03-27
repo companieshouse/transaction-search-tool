@@ -8,7 +8,7 @@ class TimelineModel {
         return `TimelineModel: ${JSON.stringify(this.getModel())}`;
     }
 
-    public getModel(): Object {
+    public getModel(): object {
         return {
             "date" : this.date,
             "event" : this.event,

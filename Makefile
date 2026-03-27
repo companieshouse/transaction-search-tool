@@ -26,7 +26,7 @@ test-unit:
 
 .PHONY: lint
 lint:
-	npm i lint
+	npm run lint
 
 .PHONY: sonar
 sonar: test
@@ -53,3 +53,8 @@ init: npm-install
 .PHONY: security-check
 security-check:
 	npm audit
+
+.PHONY: dependency-check
+dependency-check:
+	npm audit
+

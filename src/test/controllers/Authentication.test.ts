@@ -38,7 +38,7 @@ describe("authenticationMiddleware", function () {
 
     let middleware: RequestHandler;
 
-    let mockUrl = "transactionsearch";
+    const mockUrl = "transactionsearch";
 
     const requireMiddleware = function () {
 
@@ -60,7 +60,7 @@ describe("authenticationMiddleware", function () {
         next = sinon.stub();
         mockResponse = createMockResponse();
         middleware = requireMiddleware();
-        var engine = {
+        const engine = {
             addGlobal: sinon.stub()
           };
         sinon.stub(mockResponse.app, "get").returns(engine);

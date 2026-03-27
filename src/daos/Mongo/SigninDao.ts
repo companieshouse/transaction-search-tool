@@ -8,7 +8,7 @@ class SigninDao {
 
     public async checkSignin(username: string) {
         const client = new MongoClient(config.mongodb);
-        var result;
+        let result;
 
         try {
             await client.connect();

@@ -23,7 +23,7 @@ const csrfProtectionMiddleware = createCsrfProtectionMiddleware(sessionStore);
 
 const viewPath = path.join(__dirname, "views");
 
-var env = nunjucks
+const env = nunjucks
     .configure([
         viewPath,
         "node_modules/govuk-frontend/",

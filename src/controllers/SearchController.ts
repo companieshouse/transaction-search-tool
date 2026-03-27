@@ -18,45 +18,45 @@ class SearchController {
     }
 
     public async searchQuery(req: any, res: any) {
-        var searchTerm = req.query.search;
-        var resultsMap: Map<String,DocumentOverviewModel> = new Map();
+        const searchTerm = req.query.search;
 
         try {
-            resultsMap = await this.companyNumberSearchHandler.searchCompanyNumber(searchTerm);
-            let barcodeSearchResult = await this.barcodeSearchHandler.searchBarcode(searchTerm);
+            const resultsMap = await this.companyNumberSearchHandler.searchCompanyNumber(searchTerm);
+            const barcodeSearchResult = await this.barcodeSearchHandler.searchBarcode(searchTerm);
             if (!barcodeSearchResult.isEmpty()) resultsMap.set(searchTerm, barcodeSearchResult);
+
+            if (resultsMap.size === 0) {
+                res.render("search", {
+                    barcode: searchTerm,
+                    error: true
+                });
+            } else {
+                const models = this.getModelsAsArray(resultsMap);
+                if(resultsMap.size === 1) {
+                    const barcode = resultsMap.keys().next().value;
+                    const timelineModel = await this.barcodeSearchHandler.getTimelineResult(barcode, resultsMap.values().next().value);
+                    res.render("documentOverview", {
+                        barcode: barcode,
+                        result: models[0],
+                        timeline: timelineModel
+                    })
+                } else {
+                    res.render("resultsPage", {
+                        searchTerm: searchTerm,
+                        results: models
+                    });
+                }
+            }
         } catch(err) {
             errorHandler.handleError(this.constructor.name, "searchQuery", err, res);
             return;
         }
 
-        if (resultsMap.size === 0) {
-            res.render("search", {
-                barcode: searchTerm,
-                error: true
-            });
-        } else {
-            var models = this.getModelsAsArray(resultsMap);
-            if(resultsMap.size === 1) {
-                var barcode = resultsMap.keys().next().value;
-                var timelineModel = await this.barcodeSearchHandler.getTimelineResult(barcode, resultsMap.values().next().value);
-                res.render("documentOverview", {
-                    barcode: barcode,
-                    result: models[0],
-                    timeline: timelineModel
-                })
-            } else {
-                res.render("resultsPage", {
-                    searchTerm: searchTerm,
-                    results: models
-                });
-            }
-        }
     }
 
-    private getModelsAsArray(resultsMap:Map<String,DocumentOverviewModel>): Object[] {
-        var models: Object[] = [];
-        for(let model of resultsMap.values()) {
+    private getModelsAsArray(resultsMap:Map<string,DocumentOverviewModel>): object[] {
+        const models: object[] = [];
+        for(const model of resultsMap.values()) {
             models.push(model.getModel());
         }
         return models;

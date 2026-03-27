@@ -14,25 +14,25 @@ chai.use(require('sinon-chai'));
 
 describe('barcode search handler', ()=>{
 
-    var barcodeSearchHandler:BarcodeSearchHandler;
-    var orgUnitStub: SinonStub;
-    var userStub: SinonStub;
+    let barcodeSearchHandler:BarcodeSearchHandler;
+    let orgUnitStub: SinonStub;
+    let userStub: SinonStub;
 
     before(()=>{
 
         barcodeSearchHandler = new BarcodeSearchHandler();
 
-        let chipsService = new ChipsService();
-        let swService = new StaffwareService();
+        const chipsService = new ChipsService();
+        const swService = new StaffwareService();
 
-        let chipsResult = new ChipsResult();
+        const chipsResult = new ChipsResult();
         chipsResult.transactionId = 1;
         chipsResult.incorporationNumber = "inco";
         chipsResult.documentId = 1;
         chipsResult.chipsStatus = "Pending";
         chipsResult.transactionDate = "01/12/2020";
 
-        let staffwareResult = new StaffwareResult();
+        const staffwareResult = new StaffwareResult();
         staffwareResult.orgUnitId = 1234;
         staffwareResult.userId = 1;
         staffwareResult.casenum = "11439511";
@@ -50,9 +50,9 @@ describe('barcode search handler', ()=>{
 
     it('test barcodeSearch returns expected DocumentOverviewModel when called', async ()=>{
 
-        var fesService = new FesService();
+        const fesService = new FesService();
 
-        let fesResult = new FesResult();
+        const fesResult = new FesResult();
         fesResult.envNo = 1;
         fesResult.scanTime = "01/12/2020";
         fesResult.formType = "IN01";
@@ -66,7 +66,7 @@ describe('barcode search handler', ()=>{
         sinon.stub(fesService, 'getTransactionDetailsFromBarcode').resolves(fesResult);
         barcodeSearchHandler.fesService = fesService;
 
-        let model = new DocumentOverviewModel();
+        const model = new DocumentOverviewModel();
         model.formBarcode = "XYZ123456";
         model.transactionId = 1;
         model.incorporationNumber = "inco";
@@ -87,32 +87,32 @@ describe('barcode search handler', ()=>{
         model.userLogin = "Test User";
         model.casenum = "11439511";
 
-        var result = await barcodeSearchHandler.searchBarcode('XYZ123456');
+        const result = await barcodeSearchHandler.searchBarcode('XYZ123456');
         chai.expect(result).to.be.deep.equal(model);
     }).timeout(5000)
 
     it('test barcodeSearch returns expected timelineModel when called', async ()=>{
 
-        let fesResult2 = new FesResult();
+        const fesResult2 = new FesResult();
         fesResult2.eventOccurredTime = "09-NOV-2021 11:21";
         fesResult2.eventText = "Scanning";
         fesResult2.location = "Fes";
         fesResult2.userLogin = "sbowen";
         
-        let fesTimelineResult : FesResult[] = [fesResult2];
+        const fesTimelineResult : FesResult[] = [fesResult2];
 
-        var fesService = new FesService();
+        const fesService = new FesService();
 
         sinon.stub(fesService, 'getFesTimelineDetails').resolves(fesTimelineResult);
         barcodeSearchHandler.fesService = fesService;
 
-        let model = new TimelineModel();
+        const model = new TimelineModel();
         model.date = "09-NOV-2021 11:21";
         model.event = "Scanning";
         model.location = "Staffware";
         model.userLogin = "sbowen";
 
-        let docModel = new DocumentOverviewModel();
+        const docModel = new DocumentOverviewModel();
         docModel.transactionDate = "09-NOV-2021 11:21";
         docModel.chipsStatus = "Scanning";
         docModel.orgUnit = "FES";
@@ -120,7 +120,7 @@ describe('barcode search handler', ()=>{
         docModel.transactionId = 1;
         docModel.casenum = "11439511";
 
-        var expectedArray = [{
+        const expectedArray = [{
             "date" : "09 NOV 2021 at 11:21",
             "event" : "Scanning", 
             "location" : "FES",
@@ -137,7 +137,7 @@ describe('barcode search handler', ()=>{
             "userLogin" : "User"
         }];
 
-        var result = await barcodeSearchHandler.getTimelineResult('XYZ123456', docModel);
+        const result = await barcodeSearchHandler.getTimelineResult('XYZ123456', docModel);
         chai.expect(result).to.be.deep.equal(expectedArray);
     }).timeout(5000)
 })

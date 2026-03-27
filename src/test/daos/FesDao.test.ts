@@ -29,7 +29,7 @@ describe('Fes database call', () => {
                 return { catch: function() {} };
             }
         });
-        let connection = await oracledb.getConnection(config);
+        const connection = await oracledb.getConnection(config);
         connection.execute = sinon.stub();
         connection.execute.withArgs(CORRECT_BARCODE).resolves({
             rows: {"XXXX1234": { form_id: 1, form_status: 1, returned_reason: "Not Returned" }}
@@ -40,20 +40,20 @@ describe('Fes database call', () => {
     })
 
     it('test makeQuery returns data when correct barcode is provided', async () => {
-        let result = await fesDao.makeQuery(CORRECT_BARCODE, ["bind value 1"]);
+        const result = await fesDao.makeQuery(CORRECT_BARCODE, ["bind value 1"]);
         expect(result.rows[CORRECT_BARCODE]).to.deep.equal(DATA[CORRECT_BARCODE]);
     })
 
     it('test makeQuery returns empty when incorrect barcode is provided', async () => {
-        let result = await fesDao.makeQuery(INCORRECT_BARCODE, ["bind value 1"]);
+        const result = await fesDao.makeQuery(INCORRECT_BARCODE, ["bind value 1"]);
         expect(result).to.equal(undefined);
     })
 
     it('test execute throws an error, result is set to null', async () => {
 
-        let connection = await oracledb.getConnection(config);
+        const connection = await oracledb.getConnection(config);
         connection.execute.throws(error);
-        let result = await fesDao.makeQuery(INCORRECT_BARCODE, ["bind value 1"]);
+        const result = await fesDao.makeQuery(INCORRECT_BARCODE, ["bind value 1"]);
         expect(connection.execute).to.have.throw(error);
         expect(result).to.not.equal(undefined);
         expect(result).to.equal(null);

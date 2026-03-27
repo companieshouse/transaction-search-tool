@@ -23,10 +23,10 @@ class CompanyNumberSearchHandler {
         this.fesService = new FesService();
     }
 
-    public async searchCompanyNumber(searchTerm: string): Promise<Map<String, DocumentOverviewModel>> {
-        var resultsMap: Map<String,DocumentOverviewModel> = new Map();
-        var chipsResults: ChipsResult[] = [];
-        var fesResults: FesResult[] = [];
+    public async searchCompanyNumber(searchTerm: string): Promise<Map<string, DocumentOverviewModel>> {
+        let resultsMap: Map<string,DocumentOverviewModel> = new Map();
+        let chipsResults: ChipsResult[] = [];
+        let fesResults: FesResult[] = [];
 
         try {
             chipsResults = await this.chipsService.getTransactionDetailsFromCompanyNumber(searchTerm);
@@ -43,37 +43,37 @@ class CompanyNumberSearchHandler {
     }
 
     private async getStaffwareEntries(chipsResults: ChipsResult[]): Promise<ChipsResult[]> {
-        for(let i=0; i<chipsResults.length; i++) {
-            if (chipsResults[i].documentId != undefined) {
+        for(const result of chipsResults) {
+            if (result.documentId != undefined) {
                 try {
                     var staffwareResult: StaffwareResult;
-                    staffwareResult = await this.swService.addStaffwareData(chipsResults[i].documentId);
+                    staffwareResult = await this.swService.addStaffwareData(result.documentId);
 
-                    var orgUnitId = staffwareResult.orgUnitId || chipsResults[i].orgUnitId;
-                    let orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);
+                    const orgUnitId = staffwareResult.orgUnitId || result.orgUnitId;
+                    const orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);
 
-                    var userId = staffwareResult.userId || chipsResults[i].userAccessId;
-                    let userLogin = await this.chipsService.getUserFromId(userId);
-                    chipsResults[i].orgUnit = orgUnit;
-                    chipsResults[i].userLogin = userLogin;
+                    const userId = staffwareResult.userId || result.userAccessId;
+                    const userLogin = await this.chipsService.getUserFromId(userId);
+                    result.orgUnit = orgUnit;
+                    result.userLogin = userLogin;
                 } catch(err) {
                     errorHandler.handleError(this.constructor.name, "getStaffwareEntries", err);
                 }
-                
+
             }
         }
         return chipsResults;
     }
 
-    private buildResultsMap(chipsResults:ChipsResult[], fesResults:FesResult[]): Map<String,DocumentOverviewModel> {
-        var resultMap:Map<String,DocumentOverviewModel> = new Map();
+    private buildResultsMap(chipsResults:ChipsResult[], fesResults:FesResult[]): Map<string,DocumentOverviewModel> {
+        const resultMap:Map<string,DocumentOverviewModel> = new Map();
         chipsResults.forEach(chipsResult=> {
             let model = new DocumentOverviewModel();
             model = this.populateModel(chipsResult, model);
             resultMap.set(chipsResult.barcode, model);
         });
         fesResults.forEach(fesResult => {
-            let model = new DocumentOverviewModel(); 
+            let model = new DocumentOverviewModel();
             if(resultMap.has(fesResult.barcode)) {
                 model = resultMap.get(fesResult.barcode) as DocumentOverviewModel;
             }
@@ -83,7 +83,7 @@ class CompanyNumberSearchHandler {
         return resultMap;
     }
 
-    private populateModel(result: Object, model: DocumentOverviewModel): DocumentOverviewModel {
+    private populateModel(result: object, model: DocumentOverviewModel): DocumentOverviewModel {
         if(result instanceof ChipsResult || result instanceof FesResult) {
             Object.keys(result).forEach(key=>{
                     model[key] = result[key];

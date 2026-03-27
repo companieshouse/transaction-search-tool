@@ -29,14 +29,14 @@ describe('sign in controller', ()=>{
         redirect: sinon.spy()
     };
 
-    var signinController: SigninController;
+    let signinController: SigninController;
 
     before(()=>{
 
         signinController = new SigninController();
-        let signinDao = new SigninDao();
+        const signinDao = new SigninDao();
 
-        var result = {
+        const result = {
             name: 'name',
             password: 'password'
         }

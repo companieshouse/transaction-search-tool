@@ -7,8 +7,8 @@ chai.use(require('sinon-chai'));
 
 describe('staffware service test', ()=>{
 
-    var staffwareService: StaffwareService;
-    var swDao: StaffwareDao;
+    let staffwareService: StaffwareService;
+    let swDao: StaffwareDao;
 
     before(()=>{
 
@@ -27,14 +27,14 @@ describe('staffware service test', ()=>{
     });
 
     it('test getOrgUnit return org unit desc', async ()=>{
-        var returnedSearchResult: StaffwareResult = await staffwareService.addStaffwareData(1);
+        const returnedSearchResult: StaffwareResult = await staffwareService.addStaffwareData(1);
         chai.expect(returnedSearchResult.orgUnitId).to.be.equal(1234);
         chai.expect(returnedSearchResult.userId).to.be.equal(1);
         chai.expect(returnedSearchResult.casenum).to.be.equal("11439511");
     });
 
     it('test auditdate return a date', async ()=>{
-        var returnedSearchResult: StaffwareResult = await staffwareService.getAuditDate("11439511");
+        const returnedSearchResult: StaffwareResult = await staffwareService.getAuditDate("11439511");
         chai.expect(returnedSearchResult.date).to.be.equal("02-DEC-2020");
     });
 })
