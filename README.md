@@ -63,4 +63,3 @@ Here is a list of endpoints:
 |-------------|-----------------------------------|
 | LOG_LEVEL   | e.g. DEBUG, INFO                  |
 | HUMAN_LOG   | For human readable logs (integer) |
-
