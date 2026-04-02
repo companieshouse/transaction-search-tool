@@ -7,9 +7,12 @@ import { SessionKey } from "@companieshouse/node-session-handler/lib/session/key
 import { UserProfileKeys } from "@companieshouse/node-session-handler/lib/session/keys/UserProfileKeys";
 
 import chai from 'chai';
+import dirtyChai from 'dirty-chai';
 import ApplicationLogger from "@companieshouse/structured-logging-node/lib/ApplicationLogger";
 
 import proxyquire from "proxyquire";
+
+chai.use(dirtyChai);
 
 describe("authenticationMiddleware", function () {
 
@@ -73,7 +76,7 @@ describe("authenticationMiddleware", function () {
         const mockRequest = createMockRequest();
         middleware(mockRequest, mockResponse, next);
 
-        chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}/`)).to.be.true;
+        chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}/`)).to.be.true();
     });
 
     it("calls next if signed in and user profile exists with permission", function () {
@@ -89,7 +92,7 @@ describe("authenticationMiddleware", function () {
 
         middleware(mockRequest, mockResponse, next);
 
-        chai.expect(next.calledOnce).to.be.true;
+        chai.expect(next.calledOnce).to.be.true();
     });
 
     it("renders not authorised if signed in and user profile exists without permission", function () {
@@ -102,8 +105,8 @@ describe("authenticationMiddleware", function () {
 
         middleware(mockRequest, mockResponse, next);
 
-        chai.expect(mockResponse.status.calledOnceWith(403)).to.be.true;
-        chai.expect(mockResponse.render.calledOnceWith("notAuthorised")).to.be.true;
+        chai.expect(mockResponse.status.calledOnceWith(403)).to.be.true();
+        chai.expect(mockResponse.render.calledOnceWith("notAuthorised")).to.be.true();
     });
 
     it("redirects to signin if signed in is set to 0", function () {
@@ -116,6 +119,6 @@ describe("authenticationMiddleware", function () {
         });
         middleware(mockRequest, mockResponse, next);
 
-        chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}/`)).to.be.true;
+        chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}/`)).to.be.true();
     });
 });

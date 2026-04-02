@@ -1,10 +1,12 @@
 import chai from 'chai';
+import dirtyChai from 'dirty-chai';
 import sinon from 'sinon';
 import SigninController from '../../controllers/SigninController';
 import SigninDao from '../../daos/Mongo/SigninDao';
 
 import sinon_chai from 'sinon-chai';
 chai.use(sinon_chai);
+chai.use(dirtyChai);
 
 describe('sign in controller', ()=>{
 
@@ -48,14 +50,14 @@ describe('sign in controller', ()=>{
 
     it('test getSigninPage calls response render', ()=>{
         signinController.getSigninPage(req, res);
-        chai.expect(res.render.calledOnce).to.be.true;
+        chai.expect(res.render.calledOnce).to.be.true();
     })
 
     it('test submitSignin calls response redirect method with barcodeSearch when correct credentials are passed and render signin when not', async ()=>{
 
         await signinController.submitSignin(req, res);
-        chai.expect(res.redirect.calledWithMatch("barcodeSearch")).to.be.true;
+        chai.expect(res.redirect.calledWithMatch("barcodeSearch")).to.be.true();
         await signinController.submitSignin(wrongReq, res);
-        chai.expect(res.render.calledWithMatch("signin")).to.be.true;
+        chai.expect(res.render.calledWithMatch("signin")).to.be.true();
     }).timeout(5000)
 })
