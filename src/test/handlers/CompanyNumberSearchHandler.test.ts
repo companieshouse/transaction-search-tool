@@ -1,6 +1,6 @@
 import chai from 'chai';
 import ChipsService from '../../service/ChipsService';
-import sinon, { SinonStub } from 'sinon';
+import sinon from 'sinon';
 import CompanyNumberSearchHandler from '../../handlers/CompanyNumberSearchHandler';
 import StaffwareService from '../../service/StaffwareService';
 import ChipsResult from '../../data/ChipsResult';
@@ -14,8 +14,6 @@ chai.use(sinon_chai);
 describe('company number search handler', ()=>{
 
     let companyNumberSearchHandler:CompanyNumberSearchHandler;
-    let orgUnitStub: SinonStub;
-    let userStub: SinonStub;
 
     before(()=>{
 

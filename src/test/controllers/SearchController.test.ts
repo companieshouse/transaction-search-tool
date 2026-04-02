@@ -1,6 +1,6 @@
 import chai from 'chai';
 import dirtyChai from 'dirty-chai';
-import sinon, { SinonStub } from 'sinon';
+import sinon from 'sinon';
 import BarcodeSearchHandler from '../../handlers/BarcodeSearchHandler';
 import CompanyNumberSearchHandler from '../../handlers/CompanyNumberSearchHandler';
 import DocumentOverviewModel from '../../models/DocumentOverviewModel';

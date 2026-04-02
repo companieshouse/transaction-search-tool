@@ -1,6 +1,6 @@
 import chai from 'chai';
 import ChipsService from '../../service/ChipsService';
-import sinon, { SinonStub } from 'sinon';
+import sinon from 'sinon';
 import BarcodeSearchHandler from '../../handlers/BarcodeSearchHandler';
 import StaffwareService from '../../service/StaffwareService';
 import ChipsResult from '../../data/ChipsResult';
@@ -16,8 +16,6 @@ chai.use(sinon_chai);
 describe('barcode search handler', ()=>{
 
     let barcodeSearchHandler:BarcodeSearchHandler;
-    let orgUnitStub: SinonStub;
-    let userStub: SinonStub;
 
     before(()=>{
 
