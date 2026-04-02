@@ -38,8 +38,8 @@ describe('barcode search handler', ()=>{
         staffwareResult.date = "09-NOV-2021 11:21";
 
         sinon.stub(chipsService, 'getTransactionDetailsFromBarcode').resolves(chipsResult);
-        orgUnitStub = sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
-        userStub = sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
+        const orgUnitStub = sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
+        const userStub = sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
         barcodeSearchHandler.chipsService = chipsService;
 
         sinon.stub(swService, 'addStaffwareData').resolves(staffwareResult);

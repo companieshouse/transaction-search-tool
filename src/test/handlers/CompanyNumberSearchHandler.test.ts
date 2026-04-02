@@ -52,8 +52,8 @@ describe('company number search handler', ()=>{
 
 
         sinon.stub(chipsService, 'getTransactionDetailsFromCompanyNumber').resolves(chipsResults);
-        orgUnitStub = sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
-        userStub = sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
+        const orgUnitStub = sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
+        const userStub = sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
         companyNumberSearchHandler.chipsService = chipsService;
 
         sinon.stub(swService, 'addStaffwareData').resolves(staffwareResult);
