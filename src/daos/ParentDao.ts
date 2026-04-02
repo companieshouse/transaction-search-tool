@@ -23,7 +23,8 @@ class ParentDao {
         return
     }
 
-    public async makeQuery(query: string, bindParams: Array<string> = []) {
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    public async makeQuery(query: string, bindParams: Array<any>) {
         await this.setupConnection();
         let result: oracledb.Result | null;
         try {
