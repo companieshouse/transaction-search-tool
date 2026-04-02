@@ -46,8 +46,7 @@ class CompanyNumberSearchHandler {
         for(const result of chipsResults) {
             if (result.documentId != undefined) {
                 try {
-                    var staffwareResult: StaffwareResult;
-                    staffwareResult = await this.swService.addStaffwareData(result.documentId);
+                    const staffwareResult: StaffwareResult = await this.swService.addStaffwareData(result.documentId);
 
                     const orgUnitId = staffwareResult.orgUnitId || result.orgUnitId;
                     const orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);
