@@ -63,6 +63,7 @@ describe('chips service test', ()=>{
         const expectedResult = new ChipsResult();
         expectedResult.barcode = 'X12A4CVM';
         expectedResult.chipsStatus = 'Accepted';
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
         expectedResult.documentId = null as any;
         expectedResult.formType = 'PR01';
         expectedResult.incorporationNumber = '03347220';

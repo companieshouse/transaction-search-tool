@@ -32,8 +32,8 @@ describe("authenticationMiddleware", function () {
         };
     };
 
-    let next: any;
-    let mockResponse: any;
+    let next: sinon.SinonStub;
+    let mockResponse;
     const mockLogger: SinonStubbedInstance<ApplicationLogger> = sinon.createStubInstance(ApplicationLogger);
 
     let middleware: RequestHandler;
@@ -70,14 +70,14 @@ describe("authenticationMiddleware", function () {
 
     it("redirects to signin if session does not exist", function () {
 
-        const mockRequest: any = createMockRequest();
+        const mockRequest = createMockRequest();
         middleware(mockRequest, mockResponse, next);
 
         chai.expect(mockResponse.redirect.calledOnceWith(`/signin?return_to=/${mockUrl}/`)).to.be.true;
     });
 
     it("calls next if signed in and user profile exists with permission", function () {
-        const mockRequest: any = createMockRequest({
+        const mockRequest = createMockRequest({
                 [SignInInfoKeys.SignedIn]: 1,
                 [SignInInfoKeys.UserProfile]: {
                     [UserProfileKeys.Email]: 'email',
@@ -93,7 +93,7 @@ describe("authenticationMiddleware", function () {
     });
 
     it("renders not authorised if signed in and user profile exists without permission", function () {
-        const mockRequest: any = createMockRequest({
+        const mockRequest = createMockRequest({
                 [SignInInfoKeys.SignedIn]: 1,
                 [SignInInfoKeys.UserProfile]: {
                     [UserProfileKeys.Email]: 'email'
@@ -108,7 +108,7 @@ describe("authenticationMiddleware", function () {
 
     it("redirects to signin if signed in is set to 0", function () {
 
-        const mockRequest: any = createMockRequest({
+        const mockRequest = createMockRequest({
             [SignInInfoKeys.SignedIn]: 0,
                 [SignInInfoKeys.UserProfile]: {
                     [UserProfileKeys.Email]: 'email',
