@@ -28,7 +28,7 @@ class ParentDao {
         let result: oracledb.Result | null;
         try {
             result = await this.connection.execute(query, bindParams);
-        } catch (err: any) {
+        } catch (err) {
             errorHandler.handleError(this.constructor.name, "makeQuery", err);
             result = null;
         } finally {
