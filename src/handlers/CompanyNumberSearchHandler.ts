@@ -25,8 +25,8 @@ class CompanyNumberSearchHandler {
 
     public async searchCompanyNumber(searchTerm: string): Promise<Map<string, DocumentOverviewModel>> {
         let resultsMap: Map<string,DocumentOverviewModel> = new Map();
-        let chipsResults: ChipsResult[] = [];
-        let fesResults: FesResult[] = [];
+        let chipsResults: ChipsResult[];
+        let fesResults: FesResult[];
 
         try {
             chipsResults = await this.chipsService.getTransactionDetailsFromCompanyNumber(searchTerm);
