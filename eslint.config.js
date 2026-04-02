@@ -1,9 +1,9 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import eslint from "@eslint/js";
-import parser from "@typescript-eslint/parser"
-import tseslint from 'typescript-eslint';
+const { defineConfig } = require("eslint/config");
+const eslint = require("@eslint/js");
+const parser  = require("@typescript-eslint/parser");
+const tseslint = require('typescript-eslint');
 
-export default defineConfig([
+module.exports = defineConfig([
     eslint.configs.recommended,
     tseslint.configs.recommended,
     {
