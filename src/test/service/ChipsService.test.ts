@@ -3,7 +3,8 @@ import ChipsService from '../../service/ChipsService';
 import sinon, { SinonStub } from 'sinon';
 import ChipsDao from '../../daos/CHIPS/ChipsDao';
 import ChipsResult from '../../data/ChipsResult';
-chai.use(require('sinon-chai'));
+import sinon_chai from 'sinon-chai';
+chai.use(sinon_chai);
 
 describe('chips service test', ()=>{
 

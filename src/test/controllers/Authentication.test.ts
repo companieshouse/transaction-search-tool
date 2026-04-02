@@ -9,7 +9,7 @@ import { UserProfileKeys } from "@companieshouse/node-session-handler/lib/sessio
 import chai from 'chai';
 import ApplicationLogger from "@companieshouse/structured-logging-node/lib/ApplicationLogger";
 
-const proxyquire = require("proxyquire");
+import proxyquire from "proxyquire";
 
 describe("authenticationMiddleware", function () {
 

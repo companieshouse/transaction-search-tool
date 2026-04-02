@@ -2,7 +2,8 @@ import chai from 'chai';
 import sinon, { SinonSpy } from 'sinon';
 import express, { Router } from "express";
 import BarcodeSearchRouter from '../../routes/SearchRouter';
-chai.use(require('sinon-chai'));
+import sinon_chai from 'sinon-chai';
+chai.use(sinon_chai);
 
 describe('barcode search router', ()=>{
     let router: Router;

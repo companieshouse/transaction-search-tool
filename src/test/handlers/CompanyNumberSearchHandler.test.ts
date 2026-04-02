@@ -8,7 +8,8 @@ import StaffwareResult from '../../data/StaffwareResult';
 import FesService from '../../service/FesService';
 import FesResult from '../../data/FesResult';
 import DocumentOverviewModel from '../../models/DocumentOverviewModel';
-chai.use(require('sinon-chai'));
+import sinon_chai from 'sinon-chai';
+chai.use(sinon_chai);
 
 describe('company number search handler', ()=>{
 

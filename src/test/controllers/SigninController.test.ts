@@ -3,7 +3,8 @@ import sinon from 'sinon';
 import SigninController from '../../controllers/SigninController';
 import SigninDao from '../../daos/Mongo/SigninDao';
 
-chai.use(require('sinon-chai'));
+import sinon_chai from 'sinon-chai';
+chai.use(sinon_chai);
 
 describe('sign in controller', ()=>{
 

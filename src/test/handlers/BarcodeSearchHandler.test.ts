@@ -10,7 +10,8 @@ import FesResult from '../../data/FesResult';
 import DocumentOverviewModel from '../../models/DocumentOverviewModel';
 import TimelineModel from '../../models/TimelineModel';
 
-chai.use(require('sinon-chai'));
+import sinon_chai from 'sinon-chai';
+chai.use(sinon_chai);
 
 describe('barcode search handler', ()=>{
 
@@ -98,7 +99,7 @@ describe('barcode search handler', ()=>{
         fesResult2.eventText = "Scanning";
         fesResult2.location = "Fes";
         fesResult2.userLogin = "sbowen";
-        
+
         const fesTimelineResult : FesResult[] = [fesResult2];
 
         const fesService = new FesService();
@@ -122,17 +123,17 @@ describe('barcode search handler', ()=>{
 
         const expectedArray = [{
             "date" : "09 NOV 2021 at 11:21",
-            "event" : "Scanning", 
+            "event" : "Scanning",
             "location" : "FES",
             "userLogin" : "sbowen"
         }, {
             "date" : "09 NOV 2021 at 11:21",
-            "event" : "Scanning", 
+            "event" : "Scanning",
             "location" : "FES",
             "userLogin" : "sbowen"
         }, {
             "date" : "09 NOV 2021 at 11:21",
-            "event" : "Arrived in Staffware", 
+            "event" : "Arrived in Staffware",
             "location" : "Staffware",
             "userLogin" : "User"
         }];

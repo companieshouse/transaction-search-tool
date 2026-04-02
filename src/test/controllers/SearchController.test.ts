@@ -4,7 +4,8 @@ import BarcodeSearchHandler from '../../handlers/BarcodeSearchHandler';
 import CompanyNumberSearchHandler from '../../handlers/CompanyNumberSearchHandler';
 import DocumentOverviewModel from '../../models/DocumentOverviewModel';
 import SearchController from '../../controllers/SearchController';
-chai.use(require('sinon-chai'));
+import sinon_chai from 'sinon-chai';
+chai.use(sinon_chai);
 
 describe('search bar controller', ()=>{
 

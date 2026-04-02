@@ -13,6 +13,7 @@ import helmet from "helmet";
 import { SessionStore } from "@companieshouse/node-session-handler";
 import { createCsrfProtectionMiddleware, csrfErrorHandler } from "./middleware/csrf_middleware";
 import Redis from "ioredis";
+import oracledb from "oracledb";
 
 export const app = express();
 const logger = createLogger(config.applicationNamespace);
@@ -71,7 +72,6 @@ app.use(csrfErrorHandler);
 
 app.set('engine', env);
 
-const oracledb = require("oracledb");
 oracledb.initOracleClient();
 
 app.listen(config.port, function () {
