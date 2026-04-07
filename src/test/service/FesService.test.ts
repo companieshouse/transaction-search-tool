@@ -3,7 +3,8 @@ import FesService from '../../service/FesService';
 import sinon, { SinonStub } from 'sinon';
 import FesDao from '../../daos/FES/FesDao';
 import FesResult from '../../data/FesResult';
-chai.use(require('sinon-chai'));
+import sinon_chai from 'sinon-chai';
+chai.use(sinon_chai);
 
 describe('FES service test', ()=>{
 

@@ -12,15 +12,15 @@ class SigninController {
         this.signinDao = new SigninDao();
     }
 
-    public getSigninPage(req: any, res: any) {
+    public getSigninPage(req, res) {
         res.render("signin");
     }
 
-    public async submitSignin(req: any, res: any) {
+    public async submitSignin(req, res) {
         const username = req.body.username;
         const password = req.body.password;
         const result = await this.signinDao.checkSignin(username);
-        
+
         if (result !== undefined && result.password === password) {
             this.populateSession(req, result);
             res.redirect("barcodeSearch");
@@ -33,7 +33,7 @@ class SigninController {
 
     private populateSession(req, result) {
         req.session.data = { };
-        req.session.data[SessionKey.SignInInfo] = { 
+        req.session.data[SessionKey.SignInInfo] = {
             [SignInInfoKeys.SignedIn]: 1,
             [SignInInfoKeys.UserProfile]: result
         };

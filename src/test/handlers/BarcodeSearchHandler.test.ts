@@ -1,6 +1,6 @@
 import chai from 'chai';
 import ChipsService from '../../service/ChipsService';
-import sinon, { SinonStub } from 'sinon';
+import sinon from 'sinon';
 import BarcodeSearchHandler from '../../handlers/BarcodeSearchHandler';
 import StaffwareService from '../../service/StaffwareService';
 import ChipsResult from '../../data/ChipsResult';
@@ -10,13 +10,12 @@ import FesResult from '../../data/FesResult';
 import DocumentOverviewModel from '../../models/DocumentOverviewModel';
 import TimelineModel from '../../models/TimelineModel';
 
-chai.use(require('sinon-chai'));
+import sinon_chai from 'sinon-chai';
+chai.use(sinon_chai);
 
 describe('barcode search handler', ()=>{
 
     let barcodeSearchHandler:BarcodeSearchHandler;
-    let orgUnitStub: SinonStub;
-    let userStub: SinonStub;
 
     before(()=>{
 
@@ -39,8 +38,8 @@ describe('barcode search handler', ()=>{
         staffwareResult.date = "09-NOV-2021 11:21";
 
         sinon.stub(chipsService, 'getTransactionDetailsFromBarcode').resolves(chipsResult);
-        orgUnitStub = sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
-        userStub = sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
+        sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
+        sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
         barcodeSearchHandler.chipsService = chipsService;
 
         sinon.stub(swService, 'addStaffwareData').resolves(staffwareResult);
@@ -98,7 +97,7 @@ describe('barcode search handler', ()=>{
         fesResult2.eventText = "Scanning";
         fesResult2.location = "Fes";
         fesResult2.userLogin = "sbowen";
-        
+
         const fesTimelineResult : FesResult[] = [fesResult2];
 
         const fesService = new FesService();
@@ -122,17 +121,17 @@ describe('barcode search handler', ()=>{
 
         const expectedArray = [{
             "date" : "09 NOV 2021 at 11:21",
-            "event" : "Scanning", 
+            "event" : "Scanning",
             "location" : "FES",
             "userLogin" : "sbowen"
         }, {
             "date" : "09 NOV 2021 at 11:21",
-            "event" : "Scanning", 
+            "event" : "Scanning",
             "location" : "FES",
             "userLogin" : "sbowen"
         }, {
             "date" : "09 NOV 2021 at 11:21",
-            "event" : "Arrived in Staffware", 
+            "event" : "Arrived in Staffware",
             "location" : "Staffware",
             "userLogin" : "User"
         }];

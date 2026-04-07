@@ -8,7 +8,7 @@ class ParentDao {
     protected user: string | undefined;
     protected password: string | undefined;
     protected connectionString: string | undefined;
-    protected connection: any;
+    protected connection: oracledb.Connection;
 
     public async setupConnection() {
         try {
@@ -17,18 +17,19 @@ class ParentDao {
                 password : this.password,
                 connectString : this.connectionString
             });
-        } catch (err: any) {
+        } catch (err) {
             errorHandler.handleError(this.constructor.name, "setupConnection", err);
         }
         return
     }
 
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
     public async makeQuery(query: string, bindParams: Array<any>) {
         await this.setupConnection();
-        let result: any;
+        let result: oracledb.Result | null;
         try {
             result = await this.connection.execute(query, bindParams);
-        } catch (err: any) {
+        } catch (err) {
             errorHandler.handleError(this.constructor.name, "makeQuery", err);
             result = null;
         } finally {

@@ -25,8 +25,8 @@ class CompanyNumberSearchHandler {
 
     public async searchCompanyNumber(searchTerm: string): Promise<Map<string, DocumentOverviewModel>> {
         let resultsMap: Map<string,DocumentOverviewModel> = new Map();
-        let chipsResults: ChipsResult[] = [];
-        let fesResults: FesResult[] = [];
+        let chipsResults: ChipsResult[];
+        let fesResults: FesResult[];
 
         try {
             chipsResults = await this.chipsService.getTransactionDetailsFromCompanyNumber(searchTerm);
@@ -46,8 +46,7 @@ class CompanyNumberSearchHandler {
         for(const result of chipsResults) {
             if (result.documentId != undefined) {
                 try {
-                    var staffwareResult: StaffwareResult;
-                    staffwareResult = await this.swService.addStaffwareData(result.documentId);
+                    const staffwareResult: StaffwareResult = await this.swService.addStaffwareData(result.documentId);
 
                     const orgUnitId = staffwareResult.orgUnitId || result.orgUnitId;
                     const orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);

@@ -48,8 +48,7 @@ class BarcodeSearchHandler {
     private async getStaffwareEntries(chipsResult: ChipsResult): Promise<ChipsResult> {
             if (chipsResult.documentId != undefined) {
                 try {
-                    let staffwareResult: StaffwareResult;
-                    staffwareResult = await this.swService.addStaffwareData(chipsResult.documentId);
+                    const staffwareResult: StaffwareResult = await this.swService.addStaffwareData(chipsResult.documentId);
 
                     const orgUnitId = staffwareResult.orgUnitId || chipsResult.orgUnitId;
                     const orgUnit = await this.chipsService.getOrgUnitFromId(orgUnitId);
@@ -62,7 +61,7 @@ class BarcodeSearchHandler {
                 } catch(err) {
                     errorHandler.handleError(this.constructor.name, "getStaffwareEntries", err);
                 }
-                
+
             }
         return chipsResult;
     }

@@ -1,10 +1,13 @@
 import chai from 'chai';
-import sinon, { SinonStub } from 'sinon';
+import dirtyChai from 'dirty-chai';
+import sinon from 'sinon';
 import BarcodeSearchHandler from '../../handlers/BarcodeSearchHandler';
 import CompanyNumberSearchHandler from '../../handlers/CompanyNumberSearchHandler';
 import DocumentOverviewModel from '../../models/DocumentOverviewModel';
 import SearchController from '../../controllers/SearchController';
-chai.use(require('sinon-chai'));
+import sinon_chai from 'sinon-chai';
+chai.use(sinon_chai);
+chai.use(dirtyChai);
 
 describe('search bar controller', ()=>{
 
@@ -78,7 +81,7 @@ describe('search bar controller', ()=>{
 
     it('test getSearchPage calls response render', ()=>{
         searchController.getSearchPage(req, res);
-        chai.expect(res.render.calledOnce).to.be.true;
+        chai.expect(res.render.calledOnce).to.be.true();
     })
 
     it('test search renders documentOverview page when single result is returned', async ()=>{
@@ -108,7 +111,7 @@ describe('search bar controller', ()=>{
             "timeline" : [{"date" : "02-DEC-2020", "event" : "Scan", "location" : "fes", "user" : "sbowen"}]
         }
         await searchController.searchQuery(req, res);
-        chai.expect(res.render.calledWithMatch("documentOverview", expectedRender)).to.be.true;
+        chai.expect(res.render.calledWithMatch("documentOverview", expectedRender)).to.be.true();
     }).timeout(5000)
 
     it('test search renders results page when multiple results are returned', async ()=>{
@@ -178,6 +181,6 @@ describe('search bar controller', ()=>{
             }]
         }
         await searchController.searchQuery(req2, res);
-        chai.expect(res.render.calledWithMatch("resultsPage", expectedRender)).to.be.true;
+        chai.expect(res.render.calledWithMatch("resultsPage", expectedRender)).to.be.true();
     }).timeout(5000)
 })

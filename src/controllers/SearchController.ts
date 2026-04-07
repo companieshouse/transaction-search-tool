@@ -13,11 +13,11 @@ class SearchController {
         this.companyNumberSearchHandler = new CompanyNumberSearchHandler();
     }
 
-    public getSearchPage(req: any, res: any) {
+    public getSearchPage(req, res) {
         res.render("search");
     }
 
-    public async searchQuery(req: any, res: any) {
+    public async searchQuery(req, res) {
         const searchTerm = req.query.search;
 
         try {

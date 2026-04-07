@@ -1,6 +1,6 @@
 import chai from 'chai';
 import ChipsService from '../../service/ChipsService';
-import sinon, { SinonStub } from 'sinon';
+import sinon from 'sinon';
 import CompanyNumberSearchHandler from '../../handlers/CompanyNumberSearchHandler';
 import StaffwareService from '../../service/StaffwareService';
 import ChipsResult from '../../data/ChipsResult';
@@ -8,13 +8,12 @@ import StaffwareResult from '../../data/StaffwareResult';
 import FesService from '../../service/FesService';
 import FesResult from '../../data/FesResult';
 import DocumentOverviewModel from '../../models/DocumentOverviewModel';
-chai.use(require('sinon-chai'));
+import sinon_chai from 'sinon-chai';
+chai.use(sinon_chai);
 
 describe('company number search handler', ()=>{
 
     let companyNumberSearchHandler:CompanyNumberSearchHandler;
-    let orgUnitStub: SinonStub;
-    let userStub: SinonStub;
 
     before(()=>{
 
@@ -53,8 +52,8 @@ describe('company number search handler', ()=>{
 
 
         sinon.stub(chipsService, 'getTransactionDetailsFromCompanyNumber').resolves(chipsResults);
-        orgUnitStub = sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
-        userStub = sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
+        sinon.stub(chipsService, 'getOrgUnitFromId').resolves("My Org Unit");
+        sinon.stub(chipsService, 'getUserFromId').resolves("Test User");
         companyNumberSearchHandler.chipsService = chipsService;
 
         sinon.stub(swService, 'addStaffwareData').resolves(staffwareResult);

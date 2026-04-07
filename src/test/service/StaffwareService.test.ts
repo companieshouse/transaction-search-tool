@@ -3,7 +3,8 @@ import sinon from 'sinon';
 import StaffwareService from '../../service/StaffwareService';
 import StaffwareDao from '../../daos/staffware/StaffwareDao';
 import StaffwareResult from '../../data/StaffwareResult';
-chai.use(require('sinon-chai'));
+import sinon_chai from 'sinon-chai';
+chai.use(sinon_chai);
 
 describe('staffware service test', ()=>{
 
@@ -16,7 +17,7 @@ describe('staffware service test', ()=>{
 
         swDao = new StaffwareDao();
 
-        sinon.stub(swDao, 'makeQuery').resolves({rows : [{ 
+        sinon.stub(swDao, 'makeQuery').resolves({rows : [{
             "O_QUEUENAME" : "Q1234",
             "O_QPARAM1" : "1",
             "O_CASENUM" : "11439511",
