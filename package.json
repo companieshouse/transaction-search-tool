@@ -16,7 +16,7 @@
   "author": "companieshouse",
   "license": "MIT",
   "dependencies": {
-    "@companieshouse/node-session-handler": "5.2.10",
+    "@companieshouse/node-session-handler": "5.2.14",
     "@companieshouse/structured-logging-node": "2.0.13",
     "@companieshouse/web-security-node": "4.4.21",
     "@types/dirty-chai": "^2.0.5",
