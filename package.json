@@ -15,6 +15,10 @@
   },
   "author": "companieshouse",
   "license": "MIT",
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=11"
+  },
   "dependencies": {
     "@companieshouse/node-session-handler": "5.2.14",
     "@companieshouse/structured-logging-node": "2.0.13",
