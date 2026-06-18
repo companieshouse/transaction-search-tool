@@ -16,3 +16,4 @@ coverage
 # Vim files
 *.vim
 .*.sw?
+/.idea/
