@@ -73,6 +73,7 @@
   "overrides": {
     "serialize-javascript": "^7.0.4",
     "js-yaml": "^5.4.2",
+    "decompress": "^4.2.1",
     "@opentelemetry/core": "2.8.0"
   }
 }
