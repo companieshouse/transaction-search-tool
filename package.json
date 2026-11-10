@@ -37,7 +37,6 @@
     "helmet": "^4.4.1",
     "jiti": "^2.6.1",
     "lint": "1.1.2",
-    "mongodb": "7.8.0",
     "nunjucks": "^3.2.2",
     "oracledb": "^6.0.0",
     "ts-node": "10.9.2",
