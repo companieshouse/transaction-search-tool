@@ -4,7 +4,6 @@ const config: ApplicationConfiguration = {
     port: parseInt(process.env.PORT as string),
     urlPrefix: "transactionsearch",
     applicationNamespace: "transaction-search-tool",
-    mongodb: process.env.MONGODB_URL as string,
     cdnUrl: process.env.CDN_HOST as string,
 
     chipsDatabase: {

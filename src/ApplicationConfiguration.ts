@@ -3,7 +3,6 @@ interface ApplicationConfiguration {
     urlPrefix: string;
     cdnUrl: string;
     applicationNamespace: string;
-    mongodb: string;
     chipsDatabase: {
         username: string;
         password: string;

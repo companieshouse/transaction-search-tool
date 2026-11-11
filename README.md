@@ -35,7 +35,6 @@ Here is a list of endpoints:
 |--------------------------------------------------|----------------|-----------------------------------------------------------|
 | http://chs.local/transactionsearch/healthcheck   | GET            | Returns 200, and text "OK"                                |
 | http://chs.local/transactionsearch/              | GET            |                                                           |
-| http://chs.local/transactionsearch/signin        | GET            |                                                           |
 | http://chs.local/transactionsearch/search        | GET            | http://chs.local/transactionsearch/search?search=03347220 |
 | http://chs.local/transactionsearch/barcodeSearch | GET            |                                                           |
 
